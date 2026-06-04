@@ -6,7 +6,6 @@ import { initializeApp } from "firebase/app";
 import { getDatabase, ref, onValue, set, update, runTransaction, get } from "firebase/database";
 import "./styles.css";
 
-// Firebaseの設定 (環境変数から取得)
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
   authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
@@ -43,33 +42,21 @@ function generateId() {
 }
 
 function getStorageItem(key) {
-  try {
-    return localStorage.getItem(key);
-  } catch (e) {
-    return null;
-  }
+  try { return localStorage.getItem(key); } catch (e) { return null; }
 }
 
 function setStorageItem(key, value) {
-  try {
-    localStorage.setItem(key, value);
-  } catch (e) {}
+  try { localStorage.setItem(key, value); } catch (e) {}
 }
 
 function removeStorageItem(key) {
-  try {
-    localStorage.removeItem(key);
-  } catch (e) {}
+  try { localStorage.removeItem(key); } catch (e) {}
 }
 
 function getClientId() {
   const key = "understanding-client-id";
   const saved = getStorageItem(key);
-
-  if (saved) {
-    return saved;
-  }
-
+  if (saved) return saved;
   const value = generateId();
   setStorageItem(key, value);
   return value;
@@ -83,22 +70,26 @@ function parseRoute() {
   };
 }
 
-function useFirebaseRoom(roomId, role) {
+// 先生用のデータフック（全体を監視）
+function useTeacherRoom(roomId) {
   const [state, setState] = useState(null);
   const [error, setError] = useState("");
-  const clientId = useMemo(() => (role === "student" ? getClientId() : `teacher-${generateId()}`), [role]);
 
   useEffect(() => {
-    if (!roomId) {
-      return undefined;
-    }
+    if (!roomId) return;
 
     const roomRef = ref(db, `rooms/${roomId}`);
-
     const unsubscribe = onValue(roomRef, (snapshot) => {
       const data = snapshot.val();
       if (!data) {
         setError("授業ルームが見つかりません。");
+        return;
+      }
+
+      // セキュリティ: 先生トークンの一致を確認
+      const localToken = getStorageItem(`teacher-token-${roomId}`);
+      if (data.teacherToken && data.teacherToken !== localToken) {
+        setError("先生権限がありません。この画面にはアクセスできません。");
         return;
       }
 
@@ -124,14 +115,43 @@ function useFirebaseRoom(roomId, role) {
       setError("データベース接続エラー: " + err.message);
     });
 
-    if (role === "student" && clientId) {
-      set(ref(db, `rooms/${roomId}/participants/${clientId}`), true).catch(console.error);
-    }
-
     return () => unsubscribe();
-  }, [roomId, clientId, role]);
+  }, [roomId]);
 
-  return { state, error, clientId };
+  return { state, error };
+}
+
+// 学生用のデータフック（通信量を抑えるため個別のデータだけを監視）
+function useStudentRoom(roomId) {
+  const [error, setError] = useState("");
+  const [selected, setSelected] = useState("");
+  const clientId = useMemo(() => getClientId(), []);
+
+  useEffect(() => {
+    if (!roomId) return;
+
+    // まず部屋が存在するかチェック
+    get(ref(db, `rooms/${roomId}/resetVersion`)).then((snapshot) => {
+      if (!snapshot.exists()) {
+        setError("授業ルームが見つかりません。");
+      }
+    }).catch((err) => setError("エラー: " + err.message));
+
+    // リセット時に自分の回答だけを監視する
+    const responseRef = ref(db, `rooms/${roomId}/responses/${clientId}`);
+    const unsubResponse = onValue(responseRef, (snapshot) => {
+      setSelected(snapshot.val() || ""); // nullになれば未回答に戻る
+    });
+
+    // 参加者として自分を登録
+    set(ref(db, `rooms/${roomId}/participants/${clientId}`), true).catch(console.error);
+
+    return () => {
+      unsubResponse();
+    };
+  }, [roomId, clientId]);
+
+  return { error, selected, clientId };
 }
 
 function Home() {
@@ -145,19 +165,22 @@ function Home() {
     try {
       let roomId = Math.random().toString(36).slice(2, 8).toUpperCase();
       
-      // ユニークなroomIdを探す
       while (true) {
         const snapshot = await get(ref(db, `rooms/${roomId}`));
         if (!snapshot.exists()) break;
         roomId = Math.random().toString(36).slice(2, 8).toUpperCase();
       }
 
+      const token = generateId();
+      setStorageItem(`teacher-token-${roomId}`, token); // 先生の証明書をブラウザに保存
+
       await set(ref(db, `rooms/${roomId}`), {
         createdAt: Date.now(),
         resetVersion: 0,
         reactions: { wow: 0 },
         participants: {},
-        responses: {}
+        responses: {},
+        teacherToken: token // データベース側にも保存
       });
 
       window.location.href = `/teacher/${roomId}`;
@@ -190,7 +213,7 @@ function Home() {
 }
 
 function Teacher({ roomId }) {
-  const { state, error } = useFirebaseRoom(roomId, "teacher");
+  const { state, error } = useTeacherRoom(roomId);
   const [qrDataUrl, setQrDataUrl] = useState("");
   const joinUrl = `${window.location.origin}/room/${roomId}`;
 
@@ -198,16 +221,13 @@ function Teacher({ roomId }) {
     QRCode.toDataURL(joinUrl, {
       margin: 2,
       width: 280,
-      color: {
-        dark: "#17211b",
-        light: "#ffffff"
-      }
+      color: { dark: "#17211b", light: "#ffffff" }
     }).then(setQrDataUrl);
   }, [joinUrl]);
 
   function resetRoom() {
     const updates = {
-      responses: null,
+      responses: null, // 全員の回答を消去
       "reactions/wow": 0
     };
     runTransaction(ref(db, `rooms/${roomId}/resetVersion`), (current) => (current || 0) + 1);
@@ -219,7 +239,7 @@ function Teacher({ roomId }) {
   }
 
   if (error) {
-    return <ErrorScreen message={error} />;
+    return <ErrorScreen message={error} isTeacherError={true} />;
   }
 
   const counts = state?.counts || { understood: 0, lost: 0 };
@@ -279,32 +299,9 @@ function Teacher({ roomId }) {
 }
 
 function Student({ roomId }) {
-  const { state, error, clientId } = useFirebaseRoom(roomId, "student");
-  const [selected, setSelected] = useState(() => {
-    return getStorageItem(`understanding-selected-${roomId}`) || "";
-  });
-  const [seenResetVersion, setSeenResetVersion] = useState(null);
-
-  useEffect(() => {
-    if (!state) {
-      return;
-    }
-
-    if (seenResetVersion === null) {
-      setSeenResetVersion(state.resetVersion);
-      return;
-    }
-
-    if (state.resetVersion !== seenResetVersion) {
-      setSelected("");
-      removeStorageItem(`understanding-selected-${roomId}`);
-      setSeenResetVersion(state.resetVersion);
-    }
-  }, [seenResetVersion, state, roomId]);
+  const { error, selected, clientId } = useStudentRoom(roomId);
 
   function submit(value) {
-    setSelected(value);
-    setStorageItem(`understanding-selected-${roomId}`, value);
     set(ref(db, `rooms/${roomId}/responses/${clientId}`), value);
     set(ref(db, `rooms/${roomId}/participants/${clientId}`), true);
   }
@@ -373,7 +370,6 @@ function Metric({ label, value }) {
 
 function ResultBar({ label, value, total, tone }) {
   const percentage = total > 0 ? Math.round((value / total) * 100) : 0;
-
   return (
     <div className="result-row">
       <div className="result-meta">
@@ -387,12 +383,15 @@ function ResultBar({ label, value, total, tone }) {
   );
 }
 
-function ErrorScreen({ message }) {
+function ErrorScreen({ message, isTeacherError }) {
   return (
     <main className="home-shell">
       <section className="home-panel">
         <p className="eyebrow">エラー</p>
-        <h1>{message}</h1>
+        <h1 style={{fontSize: "1.2rem", marginBottom: "1rem"}}>{message}</h1>
+        {isTeacherError ? (
+          <p className="lead">ルームを作成したPCのブラウザからのみ、先生画面を開くことができます。</p>
+        ) : null}
         <a className="text-link" href="/">トップへ戻る</a>
       </section>
     </main>
