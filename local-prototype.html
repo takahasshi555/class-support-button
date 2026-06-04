@@ -1,0 +1,390 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>授業理解確認ボタン ローカル試作</title>
+    <style>
+      :root {
+        color: #17211b;
+        background: #f5f2ea;
+        font-family: "Yu Gothic", "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-width: 320px;
+      }
+
+      button {
+        cursor: pointer;
+        font: inherit;
+      }
+
+      .page {
+        display: grid;
+        gap: 20px;
+        grid-template-columns: minmax(0, 1fr) 420px;
+        min-height: 100vh;
+        padding: 20px;
+      }
+
+      .panel {
+        background: #fffdf8;
+        border: 1px solid #ded7c8;
+        border-radius: 8px;
+        padding: 24px;
+      }
+
+      .header {
+        align-items: flex-start;
+        display: flex;
+        gap: 16px;
+        justify-content: space-between;
+        margin-bottom: 22px;
+      }
+
+      .eyebrow {
+        color: #526357;
+        font-size: 0.86rem;
+        font-weight: 700;
+        margin: 0 0 8px;
+      }
+
+      h1,
+      h2,
+      p {
+        margin-top: 0;
+      }
+
+      h1 {
+        font-size: clamp(2rem, 5vw, 4rem);
+        line-height: 1.05;
+        margin-bottom: 10px;
+      }
+
+      h2 {
+        font-size: 1.35rem;
+        margin-bottom: 12px;
+      }
+
+      .reset {
+        background: #f3e3dd;
+        border: 0;
+        border-radius: 8px;
+        color: #8c341f;
+        font-weight: 800;
+        min-height: 46px;
+        padding: 0 18px;
+        white-space: nowrap;
+      }
+
+      .metrics {
+        display: grid;
+        gap: 12px;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        margin-bottom: 24px;
+      }
+
+      .metric {
+        background: #eff4ee;
+        border-radius: 8px;
+        padding: 16px;
+      }
+
+      .metric span,
+      .bar-label span {
+        color: #526357;
+        display: block;
+        font-size: 0.88rem;
+        font-weight: 700;
+      }
+
+      .metric strong {
+        display: block;
+        font-size: 2rem;
+        margin-top: 6px;
+      }
+
+      .bars {
+        display: grid;
+        gap: 22px;
+      }
+
+      .reaction {
+        align-items: center;
+        background: #fff3cf;
+        border-radius: 8px;
+        display: flex;
+        gap: 18px;
+        justify-content: space-between;
+        margin-top: 24px;
+        padding: 20px;
+      }
+
+      .reaction span {
+        color: #6f4a00;
+        display: block;
+        font-weight: 800;
+      }
+
+      .reaction strong {
+        display: block;
+        font-size: 2.4rem;
+      }
+
+      .reaction p {
+        color: #6f4a00;
+        line-height: 1.6;
+        margin: 0;
+      }
+
+      .bar-label {
+        align-items: baseline;
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 8px;
+      }
+
+      .bar-label strong {
+        font-size: 1.25rem;
+      }
+
+      .track {
+        background: #ebe5d7;
+        border-radius: 8px;
+        height: 58px;
+        overflow: hidden;
+      }
+
+      .fill {
+        height: 100%;
+        transition: width 180ms ease;
+      }
+
+      .understood {
+        background: #2d8a58;
+      }
+
+      .lost {
+        background: #c8523f;
+      }
+
+      .wow {
+        background: #d69c2f;
+      }
+
+      .student-panel {
+        align-self: start;
+      }
+
+      .choices {
+        display: grid;
+        gap: 12px;
+      }
+
+      .choice {
+        border: 0;
+        border-radius: 8px;
+        color: #ffffff;
+        display: grid;
+        min-height: 104px;
+        padding: 18px;
+        text-align: left;
+      }
+
+      .choice strong {
+        display: block;
+        font-size: 1.8rem;
+        line-height: 1.1;
+      }
+
+      .choice small {
+        display: block;
+        font-size: 0.95rem;
+        margin-top: 8px;
+      }
+
+      .choice.selected {
+        outline: 5px solid #17211b;
+        outline-offset: 3px;
+      }
+
+      .status {
+        background: #eff4ee;
+        border-radius: 8px;
+        font-weight: 800;
+        margin: 16px 0 0;
+        padding: 14px;
+        text-align: center;
+      }
+
+      .note {
+        color: #526357;
+        line-height: 1.7;
+      }
+
+      @media (max-width: 860px) {
+        .page {
+          grid-template-columns: 1fr;
+          padding: 14px;
+        }
+
+        .metrics {
+          grid-template-columns: 1fr;
+        }
+
+        .header {
+          display: grid;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="page">
+      <section class="panel">
+        <div class="header">
+          <div>
+            <p class="eyebrow">先生画面 ローカル試作</p>
+            <h1>授業理解確認</h1>
+            <p class="note">このHTMLだけで動きます。右側の学生ボタンを押すと、左側の集計が更新されます。</p>
+          </div>
+          <button class="reset" type="button" id="resetButton">リセット</button>
+        </div>
+
+        <div class="metrics">
+          <div class="metric">
+            <span>回答数</span>
+            <strong id="totalCount">0件</strong>
+          </div>
+          <div class="metric">
+            <span>参加者</span>
+            <strong id="participantCount">0人</strong>
+          </div>
+          <div class="metric">
+            <span>リセット</span>
+            <strong id="resetCount">0回</strong>
+          </div>
+        </div>
+
+        <div class="bars" aria-label="理解度の集計">
+          <div>
+            <div class="bar-label">
+              <span>わかった</span>
+              <strong id="understoodText">0人 / 0%</strong>
+            </div>
+            <div class="track"><div class="fill understood" id="understoodBar"></div></div>
+          </div>
+          <div>
+            <div class="bar-label">
+              <span>わからない</span>
+              <strong id="lostText">0人 / 0%</strong>
+            </div>
+            <div class="track"><div class="fill lost" id="lostBar"></div></div>
+          </div>
+        </div>
+
+        <div class="reaction">
+          <div>
+            <span>へぇー</span>
+            <strong id="wowCount">0回</strong>
+          </div>
+          <p>理解度とは別に、押した回数を数えます。</p>
+        </div>
+      </section>
+
+      <section class="panel student-panel">
+        <p class="eyebrow">学生画面 ローカル試作</p>
+        <h2>今の理解度は？</h2>
+        <div class="choices">
+          <button class="choice understood" type="button" data-choice="understood">
+            <strong>わかった</strong>
+            <small>このまま進めて大丈夫</small>
+          </button>
+          <button class="choice lost" type="button" data-choice="lost">
+            <strong>わからない</strong>
+            <small>一度止まってほしい</small>
+          </button>
+          <button class="choice wow" type="button" id="wowButton">
+            <strong>へぇー</strong>
+            <small>何回でも押せます</small>
+          </button>
+        </div>
+        <p class="status" id="studentStatus">まだ回答していません</p>
+      </section>
+    </main>
+
+    <script>
+      const labels = {
+        understood: "わかった",
+        lost: "わからない"
+      };
+
+      const state = {
+        counts: {
+          understood: 0,
+          lost: 0
+        },
+        selected: "",
+        wowCount: 0,
+        resetCount: 0
+      };
+
+      function render() {
+        const total = Object.values(state.counts).reduce((sum, count) => sum + count, 0);
+        document.getElementById("totalCount").textContent = `${total}件`;
+        document.getElementById("participantCount").textContent = total > 0 ? "1人" : "0人";
+        document.getElementById("resetCount").textContent = `${state.resetCount}回`;
+
+        for (const key of Object.keys(state.counts)) {
+          const count = state.counts[key];
+          const percentage = total > 0 ? Math.round((count / total) * 100) : 0;
+          document.getElementById(`${key}Text`).textContent = `${count}人 / ${percentage}%`;
+          document.getElementById(`${key}Bar`).style.width = `${percentage}%`;
+        }
+
+        document.getElementById("wowCount").textContent = `${state.wowCount}回`;
+
+        document.querySelectorAll(".choice[data-choice]").forEach((button) => {
+          button.classList.toggle("selected", button.dataset.choice === state.selected);
+        });
+
+        document.getElementById("studentStatus").textContent = state.selected
+          ? `送信しました: ${labels[state.selected]}`
+          : "まだ回答していません";
+      }
+
+      document.querySelectorAll(".choice[data-choice]").forEach((button) => {
+        button.addEventListener("click", () => {
+          if (state.selected) {
+            state.counts[state.selected] -= 1;
+          }
+
+          state.selected = button.dataset.choice;
+          state.counts[state.selected] += 1;
+          render();
+        });
+      });
+
+      document.getElementById("wowButton").addEventListener("click", () => {
+        state.wowCount += 1;
+        render();
+      });
+
+      document.getElementById("resetButton").addEventListener("click", () => {
+        state.counts.understood = 0;
+        state.counts.lost = 0;
+        state.selected = "";
+        state.wowCount = 0;
+        state.resetCount += 1;
+        render();
+      });
+
+      render();
+    </script>
+  </body>
+</html>
