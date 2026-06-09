@@ -191,6 +191,71 @@ h1 {
   gap: 22px;
 }
 
+.note-panel {
+  background: #f7f1df;
+  border-radius: 8px;
+  display: grid;
+  gap: 12px;
+  margin-bottom: 28px;
+  padding: 18px;
+}
+
+.note-heading {
+  align-items: center;
+  display: flex;
+  gap: 12px;
+  justify-content: space-between;
+}
+
+.note-heading span {
+  color: #6f5b2c;
+  display: block;
+  font-size: 0.88rem;
+  font-weight: 800;
+}
+
+.note-heading strong {
+  display: block;
+  font-size: 1.15rem;
+}
+
+.note-save-button {
+  background: #17211b;
+  border: 0;
+  border-radius: 8px;
+  color: #ffffff;
+  font-weight: 800;
+  min-height: 42px;
+  padding: 0 18px;
+}
+
+.note-panel textarea {
+  background: #fffdf8;
+  border: 1px solid #ded7c8;
+  border-radius: 8px;
+  color: #17211b;
+  font: inherit;
+  line-height: 1.6;
+  min-height: 86px;
+  padding: 12px;
+  resize: vertical;
+  width: 100%;
+}
+
+.note-panel textarea:focus {
+  border-color: #12613d;
+  outline: 3px solid rgba(18, 97, 61, 0.16);
+}
+
+.note-footer {
+  color: #6f5b2c;
+  display: flex;
+  font-size: 0.86rem;
+  font-weight: 700;
+  justify-content: space-between;
+  min-height: 20px;
+}
+
 .reaction-panel {
   align-items: center;
   background: #fff3cf;
