@@ -34,3 +34,13 @@
 - **フロントエンド**: React + Vite
 - **データベース**: Firebase Realtime Database（サーバーレス通信）
 - **ホスティング**: Vercel
+
+## 🚀 公開手順
+
+通常は以下の1コマンドで、ビルド、GitHubへのpush、Firebase Rules公開まで実行できます。
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\publish.ps1 "変更内容を書く"
+```
+
+VercelはGitHubへのpushを検知して自動で再デプロイします。初回だけFirebase CLIのログインを求められる場合があります。

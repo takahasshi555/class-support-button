@@ -19,6 +19,48 @@
           ".write": "auth != null && data.parent().child('teacherUid').val() === auth.uid",
           ".validate": "newData.isString() && newData.val().length <= 140"
         },
+        "history": {
+          ".read": "auth != null && data.parent().child('teacherUid').val() === auth.uid",
+          "$historyId": {
+            ".write": "auth != null && data.parent().parent().child('teacherUid').val() === auth.uid",
+            ".validate": "newData.hasChildren(['label', 'note', 'createdAt', 'counts', 'wow', 'totalResponses', 'participants', 'resetVersion'])",
+            "label": {
+              ".validate": "newData.isString() && newData.val().length <= 40"
+            },
+            "note": {
+              ".validate": "newData.isString() && newData.val().length <= 140"
+            },
+            "createdAt": {
+              ".validate": "newData.isNumber()"
+            },
+            "counts": {
+              "understood": {
+                ".validate": "newData.isNumber() && newData.val() >= 0"
+              },
+              "lost": {
+                ".validate": "newData.isNumber() && newData.val() >= 0"
+              },
+              "$other": {
+                ".validate": false
+              }
+            },
+            "wow": {
+              ".validate": "newData.isNumber() && newData.val() >= 0"
+            },
+            "totalResponses": {
+              ".validate": "newData.isNumber() && newData.val() >= 0"
+            },
+            "participants": {
+              ".validate": "newData.isNumber() && newData.val() >= 0"
+            },
+            "resetVersion": {
+              ".validate": "newData.isNumber() && newData.val() >= 0"
+            },
+            "$other": {
+              ".validate": false
+            }
+          }
+        },
         "resetVersion": {
           ".read": "auth != null",
           ".write": "auth != null && data.parent().child('teacherUid').val() === auth.uid && newData.isNumber() && newData.val() === data.val() + 1",

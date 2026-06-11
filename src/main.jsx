@@ -116,6 +116,7 @@ function useTeacherRoom(roomId) {
               roomId,
               counts,
               note: data.note || "",
+              history: data.history || {},
               reactions: data.reactions || { wow: 0 },
               totalResponses: Object.values(counts).reduce((sum, count) => sum + count, 0),
               participants: data.participants ? Object.keys(data.participants).length : 0,
@@ -265,11 +266,19 @@ function Teacher({ roomId }) {
   const [qrDataUrl, setQrDataUrl] = useState("");
   const [noteDraft, setNoteDraft] = useState("");
   const [noteStatus, setNoteStatus] = useState("");
+  const [timelineLabel, setTimelineLabel] = useState("");
+  const [timelineStatus, setTimelineStatus] = useState("");
   const joinUrl = `${window.location.origin}/room/${roomId}`;
 
   useEffect(() => {
     setNoteDraft(state?.note || "");
   }, [state?.note]);
+
+  useEffect(() => {
+    if (!timelineLabel && state) {
+      setTimelineLabel(`スライド${(state.resetVersion || 0) + 1}`);
+    }
+  }, [state, timelineLabel]);
 
   useEffect(() => {
     QRCode.toDataURL(joinUrl, {
@@ -279,12 +288,41 @@ function Teacher({ roomId }) {
     }).then(setQrDataUrl);
   }, [joinUrl]);
 
-  function resetRoom() {
-    update(ref(db, `rooms/${roomId}`), {
-      responses: null,
-      "reactions/wow": 0,
-      resetVersion: (state?.resetVersion || 0) + 1
-    });
+  async function recordTimelineAndReset() {
+    if (!state) {
+      return;
+    }
+
+    const label = timelineLabel.trim().slice(0, 40) || `スライド${(state.resetVersion || 0) + 1}`;
+    const note = noteDraft.trim().slice(0, 140);
+    const historyId = `${Date.now()}-${generateId().slice(0, 8)}`;
+    const nextResetVersion = (state.resetVersion || 0) + 1;
+
+    setTimelineStatus("記録中...");
+    try {
+      await update(ref(db, `rooms/${roomId}`), {
+        [`history/${historyId}`]: {
+          label,
+          note,
+          createdAt: Date.now(),
+          counts: state.counts || { understood: 0, lost: 0 },
+          wow: state.reactions?.wow || 0,
+          totalResponses: state.totalResponses || 0,
+          participants: state.participants || 0,
+          resetVersion: state.resetVersion || 0
+        },
+        note,
+        responses: null,
+        "reactions/wow": 0,
+        resetVersion: nextResetVersion
+      });
+      setTimelineLabel(`スライド${nextResetVersion + 1}`);
+      setTimelineStatus("記録しました");
+      window.setTimeout(() => setTimelineStatus(""), 1600);
+    } catch (err) {
+      setTimelineStatus("記録できませんでした");
+      console.error(err);
+    }
   }
 
   async function saveNote() {
@@ -321,9 +359,9 @@ function Teacher({ roomId }) {
             <p className="eyebrow">先生画面</p>
             <h1>授業ルーム {roomId}</h1>
           </div>
-          <button className="reset-button" type="button" onClick={resetRoom}>
+          <button className="reset-button" type="button" onClick={recordTimelineAndReset}>
             <RefreshCcw aria-hidden="true" />
-            リセット
+            記録して次へ
           </button>
         </div>
 
@@ -355,6 +393,32 @@ function Teacher({ roomId }) {
           </div>
         </section>
 
+        <section className="timeline-control" aria-label="タイムライン記録">
+          <div className="timeline-control-heading">
+            <div>
+              <span>タイムライン記録</span>
+              <strong>現在の集計を保存して次へ</strong>
+            </div>
+            <button className="timeline-record-button" type="button" onClick={recordTimelineAndReset}>
+              <RefreshCcw aria-hidden="true" />
+              記録して次へ
+            </button>
+          </div>
+          <label>
+            <span>タグ</span>
+            <input
+              maxLength={40}
+              value={timelineLabel}
+              onChange={(event) => setTimelineLabel(event.target.value)}
+              placeholder="例: スライド1 / 問3 / 小テスト後"
+            />
+          </label>
+          <div className="note-footer">
+            <span>{timelineLabel.length}/40</span>
+            <span>{timelineStatus}</span>
+          </div>
+        </section>
+
         <section className="results-panel" aria-label="理解度の集計">
           {Object.entries(labels).map(([key, label]) => (
             <ResultBar key={key} label={label} value={counts[key]} total={total} tone={key} />
@@ -368,6 +432,8 @@ function Teacher({ roomId }) {
           </div>
           <p>理解度とは別に、押された回数をそのまま数えます。</p>
         </section>
+
+        <Timeline history={state?.history || {}} />
       </section>
 
       <aside className="join-panel">
@@ -385,6 +451,67 @@ function Teacher({ roomId }) {
       </aside>
     </main>
   );
+}
+
+function Timeline({ history }) {
+  const items = Object.entries(history)
+    .map(([id, item]) => ({ id, ...item }))
+    .sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+
+  if (items.length === 0) {
+    return (
+      <section className="timeline-panel" aria-label="授業タイムライン">
+        <div className="timeline-panel-heading">
+          <span>授業タイムライン</span>
+          <strong>まだ記録はありません</strong>
+        </div>
+      </section>
+    );
+  }
+
+  return (
+    <section className="timeline-panel" aria-label="授業タイムライン">
+      <div className="timeline-panel-heading">
+        <span>授業タイムライン</span>
+        <strong>{items.length}件の記録</strong>
+      </div>
+      <div className="timeline-list">
+        {items.map((item) => {
+          const understood = item.counts?.understood || 0;
+          const lost = item.counts?.lost || 0;
+          const total = item.totalResponses || understood + lost;
+          const lostRate = total > 0 ? Math.round((lost / total) * 100) : 0;
+
+          return (
+            <article className="timeline-item" key={item.id}>
+              <div className="timeline-item-title">
+                <strong>{item.label || "無題"}</strong>
+                <span>{formatTime(item.createdAt)}</span>
+              </div>
+              {item.note ? <p>{item.note}</p> : null}
+              <div className="timeline-metrics">
+                <span>わかった {understood}人</span>
+                <span>わからない {lost}人</span>
+                <span>つまずき {lostRate}%</span>
+                <span>へぇー {item.wow || 0}回</span>
+              </div>
+            </article>
+          );
+        })}
+      </div>
+    </section>
+  );
+}
+
+function formatTime(value) {
+  if (!value) {
+    return "";
+  }
+
+  return new Intl.DateTimeFormat("ja-JP", {
+    hour: "2-digit",
+    minute: "2-digit"
+  }).format(new Date(value));
 }
 
 function Student({ roomId }) {
