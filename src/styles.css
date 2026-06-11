@@ -369,13 +369,36 @@ h1 {
 }
 
 .timeline-item-title span,
-.timeline-item p {
+.timeline-note p {
   color: #526357;
 }
 
-.timeline-item p {
+.timeline-note {
+  background: #fffdf8;
+  border-left: 4px solid #d69c2f;
+  border-radius: 8px;
+  display: grid;
+  gap: 4px;
+  padding: 10px 12px;
+}
+
+.timeline-note span {
+  color: #6f5b2c;
+  font-size: 0.78rem;
+  font-weight: 800;
+}
+
+.timeline-note p {
   line-height: 1.6;
   margin: 0;
+}
+
+.timeline-note.empty {
+  border-left-color: #c8c0af;
+}
+
+.timeline-note.empty p {
+  color: #8a8173;
 }
 
 .timeline-metrics {

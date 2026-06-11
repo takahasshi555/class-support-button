@@ -488,7 +488,10 @@ function Timeline({ history }) {
                 <strong>{item.label || "無題"}</strong>
                 <span>{formatTime(item.createdAt)}</span>
               </div>
-              {item.note ? <p>{item.note}</p> : null}
+              <div className={`timeline-note ${item.note ? "" : "empty"}`}>
+                <span>メモ</span>
+                <p>{item.note || "メモなし"}</p>
+              </div>
               <div className="timeline-metrics">
                 <span>わかった {understood}人</span>
                 <span>わからない {lost}人</span>
