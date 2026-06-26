@@ -417,6 +417,148 @@ h1 {
   text-align: center;
 }
 
+.comments-panel {
+  background: #f0f3ee;
+  border: 1px solid #d6ded3;
+  border-radius: 8px;
+  display: grid;
+  gap: 14px;
+  margin-top: 26px;
+  padding: 18px;
+}
+
+.comments-heading {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+}
+
+.comments-heading span {
+  color: #526357;
+  display: block;
+  font-size: 0.88rem;
+  font-weight: 800;
+}
+
+.comments-heading strong {
+  display: block;
+  font-size: 1.2rem;
+}
+
+.comments-heading svg {
+  color: #12613d;
+}
+
+.comment-form {
+  display: grid;
+  gap: 10px;
+}
+
+.comment-form textarea {
+  background: #fffdf8;
+  border: 1px solid #cbd7c8;
+  border-radius: 8px;
+  color: #17211b;
+  font: inherit;
+  line-height: 1.6;
+  min-height: 92px;
+  padding: 12px;
+  resize: vertical;
+  width: 100%;
+}
+
+.comment-form textarea:focus {
+  border-color: #12613d;
+  outline: 3px solid rgba(18, 97, 61, 0.16);
+}
+
+.comment-form-footer {
+  align-items: center;
+  color: #526357;
+  display: grid;
+  font-size: 0.86rem;
+  font-weight: 700;
+  gap: 8px;
+  grid-template-columns: auto 1fr auto;
+}
+
+.comment-form-footer button,
+.comment-like {
+  align-items: center;
+  border: 0;
+  border-radius: 8px;
+  display: inline-flex;
+  font-weight: 800;
+  gap: 8px;
+  justify-content: center;
+}
+
+.comment-form-footer button {
+  background: #12613d;
+  color: #ffffff;
+  min-height: 42px;
+  padding: 0 16px;
+}
+
+.comment-form-footer button:disabled {
+  opacity: 0.5;
+}
+
+.comment-list {
+  display: grid;
+  gap: 10px;
+  max-height: 420px;
+  overflow: auto;
+  padding-right: 4px;
+}
+
+.comment-empty {
+  color: #526357;
+  font-weight: 700;
+  margin: 0;
+}
+
+.comment-item {
+  background: #fffdf8;
+  border-radius: 8px;
+  display: grid;
+  gap: 8px;
+  padding: 12px;
+}
+
+.comment-item-header {
+  align-items: center;
+  color: #526357;
+  display: flex;
+  font-size: 0.82rem;
+  font-weight: 800;
+  justify-content: space-between;
+}
+
+.comment-item p {
+  line-height: 1.6;
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.comment-like {
+  background: #edf4ef;
+  color: #12613d;
+  justify-self: start;
+  min-height: 36px;
+  min-width: 64px;
+  padding: 0 12px;
+}
+
+.comment-like.liked {
+  background: #d9eee1;
+}
+
+.comment-like:disabled {
+  cursor: default;
+  opacity: 0.75;
+}
+
 .reaction-panel {
   align-items: center;
   background: #fff3cf;
@@ -688,6 +830,10 @@ h1 {
 
   .timeline-metrics {
     grid-template-columns: 1fr 1fr;
+  }
+
+  .comment-form-footer {
+    grid-template-columns: 1fr;
   }
 
   .result-meta {

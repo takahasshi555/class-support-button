@@ -1,0 +1,345 @@
+% Cloud LaTeX: コンパイラを upLaTeX に設定して、ファイル全体をコピーして使う。
+\documentclass[a4paper,11pt]{jsarticle}
+
+\usepackage[dvipdfmx]{graphicx}
+\usepackage[dvipdfmx]{hyperref}
+\usepackage{geometry}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{url}
+
+\geometry{top=22mm,bottom=25mm,left=24mm,right=24mm}
+\hypersetup{colorlinks=true,linkcolor=blue,urlcolor=blue}
+\setlength{\parindent}{1zw}
+\setlength{\parskip}{0.35em}
+
+\definecolor{codegray}{RGB}{246,246,246}
+\definecolor{codeblue}{RGB}{0,70,150}
+\definecolor{codegreen}{RGB}{0,100,55}
+\lstset{
+  language=Python,
+  basicstyle=\ttfamily\small,
+  keywordstyle=\color{codeblue}\bfseries,
+  commentstyle=\color{codegreen},
+  stringstyle=\color{red!60!black},
+  backgroundcolor=\color{codegray},
+  frame=single,
+  breaklines=true,
+  showstringspaces=false,
+  columns=fullflexible
+}
+
+\title{LiteLLMに関する調査\\
+\large 複数のLLMを柔軟に利用・運用するための共通基盤}
+\author{高橋 勇武気}
+\date{2026年6月23日}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+LiteLLMは、OpenAI、Anthropic、Google、Amazon Bedrock、Azure、Ollamaなど、複数の大規模言語モデル（LLM）を共通に近い形式で利用するためのオープンソースのライブラリおよびAI Gatewayである。本稿では、LLM APIの多様化によって生じる開発・運用上の問題を整理し、LiteLLMのSDKとProxyの役割、基本的な使い方、モデル切替・フォールバック・費用管理といった実践的な機能を説明する。また、LangChain、OpenRouter、LM Studio、Hugging Faceとの役割の違いを比較し、LiteLLMを採用すべき条件と注意点を示す。
+\end{abstract}
+
+\tableofcontents
+\newpage
+
+\section{はじめに}
+
+生成AIをアプリケーションへ組み込む開発では、複数のLLMを選択できる。たとえば、OpenAI、Anthropic、Google、Amazon Bedrock、Azure、Ollamaなどのプロバイダは、それぞれ異なるモデル、API、認証方式、料金体系を提供している。この選択肢の多さは利点である一方、モデルの比較や切替、運用管理を複雑にする。
+
+LiteLLMは、この複雑さを小さくするためのソフトウェアである。LiteLLMを導入すると、アプリケーションは共通に近い形式でLLMを呼び出せるようになる。本稿の目的は、LiteLLMを単なる「複数モデルを呼べるライブラリ」としてではなく、\textbf{モデル選択・安全な運用・費用管理を支える基盤}として理解することである。
+
+\section{LiteLLMとは}
+
+\subsection{定義}
+
+LiteLLMは、複数のLLMプロバイダを統一的に扱うためのオープンソースツールである。LiteLLM自体がGPTやClaudeのように文章を生成するモデルではない。アプリケーションと各プロバイダの間に入り、リクエストを適切なAPI形式へ変換し、応答を扱いやすい形式で返す中間層である。
+
+LiteLLMには、主に二つの利用形態がある。
+
+\begin{itemize}
+  \item \textbf{Python SDK}: Pythonプログラムから複数のLLMを呼び出すためのライブラリ。実験、小規模なツール、比較検証に向く。
+  \item \textbf{LiteLLM Proxy}: 複数アプリ・複数利用者のLLM利用を中継・管理するAI Gateway。APIキー、費用、ログ、利用上限、モデル切替をサーバー側で管理できる。
+\end{itemize}
+
+\subsection{解決する問題}
+
+複数のLLMを直接扱うと、次の差異が開発上の負担になる。
+
+\begin{table}[tbp]
+\centering
+\caption{プロバイダごとに異なる主な要素}
+\begin{tabular}{p{38mm}p{105mm}}
+\toprule
+項目 & 内容 \\
+\midrule
+認証 & APIキー、クラウド認証情報、リージョン、エンドポイントの設定方法 \\
+モデル指定 & モデルID、デプロイメント名、プロバイダ名を含む指定方法 \\
+入力形式 & 会話履歴、画像、音声、ツール定義のデータ形式 \\
+出力形式 & 回答本文、使用トークン、ツール呼び出し、エラー情報の取り出し方 \\
+運用 & レート制限、再試行、ログ、費用計算、障害時の代替手段 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+LiteLLMはこれらを完全に同一化するものではないが、共通の呼び出し方を提供して差異を小さくする。したがって、モデルの変更、複数モデルの比較、コストと品質の最適化を行いやすくなる。
+
+\section{背景：なぜ共通基盤が必要か}
+
+\subsection{LLM APIの多様化}
+
+生成AIプログラミングでは、モデルの性能だけでなく、利用するプラットフォームの特徴も考慮する必要がある。講義資料で扱われているAzure AI、Amazon Bedrock、Replicate、Hugging Face、OpenRouter、Together AI、LM Studioなどは、いずれも異なる目的を持つ。
+
+例えば、Hugging Faceはモデル・データセットを探索・共有する場として重要であり、LM StudioはローカルPCでLLMを動かすためのツールである。OpenRouterは複数のモデルを単一の外部サービス経由で利用できる。一方、LiteLLMは、これらを含む複数の接続先をアプリケーションから扱いやすくするためのライブラリまたはGatewayである。
+
+\subsection{OpenAI形式に近いインターフェース}
+
+LiteLLMでは、広く利用されているOpenAI APIに近い会話形式を基準として扱うことが多い。会話内容を\texttt{messages}のリストとして渡し、\texttt{system}、\texttt{user}、\texttt{assistant}といった役割で文脈を表す。
+
+\begin{lstlisting}[caption={会話メッセージの基本形}]
+messages = [
+    {"role": "system", "content": "あなたは親切なAIアシスタントです。"},
+    {"role": "user", "content": "LiteLLMを説明してください。"}
+]
+\end{lstlisting}
+
+ただし、すべてのモデルが同じ能力やメッセージ形式を持つわけではない。systemメッセージ、画像入力、ツール呼び出し、構造化出力などの対応状況はモデルごとに確認する必要がある。
+
+\section{LiteLLMの基本構造}
+
+\subsection{全体像}
+
+LiteLLMは、アプリケーションと各LLM APIの間で動作する。
+
+\begin{center}
+\fbox{\parbox{0.85\linewidth}{\centering
+アプリケーション（Python / Web / Unity）\\[2mm]
+$\downarrow$\\[2mm]
+LiteLLM SDK または LiteLLM Proxy\\[2mm]
+$\downarrow$\\[2mm]
+OpenAI / Anthropic / Gemini / Azure / Bedrock / Ollama / その他のLLM
+}}
+\end{center}
+
+SDKではPythonコードからLiteLLMを呼び出す。Proxyでは、アプリケーションはProxyだけに通信し、Proxyが実際のプロバイダへ接続する。利用者へ配布するWebアプリやゲームでは、APIキーをクライアント側へ置かないためにProxyまたは自作バックエンドを用いることが重要である。
+
+\subsection{SDKとProxyの使い分け}
+
+\begin{table}[tbp]
+\centering
+\caption{SDKとProxyの比較}
+\begin{tabular}{p{35mm}p{57mm}p{57mm}}
+\toprule
+観点 & Python SDK & LiteLLM Proxy \\
+\midrule
+主な用途 & 個人開発、実験、比較コード & 複数アプリ・複数利用者の運用 \\
+導入 & Pythonへインストールする & サーバーとして起動・設定する \\
+APIキー & 実行環境で管理する & サーバー側で集中管理できる \\
+費用・上限 & 自作の管理が中心 & 利用者・チーム単位で管理しやすい \\
+適する規模 & 小規模・試作段階 & 共有サービス・継続運用 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Python SDKとしての使い方}
+
+\subsection{インストールとAPIキー管理}
+
+インストールは次の通りである。
+
+\begin{verbatim}
+pip install -U litellm
+\end{verbatim}
+
+APIキーはソースコードに直接書かず、環境変数や秘密情報管理サービスで扱う。APIキーをGitHubへ公開すると不正利用につながるため、\texttt{.env}ファイルを利用する場合もGitの管理対象から外す必要がある。
+
+\subsection{最小の実装例}
+
+\begin{lstlisting}[caption={LiteLLMでチャット生成を行う例}]
+from litellm import completion
+
+response = completion(
+    model="gpt-4o-mini",
+    messages=[
+        {"role": "system", "content": "あなたは簡潔な日本語アシスタントです。"},
+        {"role": "user", "content": "LiteLLMを一文で説明してください。"}
+    ],
+    temperature=0.2
+)
+
+print(response.choices[0].message.content)
+\end{lstlisting}
+
+モデル名は例であり、実行前にLiteLLMと各プロバイダの公式ドキュメントで確認する。モデル名、利用可能な機能、料金、廃止予定は変化するためである。
+
+\subsection{モデルを切り替える例}
+
+LiteLLMの利点は、呼び出し処理を大きく変えずにモデルを比較できる点にある。
+
+\begin{lstlisting}[caption={同じ質問を複数モデルで比較する例}]
+from litellm import completion
+
+models = [
+    "gpt-4o-mini",
+    "anthropic/claude-..."
+]
+
+messages = [
+    {"role": "user", "content": "再生可能エネルギーを200字で説明してください。"}
+]
+
+for model in models:
+    try:
+        response = completion(model=model, messages=messages, temperature=0)
+        print(f"\n--- {model} ---")
+        print(response.choices[0].message.content)
+    except Exception as error:
+        print(f"{model} の呼び出しに失敗しました: {error}")
+\end{lstlisting}
+
+比較時には、回答の正確性だけでなく、日本語の自然さ、指示への追従、応答時間、入力・出力トークン数、料金、失敗率も記録する。単に「最も賢いモデル」を選ぶのではなく、対象の用途にとって最適なモデルを選ぶことが重要である。
+
+\subsection{ストリーミング出力}
+
+ストリーミングは、回答全体の生成完了を待たず、生成された部分から順に表示する機能である。チャット画面の待ち時間を短く感じさせることができる。
+
+\begin{lstlisting}[caption={ストリーミング出力の例}]
+from litellm import completion
+
+stream = completion(
+    model="gpt-4o-mini",
+    messages=[{"role": "user", "content": "東京の特徴を説明してください。"}],
+    stream=True
+)
+
+for chunk in stream:
+    text = chunk.choices[0].delta.content or ""
+    print(text, end="", flush=True)
+\end{lstlisting}
+
+\section{Proxyによる実運用}
+
+\subsection{Proxyを導入する理由}
+
+Webアプリ、モバイルアプリ、Unityアプリなどから直接プロバイダのAPIを呼び出すと、クライアント側からAPIキーを抜き取られる危険がある。安全な構成では、クライアントは自作バックエンドへ接続し、バックエンドまたはLiteLLM Proxyが外部LLM APIを呼び出す。
+
+\begin{center}
+\fbox{\parbox{0.85\linewidth}{\centering
+利用者のブラウザ・アプリ\\
+$\downarrow$\\
+自作バックエンド（認証・入力検証）\\
+$\downarrow$\\
+LiteLLM Proxy（モデル選択・費用・ログ・フォールバック）\\
+$\downarrow$\\
+各LLMプロバイダ
+}}
+\end{center}
+
+\subsection{Proxyで管理できること}
+
+\begin{itemize}
+  \item プロバイダのAPIキーをサーバー側に集中させる。
+  \item 利用者・アプリ・チームごとに仮想キーと利用上限を設定する。
+  \item モデル別・利用者別のトークン数と費用を記録する。
+  \item 混雑や障害時に代替モデルへ切り替える。
+  \item 同じモデルの複数デプロイメントへリクエストを分散する。
+  \item 監査や障害調査に必要なログを集約する。
+\end{itemize}
+
+\subsection{フォールバックとロードバランシング}
+
+\textbf{フォールバック}は、第一候補のモデルがタイムアウト、障害、レート制限などで失敗したときに、第二候補へ切り替える仕組みである。可用性を高められるが、代替先では出力品質、対応機能、費用、データの送信先が変わる可能性がある。重要な業務では、代替モデルの出力も事前に評価する必要がある。
+
+\textbf{ロードバランシング}は、複数のAPIキー、リージョン、デプロイメントへリクエストを分散する仕組みである。多数の利用者が同時にアクセスする場合、レート制限の回避や応答遅延の軽減に役立つ。ただし、単にAPIキーを増やすのではなく、提供元の利用規約、組織の費用上限、利用状況を考慮して設計する必要がある。
+
+\section{実践的な利用パターン}
+
+\subsection{用途別のモデル選択}
+
+全ての処理に最も高価なモデルを使う必要はない。処理の重要度に応じて、コスト、遅延、品質を使い分けることが現実的である。
+
+\begin{table}[tbp]
+\centering
+\caption{用途別のモデル選択方針の例}
+\begin{tabular}{p{42mm}p{43mm}p{54mm}}
+\toprule
+用途 & 重視する要素 & 方針 \\
+\midrule
+短い分類・タグ付け & 低コスト、再現性 & 小型モデル、低いtemperature、JSON検証 \\
+チャット応答 & 低遅延、自然な文章 & ストリーミング、適切な出力上限 \\
+重要な要約・分析 & 正確性、根拠 & 高性能モデル、参照資料の提示、人間の確認 \\
+機密性の高い入力 & データ保護 & ローカルLLMまたは送信範囲を最小化 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{RAGとの組み合わせ}
+
+RAG（Retrieval-Augmented Generation、検索拡張生成）は、関連文書を検索してからLLMへ渡し、その文書を根拠として回答を生成させる方法である。LiteLLMは検索部分を提供するツールではないが、RAGにおける回答生成モデルの切替・比較・運用管理に利用できる。
+
+RAGを使う場合でも、検索結果が不十分であれば不正確な回答が生じる。回答画面には参照資料名や該当箇所を示し、重要な判断では利用者が原典を確認できるようにすることが望ましい。
+
+\subsection{構造化出力}
+
+後続のプログラムでLLMの出力を扱う場合、自由文だけでなくJSONなどの構造化出力が必要になる。例えば、問い合わせを「カテゴリ」「緊急度」「回答方針」に分類する処理では、決められた形式で出力を受け取ると実装が安定する。
+
+ただし、プロンプトで「JSONだけを返す」と指示するだけでは壊れたJSONが返ることがある。モデル・APIが提供する構造化出力の機能を優先し、受信側でもJSONの構文とスキーマを検証し、失敗時には安全に再試行またはエラー表示を行うべきである。
+
+\section{他のツールとの比較}
+
+\begin{longtable}{p{28mm}p{43mm}p{74mm}}
+\caption{LiteLLMと関連ツールの役割の違い} \\
+\toprule
+ツール & 主な役割 & LiteLLMとの関係 \\
+\midrule
+\endfirsthead
+\toprule
+ツール & 主な役割 & LiteLLMとの関係 \\
+\midrule
+\endhead
+LangChain & RAG、エージェント、ワークフローなどLLMアプリ全体の構築 & LangChainのモデル呼び出し部分にLiteLLMを用いる構成が可能 \\
+OpenRouter & 複数モデルを提供する外部のAPIサービス & LiteLLMからOpenRouterを接続先の一つとして利用できる \\
+LM Studio & PC上でローカルLLMを実行するツール & LM StudioのローカルサーバーをLiteLLM経由で扱える場合がある \\
+Hugging Face & モデル、データセット、デモの共有プラットフォーム & LiteLLMはHugging Face上のモデルを含む接続先を統一的に扱う役割 \\
+\bottomrule
+\end{longtable}
+
+これらは基本的に競合するだけの関係ではない。例えば、LangChainでRAGアプリケーションを構築し、LiteLLMでモデルを切り替え、OllamaまたはLM Studioでローカルモデルを動かす、といった組み合わせが可能である。
+
+\section{注意点と限界}
+
+\subsection{モデルの差異は残る}
+
+LiteLLMは共通インターフェースを提供するが、すべてのモデルを完全に同じように扱えるわけではない。コンテキスト長、画像・音声入力、ツール呼び出し、JSON出力、応答速度、日本語品質、利用料金はモデルごとに異なる。重要な機能を使う前には、対象モデルで実際に試験する必要がある。
+
+\subsection{APIキーと秘密情報}
+
+APIキーは環境変数、秘密情報管理サービス、Proxyなどで扱う。クライアントアプリや公開リポジトリへ埋め込んではならない。キーが漏えいした場合は直ちに無効化し、利用履歴を確認する。
+
+\subsection{費用とレート制限}
+
+LLM APIは入力・出力トークンに応じて料金が発生することが多い。長い会話履歴や大量の検索文書を毎回送ると、費用は増加する。出力上限、利用者ごとの上限、キャッシュ、用途別モデル選択を組み合わせて管理する必要がある。
+
+\subsection{出力の信頼性とプライバシー}
+
+LLMは自然な文章を生成するが、事実と異なる内容をもっともらしく出力することがある。重要な情報は一次資料で確認し、引用元を示し、人間による最終確認を行うべきである。また、氏名、学籍番号、パスワード、未公開の研究データなどを外部APIへ送らない。ログを保存する場合にも、保存する情報、閲覧権限、保存期間を定める必要がある。
+
+\section{結論}
+
+LiteLLMは、複数のLLMを共通に近い形式で利用し、モデル切替、比較、費用管理、フォールバック、ログ管理を行いやすくする基盤である。小規模な実験ではPython SDKとして導入でき、継続的に運用するサービスではLiteLLM Proxyを用いることで、APIキーと利用状況を集中管理できる。
+
+LiteLLMの価値は、特定のプロバイダや単一モデルへの依存を弱める点にある。ただし、共通化できないモデル固有の機能や品質差は残る。したがって、LiteLLMを導入する際は、対象タスクに対する品質、費用、遅延、安全性、データ保護を評価し、必要な運用ルールとともに設計することが重要である。
+
+\begin{thebibliography}{9}
+\bibitem{course} 『生成AIプログラミング』講義資料，第8章「LiteLLM」．
+\bibitem{litellm} LiteLLM Documentation, \url{https://docs.litellm.ai/}．
+\bibitem{github} BerriAI, ``LiteLLM'', GitHub Repository, \url{https://github.com/BerriAI/litellm}．
+\bibitem{openai} OpenAI API Documentation, \url{https://platform.openai.com/docs/}．
+\end{thebibliography}
+
+\end{document}

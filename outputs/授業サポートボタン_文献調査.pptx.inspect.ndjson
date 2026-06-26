@@ -1,0 +1,429 @@
+{"kind":"deck","id":"pr/edavfq","name":"Deck"}
+{"kind":"layout","layoutId":"4cf4c388-4a16-4274-bf60-03523262c7ad","name":"Master","type":"master"}
+{"kind":"layout","layoutId":"0a223930-0f00-4cc1-bed7-8473a092f072","name":"Title Slide","type":"title"}
+{"kind":"slide","id":"sl/89dzez","slide":1,"title":"授業参加を促す","textShapes":6}
+{"kind":"textbox","id":"sh/kf6dcbul","slide":1,"text":"授業参加を促す\n授業サポートボタンの設計","textPreview":"授業参加を促す | 授業サポートボタンの設計","textChars":20,"textLines":2,"bbox":[42,78,880,190]}
+{"kind":"textbox","id":"sh/vu9knih4","slide":1,"text":"匿名性・リアルタイム反応・アクティブラーニング・ゲーミフィケーションの文献調査","textPreview":"匿名性・リアルタイム反応・アクティブラーニング・ゲーミフィケーションの文献調査","textChars":39,"textLines":1,"bbox":[46,306,880,42]}
+{"kind":"shape","id":"sh/29gr2p8n","slide":1,"bbox":[926,80,270,470]}
+{"kind":"textbox","id":"sh/d8bat47y","slide":1,"text":"ASK\nCHECK\nHELP","textPreview":"ASK | CHECK | HELP","textChars":14,"textLines":3,"bbox":[958,142,210,210]}
+{"kind":"textbox","id":"sh/knih4byh","slide":1,"text":"学生の「分からない」を\n安全に授業へ戻す","textPreview":"学生の「分からない」を | 安全に授業へ戻す","textChars":20,"textLines":2,"bbox":[958,428,210,80]}
+{"kind":"textbox","id":"sh/v6psfil0","slide":1,"text":"文献調査スライド","textPreview":"文献調査スライド","textChars":8,"textLines":1,"bbox":[46,625,300,30]}
+{"kind":"shape","id":"sh/2lszqtcj","slide":1,"bbox":[42,662,300,24]}
+{"kind":"textbox","id":"sh/dcbulwva","slide":1,"text":"01","textPreview":"01","textChars":2,"textLines":1,"bbox":[1196,657,42,28]}
+{"kind":"notes","id":"nt/89dzez","slide":1,"text":""}
+{"kind":"slide","id":"sl/b1b0qx","slide":2,"title":"出発点: 授業参加は「発言できる人」だけで測れない","textShapes":11}
+{"kind":"textbox","id":"sh/c7u54zid","slide":2,"text":"出発点: 授業参加は「発言できる人」だけで測れない","textPreview":"出発点: 授業参加は「発言できる人」だけで測れない","textChars":25,"textLines":1,"bbox":[42,38,980,72]}
+{"kind":"shape","id":"sh/jm1cfa9w","slide":2,"bbox":[42,150,1196,1]}
+{"kind":"textbox","id":"sh/u18jqh0f","slide":2,"text":"大人数授業では、理解できていない学生ほど声を出しにくい。","textPreview":"大人数授業では、理解できていない学生ほど声を出しにくい。","textChars":28,"textLines":1,"bbox":[62,196,720,54]}
+{"kind":"textbox","id":"sh/1032lszq","slide":2,"text":"授業サポートボタンは、挙手や発言の代替ではなく、教員が授業中に学生の状態を読むための低負荷なチャンネルとして考える。","textPreview":"授業サポートボタンは、挙手や発言の代替ではなく、教員が授業中に学生の状態を読むための低負荷なチャンネルとして考える。","textChars":58,"textLines":1,"bbox":[62,270,760,88]}
+{"kind":"shape","id":"sh/cfa9w3m9","slide":2,"bbox":[62,420,340,145]}
+{"kind":"textbox","id":"sh/judg7ads","slide":2,"text":"学生側","textPreview":"学生側","textChars":3,"textLines":1,"bbox":[84,440,270,28]}
+{"kind":"textbox","id":"sh/u9knih4b","slide":2,"text":"質問が恥ずかしい\n間違いが怖い\n授業が速くても止めにくい","textPreview":"質問が恥ずかしい | 間違いが怖い | 授業が速くても止めにくい","textChars":28,"textLines":3,"bbox":[84,484,285,74]}
+{"kind":"shape","id":"sh/54zidony","slide":2,"bbox":[452,420,340,145]}
+{"kind":"textbox","id":"sh/cj6tovah","slide":2,"text":"教員側","textPreview":"教員側","textChars":3,"textLines":1,"bbox":[474,440,270,28]}
+{"kind":"textbox","id":"sh/ex0nuxc3","slide":2,"text":"理解度が見えにくい\n誰が困っているか分からない\n授業中の調整が難しい","textPreview":"理解度が見えにくい | 誰が困っているか分からない | 授業中の調整が難しい","textChars":34,"textLines":3,"bbox":[474,484,285,74]}
+{"kind":"shape","id":"sh/3itgfmlk","slide":2,"bbox":[842,420,340,145]}
+{"kind":"textbox","id":"sh/w3m94fu1","slide":2,"text":"設計上の注意","textPreview":"設計上の注意","textChars":6,"textLines":1,"bbox":[864,440,270,28]}
+{"kind":"textbox","id":"sh/loj2t83i","slide":2,"text":"参加促進が強制に見える\nランキング化で不安が増える\n通知過多で運用負荷が上がる","textPreview":"参加促進が強制に見える | ランキング化で不安が増える | 通知過多で運用負荷が上がる","textChars":39,"textLines":3,"bbox":[864,484,285,74]}
+{"kind":"textbox","id":"sh/e9cvixcz","slide":2,"text":"背景","textPreview":"背景","textChars":2,"textLines":1,"bbox":[42,662,300,24]}
+{"kind":"textbox","id":"sh/3q5o7qpg","slide":2,"text":"02","textPreview":"02","textChars":2,"textLines":1,"bbox":[1196,657,42,28]}
+{"kind":"notes","id":"nt/b1b0qx","slide":2,"text":""}
+{"kind":"slide","id":"sl/cz9qik","slide":3,"title":"文献調査の問いと対象領域","textShapes":18}
+{"kind":"textbox","id":"sh/z25kb6xk","slide":3,"text":"文献調査の問いと対象領域","textPreview":"文献調査の問いと対象領域","textChars":12,"textLines":1,"bbox":[42,38,980,72]}
+{"kind":"shape","id":"sh/onyd0z61","slide":3,"bbox":[42,150,1196,1]}
+{"kind":"textbox","id":"sh/d8v6psfi","slide":3,"text":"問い","textPreview":"問い","textChars":2,"textLines":1,"bbox":[66,190,80,28]}
+{"kind":"textbox","id":"sh/6tovahoz","slide":3,"text":"授業中に学生を参加させる仕組みは、どのような条件で有効になり、どのような条件で逆効果になるのか。","textPreview":"授業中に学生を参加させる仕組みは、どのような条件で有効になり、どのような条件で逆効果になるのか。","textChars":48,"textLines":1,"bbox":[142,184,980,60]}
+{"kind":"shape","id":"sh/vahoza1g","slide":3,"bbox":[70,310,500,92]}
+{"kind":"textbox","id":"sh/ovahoza1","slide":3,"text":"01","textPreview":"01","textChars":2,"textLines":1,"bbox":[90,330,44,30]}
+{"kind":"textbox","id":"sh/dg7adsji","slide":3,"text":"Active Learning","textPreview":"Active Learning","textChars":15,"textLines":1,"bbox":[148,327,330,28]}
+{"kind":"textbox","id":"sh/61032lsz","slide":3,"text":"活動・議論で学習へ参加する枠組み","textPreview":"活動・議論で学習へ参加する枠組み","textChars":16,"textLines":1,"bbox":[148,362,390,34]}
+{"kind":"shape","id":"sh/vmtwra5g","slide":3,"bbox":[640,310,500,92]}
+{"kind":"textbox","id":"sh/b2hwfyxo","slide":3,"text":"02","textPreview":"02","textChars":2,"textLines":1,"bbox":[660,330,44,30]}
+{"kind":"textbox","id":"sh/mhk3q5o7","slide":3,"text":"SRS / Clickers","textPreview":"SRS / Clickers","textChars":14,"textLines":1,"bbox":[718,327,330,28]}
+{"kind":"textbox","id":"sh/t83itgfm","slide":3,"text":"スマホ回答で全員が即時反応","textPreview":"スマホ回答で全員が即時反応","textChars":13,"textLines":1,"bbox":[718,362,390,34]}
+{"kind":"shape","id":"sh/4nap4r65","slide":3,"bbox":[70,430,500,92]}
+{"kind":"textbox","id":"sh/bq1oryts","slide":3,"text":"03","textPreview":"03","textChars":2,"textLines":1,"bbox":[90,450,44,30]}
+{"kind":"textbox","id":"sh/m58z25kb","slide":3,"text":"Anonymous Question","textPreview":"Anonymous Question","textChars":18,"textLines":1,"bbox":[148,447,330,28]}
+{"kind":"textbox","id":"sh/twra5gbq","slide":3,"text":"匿名質問・投票で声を拾う仕組み","textPreview":"匿名質問・投票で声を拾う仕組み","textChars":15,"textLines":1,"bbox":[148,482,390,34]}
+{"kind":"shape","id":"sh/4byhgn29","slide":3,"bbox":[640,430,500,92]}
+{"kind":"textbox","id":"sh/bm58z25k","slide":3,"text":"04","textPreview":"04","textChars":2,"textLines":1,"bbox":[660,450,44,30]}
+{"kind":"textbox","id":"sh/m1cfa9w3","slide":3,"text":"Gamification Caution","textPreview":"Gamification Caution","textChars":20,"textLines":1,"bbox":[718,447,330,28]}
+{"kind":"textbox","id":"sh/q5o7qpg3","slide":3,"text":"ポイント等の逆効果を確認","textPreview":"ポイント等の逆効果を確認","textChars":12,"textLines":1,"bbox":[718,482,390,34]}
+{"kind":"textbox","id":"sh/jqh0fepk","slide":3,"text":"狙い: 個別論文を列挙するだけでなく、授業サポートボタンの設計原則へ変換する。","textPreview":"狙い: 個別論文を列挙するだけでなく、授業サポートボタンの設計原則へ変換する。","textChars":39,"textLines":1,"bbox":[62,590,1000,34]}
+{"kind":"textbox","id":"sh/8bat47y1","slide":3,"text":"調査設計","textPreview":"調査設計","textChars":4,"textLines":1,"bbox":[42,662,300,24]}
+{"kind":"textbox","id":"sh/1w7mp0bi","slide":3,"text":"03","textPreview":"03","textChars":2,"textLines":1,"bbox":[1196,657,42,28]}
+{"kind":"notes","id":"nt/cz9qik","slide":3,"text":""}
+{"kind":"slide","id":"sl/bqh6se","slide":4,"title":"文献から見える全体像","textShapes":13}
+{"kind":"textbox","id":"sh/3itgfmlk","slide":4,"text":"文献から見える全体像","textPreview":"文献から見える全体像","textChars":10,"textLines":1,"bbox":[42,38,980,72]}
+{"kind":"shape","id":"sh/w3m94fu1","slide":4,"bbox":[42,150,1196,1]}
+{"kind":"shape","id":"sh/loj2t83i","slide":4,"bbox":[78,218,260,260]}
+{"kind":"shape","id":"sh/e9cvixcz","slide":4,"bbox":[510,218,260,260]}
+{"kind":"shape","id":"sh/3q5o7qpg","slide":4,"bbox":[942,218,260,260]}
+{"kind":"textbox","id":"sh/wb2hwfyx","slide":4,"text":"参加の入口","textPreview":"参加の入口","textChars":5,"textLines":1,"bbox":[112,252,200,34]}
+{"kind":"textbox","id":"sh/lwval87e","slide":4,"text":"匿名・低負荷・全員が押せる","textPreview":"匿名・低負荷・全員が押せる","textChars":13,"textLines":1,"bbox":[112,320,190,70]}
+{"kind":"textbox","id":"sh/ahoza1gv","slide":4,"text":"Freeman et al.; SRS研究","textPreview":"Freeman et al.; SRS研究","textChars":21,"textLines":1,"bbox":[112,425,190,24]}
+{"kind":"textbox","id":"sh/32lszqtc","slide":4,"text":"授業への接続","textPreview":"授業への接続","textChars":6,"textLines":1,"bbox":[542,252,200,34]}
+{"kind":"textbox","id":"sh/rqd4vmtw","slide":4,"text":"リアルタイム集計・質問キュー・投票","textPreview":"リアルタイム集計・質問キュー・投票","textChars":17,"textLines":1,"bbox":[542,320,190,82]}
+{"kind":"textbox","id":"sh/25kb6xkf","slide":4,"text":"Tan et al.; Montgomery et al.","textPreview":"Tan et al.; Montgomery et al.","textChars":29,"textLines":1,"bbox":[542,425,190,24]}
+{"kind":"textbox","id":"sh/9w3m94fu","slide":4,"text":"避ける方向","textPreview":"避ける方向","textChars":5,"textLines":1,"bbox":[976,252,190,34]}
+{"kind":"textbox","id":"sh/kb6xkf6d","slide":4,"text":"比較・ランキング・強制参加","textPreview":"比較・ランキング・強制参加","textChars":13,"textLines":1,"bbox":[976,320,175,82]}
+{"kind":"textbox","id":"sh/re1w7mp0","slide":4,"text":"Almeida et al.; Cooper et al.","textPreview":"Almeida et al.; Cooper et al.","textChars":29,"textLines":1,"bbox":[976,425,190,24]}
+{"kind":"shape","id":"sh/2t83itgf","slide":4,"bbox":[350,340,128,2]}
+{"kind":"shape","id":"sh/9knih4by","slide":4,"bbox":[782,340,128,2]}
+{"kind":"textbox","id":"sh/kzupwb2h","slide":4,"text":"設計仮説: 学生同士を競わせるより、学生の状態を教員へ安全に返す方が、授業参加支援として筋がよい。","textPreview":"設計仮説: 学生同士を競わせるより、学生の状態を教員へ安全に返す方が、授業参加支援として筋がよい。","textChars":49,"textLines":1,"bbox":[94,565,1040,40]}
+{"kind":"textbox","id":"sh/ra5gbq1o","slide":4,"text":"統合","textPreview":"統合","textChars":2,"textLines":1,"bbox":[42,662,300,24]}
+{"kind":"textbox","id":"sh/2p8nqxs7","slide":4,"text":"04","textPreview":"04","textChars":2,"textLines":1,"bbox":[1196,657,42,28]}
+{"kind":"notes","id":"nt/bqh6se","slide":4,"text":""}
+{"kind":"slide","id":"sl/2wzdda","slide":5,"title":"Active Learning: 参加型授業は学習成果にも効く","textShapes":12}
+{"kind":"textbox","id":"sh/gr2p8nqx","slide":5,"text":"Active Learning: 参加型授業は学習成果にも効く","textPreview":"Active Learning: 参加型授業は学習成果にも効く","textChars":31,"textLines":1,"bbox":[42,38,980,72]}
+{"kind":"shape","id":"sh/r65wjudg","slide":5,"bbox":[42,150,1196,1]}
+{"kind":"textbox","id":"sh/ylc7u54z","slide":5,"text":"Freeman et al. (2014) は STEM 分野の 225 件の研究をメタ分析し、講義中心よりアクティブラーニングの方が試験成績・不合格率で有利と報告した。","textPreview":"Freeman et al. (2014) は STEM 分野の 225 件の研究をメタ分析し、講義中心よりアクティブラーニングの方が試験成績・不合格率で有利と報告した。","textChars":85,"textLines":1,"bbox":[62,178,1100,62]}
+{"kind":"textbox","id":"sh/g3ex0nux","slide":5,"text":"読み方","textPreview":"読み方","textChars":3,"textLines":1,"bbox":[660,300,140,30]}
+{"kind":"textbox","id":"sh/nih4byhg","slide":5,"text":"・","textPreview":"・","textChars":1,"textLines":1,"bbox":[660,351,28,26]}
+{"kind":"textbox","id":"sh/yxobm58z","slide":5,"text":"学生が授業中に考え、答え、確認する時間を持つこと自体に根拠がある","textPreview":"学生が授業中に考え、答え、確認する時間を持つこと自体に根拠がある","textChars":32,"textLines":1,"bbox":[688,350,492,50]}
+{"kind":"textbox","id":"sh/9s36hcrm","slide":5,"text":"・","textPreview":"・","textChars":1,"textLines":1,"bbox":[660,401,28,26]}
+{"kind":"textbox","id":"sh/g7adsji5","slide":5,"text":"授業サポートボタンは、参加型授業へ入るための最小単位のインタラクションになり得る","textPreview":"授業サポートボタンは、参加型授業へ入るための最小単位のインタラクションになり得る","textChars":40,"textLines":1,"bbox":[688,400,492,50]}
+{"kind":"textbox","id":"sh/y1kre1w7","slide":5,"text":"・","textPreview":"・","textChars":1,"textLines":1,"bbox":[660,451,28,26]}
+{"kind":"textbox","id":"sh/rmhk3q5o","slide":5,"text":"ただし、参加させ方が強制的だと不安や抵抗が増える可能性がある","textPreview":"ただし、参加させ方が強制的だと不安や抵抗が増える可能性がある","textChars":30,"textLines":1,"bbox":[688,450,492,50]}
+{"kind":"textbox","id":"sh/g7adsji5","slide":5,"text":"Source: Freeman et al. (2014), PNAS, doi:10.1073/pnas.1319030111","textPreview":"Source: Freeman et al. (2014), PNAS, doi:10.1073/pnas.1319030111","textChars":64,"textLines":1,"bbox":[44,620,980,22]}
+{"kind":"textbox","id":"sh/9s36hcrm","slide":5,"text":"Active Learning","textPreview":"Active Learning","textChars":15,"textLines":1,"bbox":[42,662,300,24]}
+{"kind":"textbox","id":"sh/yd0z6103","slide":5,"text":"05","textPreview":"05","textChars":2,"textLines":1,"bbox":[1196,657,42,28]}
+{"kind":"chart","id":"ch/9gr2p8nq","slide":5,"name":"","chartType":"bar","bbox":[82,300,480,230]}
+{"kind":"notes","id":"nt/2wzdda","slide":5,"text":""}
+{"kind":"slide","id":"sl/m6s0m4","slide":6,"title":"匿名性: 発言しにくさを下げる鍵","textShapes":24}
+{"kind":"textbox","id":"sh/1032lszq","slide":6,"text":"匿名性: 発言しにくさを下げる鍵","textPreview":"匿名性: 発言しにくさを下げる鍵","textChars":16,"textLines":1,"bbox":[42,38,980,72]}
+{"kind":"textbox","id":"sh/u9knih4b","slide":6,"text":"Freeman, Blayney & Ginns (2006) / Electronic response systems","textPreview":"Freeman, Blayney & Ginns (2006) / Electronic response systems","textChars":61,"textLines":1,"bbox":[44,108,950,35]}
+{"kind":"shape","id":"sh/judg7ads","slide":6,"bbox":[42,150,1196,1]}
+{"kind":"shape","id":"sh/c7u54zid","slide":6,"bbox":[1000,48,190,30]}
+{"kind":"textbox","id":"sh/1orytsvu","slide":6,"text":"匿名性","textPreview":"匿名性","textChars":3,"textLines":1,"bbox":[1010,53,170,20]}
+{"kind":"shape","id":"sh/u18jqh0f","slide":6,"bbox":[42,194,354,392]}
+{"kind":"textbox","id":"sh/jm1cfa9w","slide":6,"text":"研究の焦点","textPreview":"研究の焦点","textChars":5,"textLines":1,"bbox":[70,220,280,32]}
+{"kind":"textbox","id":"sh/cvixczed","slide":6,"text":"授業中の形成的質問に対して、回答方法の匿名性が学生の参加意欲にどう影響するか。","textPreview":"授業中の形成的質問に対して、回答方法の匿名性が学生の参加意欲にどう影響するか。","textChars":39,"textLines":1,"bbox":[70,270,284,112]}
+{"kind":"textbox","id":"sh/5gbq1ory","slide":6,"text":"方法・対象","textPreview":"方法・対象","textChars":5,"textLines":1,"bbox":[70,405,280,32]}
+{"kind":"textbox","id":"sh/18jqh0fe","slide":6,"text":"大講義室で同じ授業戦略を保ち、回答手段だけを変えて比較。授業後アンケートで匿名性の利点を確認。","textPreview":"大講義室で同じ授業戦略を保ち、回答手段だけを変えて比較。授業後アンケートで匿名性の利点を確認。","textChars":47,"textLines":1,"bbox":[70,455,284,96]}
+{"kind":"textbox","id":"sh/8nqxs72x","slide":6,"text":"主要知見","textPreview":"主要知見","textChars":4,"textLines":1,"bbox":[448,194,340,34]}
+{"kind":"textbox","id":"sh/j2t83itg","slide":6,"text":"・","textPreview":"・","textChars":1,"textLines":1,"bbox":[448,249,28,26]}
+{"kind":"textbox","id":"sh/qh0fepkz","slide":6,"text":"匿名性は授業中演習への参加意欲に影響する重要要因","textPreview":"匿名性は授業中演習への参加意欲に影響する重要要因","textChars":24,"textLines":1,"bbox":[476,248,312,42]}
+{"kind":"textbox","id":"sh/1w7mp0bi","slide":6,"text":"・","textPreview":"・","textChars":1,"textLines":1,"bbox":[448,291,28,26]}
+{"kind":"textbox","id":"sh/8bat47y1","slide":6,"text":"匿名性が高いほど、質問へ関わる傾向が強まる","textPreview":"匿名性が高いほど、質問へ関わる傾向が強まる","textChars":21,"textLines":1,"bbox":[476,290,312,42]}
+{"kind":"textbox","id":"sh/jqh0fepk","slide":6,"text":"・","textPreview":"・","textChars":1,"textLines":1,"bbox":[448,333,28,26]}
+{"kind":"textbox","id":"sh/q5o7qpg3","slide":6,"text":"電子応答システムは参加しやすい学習環境づくりに有用","textPreview":"電子応答システムは参加しやすい学習環境づくりに有用","textChars":25,"textLines":1,"bbox":[476,332,312,42]}
+{"kind":"shape","id":"sh/1kre1w7m","slide":6,"bbox":[842,194,354,392]}
+{"kind":"textbox","id":"sh/c3ylc7u5","slide":6,"text":"授業サポートボタンへの示唆","textPreview":"授業サポートボタンへの示唆","textChars":13,"textLines":1,"bbox":[872,220,280,62]}
+{"kind":"textbox","id":"sh/orytsvu9","slide":6,"text":"・","textPreview":"・","textChars":1,"textLines":1,"bbox":[872,307,28,26]}
+{"kind":"textbox","id":"sh/hcrmhk3q","slide":6,"text":"ボタン利用者名を学生側に出さない","textPreview":"ボタン利用者名を学生側に出さない","textChars":16,"textLines":1,"bbox":[900,306,258,42]}
+{"kind":"textbox","id":"sh/al87ed8b","slide":6,"text":"・","textPreview":"・","textChars":1,"textLines":1,"bbox":[872,349,28,26]}
+{"kind":"textbox","id":"sh/z61032ls","slide":6,"text":"教員側も個人追跡より集計表示を基本にする","textPreview":"教員側も個人追跡より集計表示を基本にする","textChars":20,"textLines":1,"bbox":[900,348,258,42]}
+{"kind":"textbox","id":"sh/sfil0rqd","slide":6,"text":"・","textPreview":"・","textChars":1,"textLines":1,"bbox":[872,391,28,26]}
+{"kind":"textbox","id":"sh/h0fepkzu","slide":6,"text":"「間違えても安全」な入口として設計する","textPreview":"「間違えても安全」な入口として設計する","textChars":19,"textLines":1,"bbox":[900,390,258,42]}
+{"kind":"textbox","id":"sh/a9w3m94f","slide":6,"text":"Source: Freeman, M., Blayney, P., & Ginns, P. (2006). Australasian Journal of Educational Technology. doi:10.14742/ajet.1286","textPreview":"Source: Freeman, M., Blayney, P., & Ginns, P. (2006). Australasian Journal of Educational Technology. doi:10.14742/ajet.1286","textChars":124,"textLines":1,"bbox":[44,620,1100,24]}
+{"kind":"textbox","id":"sh/zupwb2hw","slide":6,"text":"主要論文","textPreview":"主要論文","textChars":4,"textLines":1,"bbox":[42,662,300,24]}
+{"kind":"textbox","id":"sh/obm58z25","slide":6,"text":"06","textPreview":"06","textChars":2,"textLines":1,"bbox":[1196,657,42,28]}
+{"kind":"notes","id":"nt/m6s0m4","slide":6,"text":""}
+{"kind":"slide","id":"sl/9i2n0c","slide":7,"title":"大人数授業: 手を挙げる以外の参加経路","textShapes":24}
+{"kind":"textbox","id":"sh/ji5snelo","slide":7,"text":"大人数授業: 手を挙げる以外の参加経路","textPreview":"大人数授業: 手を挙げる以外の参加経路","textChars":19,"textLines":1,"bbox":[42,38,980,72]}
+{"kind":"textbox","id":"sh/c3ylc7u5","slide":7,"text":"Heaslip, Donovan & Cullen (2014) / Student response systems","textPreview":"Heaslip, Donovan & Cullen (2014) / Student response systems","textChars":59,"textLines":1,"bbox":[44,108,950,35]}
+{"kind":"shape","id":"sh/1kre1w7m","slide":7,"bbox":[42,150,1196,1]}
+{"kind":"shape","id":"sh/ulwval87","slide":7,"bbox":[1000,48,190,30]}
+{"kind":"textbox","id":"sh/j6tovaho","slide":7,"text":"SRS","textPreview":"SRS","textChars":3,"textLines":1,"bbox":[1010,53,170,20]}
+{"kind":"shape","id":"sh/crmhk3q5","slide":7,"bbox":[42,194,354,392]}
+{"kind":"textbox","id":"sh/1cfa9w3m","slide":7,"text":"研究の焦点","textPreview":"研究の焦点","textChars":5,"textLines":1,"bbox":[70,220,280,32]}
+{"kind":"textbox","id":"sh/qh0fepkz","slide":7,"text":"大人数授業において、Student Response System が参加・相互作用・エンゲージメントをなぜ高めるのか。","textPreview":"大人数授業において、Student Response System が参加・相互作用・エンゲージメントをなぜ高めるのか。","textChars":60,"textLines":1,"bbox":[70,270,284,112]}
+{"kind":"textbox","id":"sh/j2t83itg","slide":7,"text":"方法・対象","textPreview":"方法・対象","textChars":5,"textLines":1,"bbox":[70,405,280,32]}
+{"kind":"textbox","id":"sh/byhgn29g","slide":7,"text":"最終学年の学部ビジネス科目で、事前・中間・事後デザインと半構造化インタビューを組み合わせた混合研究。","textPreview":"最終学年の学部ビジネス科目で、事前・中間・事後デザインと半構造化インタビューを組み合わせた混合研究。","textChars":50,"textLines":1,"bbox":[70,455,284,96]}
+{"kind":"textbox","id":"sh/idonyd0z","slide":7,"text":"主要知見","textPreview":"主要知見","textChars":4,"textLines":1,"bbox":[448,194,340,34]}
+{"kind":"textbox","id":"sh/t47y1kre","slide":7,"text":"・","textPreview":"・","textChars":1,"textLines":1,"bbox":[448,249,28,26]}
+{"kind":"textbox","id":"sh/0je9cvix","slide":7,"text":"SRS は大人数授業のインタラクションを高める手段として位置づく","textPreview":"SRS は大人数授業のインタラクションを高める手段として位置づく","textChars":32,"textLines":1,"bbox":[476,248,312,42]}
+{"kind":"textbox","id":"sh/b6xkf6dc","slide":7,"text":"・","textPreview":"・","textChars":1,"textLines":1,"bbox":[448,291,28,26]}
+{"kind":"textbox","id":"sh/il0rqd4v","slide":7,"text":"量的データだけでなく、学生視点から強み・弱みを分析","textPreview":"量的データだけでなく、学生視点から強み・弱みを分析","textChars":25,"textLines":1,"bbox":[476,290,312,42]}
+{"kind":"textbox","id":"sh/tcj6tova","slide":7,"text":"・","textPreview":"・","textChars":1,"textLines":1,"bbox":[448,333,28,26]}
+{"kind":"textbox","id":"sh/0rqd4vmt","slide":7,"text":"参加が増える理由の解明に踏み込んだ研究","textPreview":"参加が増える理由の解明に踏み込んだ研究","textChars":19,"textLines":1,"bbox":[476,332,312,42]}
+{"kind":"shape","id":"sh/bi9s36hc","slide":7,"bbox":[842,194,354,392]}
+{"kind":"textbox","id":"sh/ixczed8v","slide":7,"text":"授業サポートボタンへの示唆","textPreview":"授業サポートボタンへの示唆","textChars":13,"textLines":1,"bbox":[872,220,280,62]}
+{"kind":"textbox","id":"sh/al87ed8b","slide":7,"text":"・","textPreview":"・","textChars":1,"textLines":1,"bbox":[872,307,28,26]}
+{"kind":"textbox","id":"sh/z61032ls","slide":7,"text":"大人数ほど簡単な反応ボタンが必要","textPreview":"大人数ほど簡単な反応ボタンが必要","textChars":16,"textLines":1,"bbox":[900,306,258,42]}
+{"kind":"textbox","id":"sh/orytsvu9","slide":7,"text":"・","textPreview":"・","textChars":1,"textLines":1,"bbox":[872,349,28,26]}
+{"kind":"textbox","id":"sh/hcrmhk3q","slide":7,"text":"教員が授業中に反応を読み取れる設計にする","textPreview":"教員が授業中に反応を読み取れる設計にする","textChars":20,"textLines":1,"bbox":[900,348,258,42]}
+{"kind":"textbox","id":"sh/a9w3m94f","slide":7,"text":"・","textPreview":"・","textChars":1,"textLines":1,"bbox":[872,391,28,26]}
+{"kind":"textbox","id":"sh/zupwb2hw","slide":7,"text":"学生の参加感を「発言」だけに依存させない","textPreview":"学生の参加感を「発言」だけに依存させない","textChars":20,"textLines":1,"bbox":[900,390,258,42]}
+{"kind":"textbox","id":"sh/sfil0rqd","slide":7,"text":"Source: Heaslip, G., Donovan, P., & Cullen, J. G. (2014). Active Learning in Higher Education. doi:10.1177/1469787413514648","textPreview":"Source: Heaslip, G., Donovan, P., & Cullen, J. G. (2014). Active Learning in Higher Education. doi:10.1177/1469787413514648","textChars":123,"textLines":1,"bbox":[44,620,1100,24]}
+{"kind":"textbox","id":"sh/h0fepkzu","slide":7,"text":"主要論文","textPreview":"主要論文","textChars":4,"textLines":1,"bbox":[42,662,300,24]}
+{"kind":"textbox","id":"sh/65wjudg7","slide":7,"text":"07","textPreview":"07","textChars":2,"textLines":1,"bbox":[1196,657,42,28]}
+{"kind":"notes","id":"nt/9i2n0c","slide":7,"text":""}
+{"kind":"slide","id":"sl/9ghk8z","slide":8,"title":"匿名Q&A: 質問・返信・投票で参加を広げる","textShapes":24}
+{"kind":"textbox","id":"sh/fyxobm58","slide":8,"text":"匿名Q&A: 質問・返信・投票で参加を広げる","textPreview":"匿名Q&A: 質問・返信・投票で参加を広げる","textChars":22,"textLines":1,"bbox":[42,38,980,72]}
+{"kind":"textbox","id":"sh/8jqh0fep","slide":8,"text":"Tan, Small & Lewis (2020) / Anonymous mobile discussion platform","textPreview":"Tan, Small & Lewis (2020) / Anonymous mobile discussion platform","textChars":64,"textLines":1,"bbox":[44,108,950,35]}
+{"kind":"shape","id":"sh/x4nap4r6","slide":8,"bbox":[42,150,1196,1]}
+{"kind":"shape","id":"sh/qpg3ex0n","slide":8,"bbox":[1000,48,190,30]}
+{"kind":"textbox","id":"sh/fa9w3m94","slide":8,"text":"匿名Q&A","textPreview":"匿名Q&A","textChars":5,"textLines":1,"bbox":[1010,53,170,20]}
+{"kind":"shape","id":"sh/8v6psfil","slide":8,"bbox":[42,194,354,392]}
+{"kind":"textbox","id":"sh/xczed8v6","slide":8,"text":"研究の焦点","textPreview":"研究の焦点","textChars":5,"textLines":1,"bbox":[70,220,280,32]}
+{"kind":"textbox","id":"sh/qtcj6tov","slide":8,"text":"460人規模の授業で、匿名質問・返信・投票が授業内外のコミュニケーションと学習参加をどう支援するか。","textPreview":"460人規模の授業で、匿名質問・返信・投票が授業内外のコミュニケーションと学習参加をどう支援するか。","textChars":50,"textLines":1,"bbox":[70,270,284,112]}
+{"kind":"textbox","id":"sh/je9cvixc","slide":8,"text":"方法・対象","textPreview":"方法・対象","textChars":5,"textLines":1,"bbox":[70,405,280,32]}
+{"kind":"textbox","id":"sh/nih4byhg","slide":8,"text":"Operations Strategy Management の大規模授業でモバイルQ&Aアプリを導入。利用分析と投稿内容の主題分析を実施。","textPreview":"Operations Strategy Management の大規模授業でモバイルQ&Aアプリを導入。利用分析と投稿内容の主題分析を実施。","textChars":70,"textLines":1,"bbox":[70,455,284,96]}
+{"kind":"textbox","id":"sh/yxobm58z","slide":8,"text":"主要知見","textPreview":"主要知見","textChars":4,"textLines":1,"bbox":[448,194,340,34]}
+{"kind":"textbox","id":"sh/5o7qpg3e","slide":8,"text":"・","textPreview":"・","textChars":1,"textLines":1,"bbox":[448,249,28,26]}
+{"kind":"textbox","id":"sh/g3ex0nux","slide":8,"text":"多くの学生がアプリをインストールし、利用は時間とともに増加","textPreview":"多くの学生がアプリをインストールし、利用は時間とともに増加","textChars":29,"textLines":1,"bbox":[476,248,312,42]}
+{"kind":"textbox","id":"sh/r65wjudg","slide":8,"text":"・","textPreview":"・","textChars":1,"textLines":1,"bbox":[448,291,28,26]}
+{"kind":"textbox","id":"sh/ylc7u54z","slide":8,"text":"投稿質問は単なる暗記確認を超える内容も含んでいた","textPreview":"投稿質問は単なる暗記確認を超える内容も含んでいた","textChars":24,"textLines":1,"bbox":[476,290,312,42]}
+{"kind":"textbox","id":"sh/9cvixcze","slide":8,"text":"・","textPreview":"・","textChars":1,"textLines":1,"bbox":[448,333,28,26]}
+{"kind":"textbox","id":"sh/gr2p8nqx","slide":8,"text":"大人数授業でコミュニティ感覚と相互作用を支援する可能性","textPreview":"大人数授業でコミュニティ感覚と相互作用を支援する可能性","textChars":27,"textLines":1,"bbox":[476,332,312,42]}
+{"kind":"shape","id":"sh/rytsvu9k","slide":8,"bbox":[842,194,354,392]}
+{"kind":"textbox","id":"sh/yd0z6103","slide":8,"text":"授業サポートボタンへの示唆","textPreview":"授業サポートボタンへの示唆","textChars":13,"textLines":1,"bbox":[872,220,280,62]}
+{"kind":"textbox","id":"sh/a9w3m94f","slide":8,"text":"・","textPreview":"・","textChars":1,"textLines":1,"bbox":[872,307,28,26]}
+{"kind":"textbox","id":"sh/zupwb2hw","slide":8,"text":"質問投稿に加え「自分も知りたい」投票を置く","textPreview":"質問投稿に加え「自分も知りたい」投票を置く","textChars":21,"textLines":1,"bbox":[900,306,258,42]}
+{"kind":"textbox","id":"sh/sfil0rqd","slide":8,"text":"・","textPreview":"・","textChars":1,"textLines":1,"bbox":[872,349,28,26]}
+{"kind":"textbox","id":"sh/h0fepkzu","slide":8,"text":"学生同士が疑問の存在を共有できる","textPreview":"学生同士が疑問の存在を共有できる","textChars":16,"textLines":1,"bbox":[900,348,258,42]}
+{"kind":"textbox","id":"sh/al87ed8b","slide":8,"text":"・","textPreview":"・","textChars":1,"textLines":1,"bbox":[872,391,28,26]}
+{"kind":"textbox","id":"sh/z61032ls","slide":8,"text":"授業外でも継続する質問チャンネルにできる","textPreview":"授業外でも継続する質問チャンネルにできる","textChars":20,"textLines":1,"bbox":[900,390,258,42]}
+{"kind":"textbox","id":"sh/orytsvu9","slide":8,"text":"Source: Tan, E., Small, A., & Lewis, P. (2020). Research in Learning Technology. doi:10.25304/rlt.v28.2323","textPreview":"Source: Tan, E., Small, A., & Lewis, P. (2020). Research in Learning Technology. doi:10.25304/rlt.v28.2323","textChars":106,"textLines":1,"bbox":[44,620,1100,24]}
+{"kind":"textbox","id":"sh/hcrmhk3q","slide":8,"text":"主要論文","textPreview":"主要論文","textChars":4,"textLines":1,"bbox":[42,662,300,24]}
+{"kind":"textbox","id":"sh/6xkf6dcb","slide":8,"text":"08","textPreview":"08","textChars":2,"textLines":1,"bbox":[1196,657,42,28]}
+{"kind":"notes","id":"nt/9ghk8z","slide":8,"text":""}
+{"kind":"slide","id":"sl/rw6f8x","slide":9,"title":"リアルタイム匿名質問キュー","textShapes":24}
+{"kind":"textbox","id":"sh/rqd4vmtw","slide":9,"text":"リアルタイム匿名質問キュー","textPreview":"リアルタイム匿名質問キュー","textChars":13,"textLines":1,"bbox":[42,38,980,72]}
+{"kind":"textbox","id":"sh/kb6xkf6d","slide":9,"text":"Montgomery et al. (2019) / Live Anonymous Question Queue","textPreview":"Montgomery et al. (2019) / Live Anonymous Question Queue","textChars":56,"textLines":1,"bbox":[44,108,950,35]}
+{"kind":"shape","id":"sh/9w3m94fu","slide":9,"bbox":[42,150,1196,1]}
+{"kind":"shape","id":"sh/2t83itgf","slide":9,"bbox":[1000,48,190,30]}
+{"kind":"textbox","id":"sh/re1w7mp0","slide":9,"text":"LAQQ","textPreview":"LAQQ","textChars":4,"textLines":1,"bbox":[1010,53,170,20]}
+{"kind":"shape","id":"sh/kzupwb2h","slide":9,"bbox":[42,194,354,392]}
+{"kind":"textbox","id":"sh/9knih4by","slide":9,"text":"研究の焦点","textPreview":"研究の焦点","textChars":5,"textLines":1,"bbox":[70,220,280,32]}
+{"kind":"textbox","id":"sh/2p8nqxs7","slide":9,"text":"大人数授業で学生が質問を控える評価不安を、リアルタイム匿名質問キューでどう下げられるか。","textPreview":"大人数授業で学生が質問を控える評価不安を、リアルタイム匿名質問キューでどう下げられるか。","textChars":44,"textLines":1,"bbox":[70,270,284,112]}
+{"kind":"textbox","id":"sh/ra5gbq1o","slide":9,"text":"方法・対象","textPreview":"方法・対象","textChars":5,"textLines":1,"bbox":[70,405,280,32]}
+{"kind":"textbox","id":"sh/3m94fu18","slide":9,"text":"Google Moderator を大規模講義で試用し、授業観察・教員インタビュー・学生アンケートから必要機能を整理。","textPreview":"Google Moderator を大規模講義で試用し、授業観察・教員インタビュー・学生アンケートから必要機能を整理。","textChars":59,"textLines":1,"bbox":[70,455,284,96]}
+{"kind":"textbox","id":"sh/a5gbq1or","slide":9,"text":"主要知見","textPreview":"主要知見","textChars":4,"textLines":1,"bbox":[448,194,340,34]}
+{"kind":"textbox","id":"sh/lszqtcj6","slide":9,"text":"・","textPreview":"・","textChars":1,"textLines":1,"bbox":[448,249,28,26]}
+{"kind":"textbox","id":"sh/s72x4nap","slide":9,"text":"匿名質問は学生の不安軽減と参加促進を狙える","textPreview":"匿名質問は学生の不安軽減と参加促進を狙える","textChars":21,"textLines":1,"bbox":[476,248,312,42]}
+{"kind":"textbox","id":"sh/3ylc7u54","slide":9,"text":"・","textPreview":"・","textChars":1,"textLines":1,"bbox":[448,291,28,26]}
+{"kind":"textbox","id":"sh/adsji5sn","slide":9,"text":"教員への通知、質問の文脈、マルチプラットフォーム対応が重要","textPreview":"教員への通知、質問の文脈、マルチプラットフォーム対応が重要","textChars":29,"textLines":1,"bbox":[476,290,312,42]}
+{"kind":"textbox","id":"sh/h4byhgn2","slide":9,"text":"・","textPreview":"・","textChars":1,"textLines":1,"bbox":[448,333,28,26]}
+{"kind":"textbox","id":"sh/sji5snel","slide":9,"text":"成功には教員の採用と授業運営構造の変更が必要","textPreview":"成功には教員の採用と授業運営構造の変更が必要","textChars":22,"textLines":1,"bbox":[476,332,312,42]}
+{"kind":"shape","id":"sh/za1gvy90","slide":9,"bbox":[842,194,354,392]}
+{"kind":"textbox","id":"sh/ap4r65wj","slide":9,"text":"授業サポートボタンへの示唆","textPreview":"授業サポートボタンへの示唆","textChars":13,"textLines":1,"bbox":[872,220,280,62]}
+{"kind":"textbox","id":"sh/yd0z6103","slide":9,"text":"・","textPreview":"・","textChars":1,"textLines":1,"bbox":[872,307,28,26]}
+{"kind":"textbox","id":"sh/rytsvu9k","slide":9,"text":"質問キューを教員画面に整理して出す","textPreview":"質問キューを教員画面に整理して出す","textChars":17,"textLines":1,"bbox":[900,306,258,42]}
+{"kind":"textbox","id":"sh/gfmlkjm1","slide":9,"text":"・","textPreview":"・","textChars":1,"textLines":1,"bbox":[872,349,28,26]}
+{"kind":"textbox","id":"sh/90je9cvi","slide":9,"text":"質問に講義箇所・カテゴリなどの文脈を付ける","textPreview":"質問に講義箇所・カテゴリなどの文脈を付ける","textChars":21,"textLines":1,"bbox":[900,348,258,42]}
+{"kind":"textbox","id":"sh/y1kre1w7","slide":9,"text":"・","textPreview":"・","textChars":1,"textLines":1,"bbox":[872,391,28,26]}
+{"kind":"textbox","id":"sh/rmhk3q5o","slide":9,"text":"導入時は教員が回答タイミングを決める運用も設計する","textPreview":"導入時は教員が回答タイミングを決める運用も設計する","textChars":25,"textLines":1,"bbox":[900,390,258,42]}
+{"kind":"textbox","id":"sh/g7adsji5","slide":9,"text":"Source: Montgomery, L., Evans, G., Harrison, F., & Damian, D. (2019). arXiv:1901.01061","textPreview":"Source: Montgomery, L., Evans, G., Harrison, F., & Damian, D. (2019). arXiv:1901.01061","textChars":86,"textLines":1,"bbox":[44,620,1100,24]}
+{"kind":"textbox","id":"sh/9s36hcrm","slide":9,"text":"主要論文","textPreview":"主要論文","textChars":4,"textLines":1,"bbox":[42,662,300,24]}
+{"kind":"textbox","id":"sh/yxobm58z","slide":9,"text":"09","textPreview":"09","textChars":2,"textLines":1,"bbox":[1196,657,42,28]}
+{"kind":"notes","id":"nt/rw6f8x","slide":9,"text":""}
+{"kind":"slide","id":"sl/xx9c78","slide":10,"title":"匿名参加を好む学生は誰か","textShapes":24}
+{"kind":"textbox","id":"sh/r2p8nqxs","slide":10,"text":"匿名参加を好む学生は誰か","textPreview":"匿名参加を好む学生は誰か","textChars":12,"textLines":1,"bbox":[42,38,980,72]}
+{"kind":"textbox","id":"sh/kjm1cfa9","slide":10,"text":"Latham & Hill (2014) / Preference for Anonymous Classroom Participation","textPreview":"Latham & Hill (2014) / Preference for Anonymous Classroom Participation","textChars":71,"textLines":1,"bbox":[44,108,950,35]}
+{"kind":"shape","id":"sh/94fu18jq","slide":10,"bbox":[42,150,1196,1]}
+{"kind":"shape","id":"sh/2p8nqxs7","slide":10,"bbox":[1000,48,190,30]}
+{"kind":"textbox","id":"sh/ra5gbq1o","slide":10,"text":"多様な学生","textPreview":"多様な学生","textChars":5,"textLines":1,"bbox":[1010,53,170,20]}
+{"kind":"shape","id":"sh/gvy90je9","slide":10,"bbox":[42,194,354,392]}
+{"kind":"textbox","id":"sh/9gr2p8nq","slide":10,"text":"研究の焦点","textPreview":"研究の焦点","textChars":5,"textLines":1,"bbox":[70,220,280,32]}
+{"kind":"textbox","id":"sh/2t83itgf","slide":10,"text":"どのような学生特性が匿名参加への選好と関係し、それが電子応答システムへの態度にどうつながるか。","textPreview":"どのような学生特性が匿名参加への選好と関係し、それが電子応答システムへの態度にどうつながるか。","textChars":47,"textLines":1,"bbox":[70,270,284,112]}
+{"kind":"textbox","id":"sh/re1w7mp0","slide":10,"text":"方法・対象","textPreview":"方法・対象","textChars":5,"textLines":1,"bbox":[70,405,280,32]}
+{"kind":"textbox","id":"sh/bulwval8","slide":10,"text":"匿名授業参加への選好、性格特性、目標志向、文化的志向、ERSへの態度・有用性認知を分析。","textPreview":"匿名授業参加への選好、性格特性、目標志向、文化的志向、ERSへの態度・有用性認知を分析。","textChars":44,"textLines":1,"bbox":[70,455,284,96]}
+{"kind":"textbox","id":"sh/i9s36hcr","slide":10,"text":"主要知見","textPreview":"主要知見","textChars":4,"textLines":1,"bbox":[448,194,340,34]}
+{"kind":"textbox","id":"sh/p0bi9s36","slide":10,"text":"・","textPreview":"・","textChars":1,"textLines":1,"bbox":[448,249,28,26]}
+{"kind":"textbox","id":"sh/0fepkzup","slide":10,"text":"外向性は匿名参加選好と負の関連","textPreview":"外向性は匿名参加選好と負の関連","textChars":15,"textLines":1,"bbox":[476,248,312,42]}
+{"kind":"textbox","id":"sh/bi9s36hc","slide":10,"text":"・","textPreview":"・","textChars":1,"textLines":1,"bbox":[448,291,28,26]}
+{"kind":"textbox","id":"sh/ixczed8v","slide":10,"text":"失敗回避志向・権力距離志向は匿名参加選好と正の関連","textPreview":"失敗回避志向・権力距離志向は匿名参加選好と正の関連","textChars":25,"textLines":1,"bbox":[476,290,312,42]}
+{"kind":"textbox","id":"sh/tovahoza","slide":10,"text":"・","textPreview":"・","textChars":1,"textLines":1,"bbox":[448,333,28,26]}
+{"kind":"textbox","id":"sh/032lszqt","slide":10,"text":"匿名参加選好はERSへの態度・有用性認知と正の関連","textPreview":"匿名参加選好はERSへの態度・有用性認知と正の関連","textChars":25,"textLines":1,"bbox":[476,332,312,42]}
+{"kind":"shape","id":"sh/b6xkf6dc","slide":10,"bbox":[842,194,354,392]}
+{"kind":"textbox","id":"sh/il0rqd4v","slide":10,"text":"授業サポートボタンへの示唆","textPreview":"授業サポートボタンへの示唆","textChars":13,"textLines":1,"bbox":[872,220,280,62]}
+{"kind":"textbox","id":"sh/ulwval87","slide":10,"text":"・","textPreview":"・","textChars":1,"textLines":1,"bbox":[872,307,28,26]}
+{"kind":"textbox","id":"sh/j6tovaho","slide":10,"text":"匿名機能は「内向的な学生だけ」のためではない","textPreview":"匿名機能は「内向的な学生だけ」のためではない","textChars":22,"textLines":1,"bbox":[900,306,258,42]}
+{"kind":"textbox","id":"sh/crmhk3q5","slide":10,"text":"・","textPreview":"・","textChars":1,"textLines":1,"bbox":[872,349,28,26]}
+{"kind":"textbox","id":"sh/1cfa9w3m","slide":10,"text":"失敗を避けたい学生にも参加の入口を作れる","textPreview":"失敗を避けたい学生にも参加の入口を作れる","textChars":20,"textLines":1,"bbox":[900,348,258,42]}
+{"kind":"textbox","id":"sh/uxc3ylc7","slide":10,"text":"・","textPreview":"・","textChars":1,"textLines":1,"bbox":[872,391,28,26]}
+{"kind":"textbox","id":"sh/ji5snelo","slide":10,"text":"多様な学生を拾う公平性の仕組みとして説明できる","textPreview":"多様な学生を拾う公平性の仕組みとして説明できる","textChars":23,"textLines":1,"bbox":[900,390,258,42]}
+{"kind":"textbox","id":"sh/c3ylc7u5","slide":10,"text":"Source: Latham, A., & Hill, N. S. (2014). Journal of Management Education. doi:10.1177/1052562913488109","textPreview":"Source: Latham, A., & Hill, N. S. (2014). Journal of Management Education. doi:10.1177/1052562913488109","textChars":103,"textLines":1,"bbox":[44,620,1100,24]}
+{"kind":"textbox","id":"sh/1kre1w7m","slide":10,"text":"主要論文","textPreview":"主要論文","textChars":4,"textLines":1,"bbox":[42,662,300,24]}
+{"kind":"textbox","id":"sh/q5o7qpg3","slide":10,"text":"10","textPreview":"10","textChars":2,"textLines":1,"bbox":[1196,657,42,28]}
+{"kind":"notes","id":"nt/xx9c78","slide":10,"text":""}
+{"kind":"slide","id":"sl/rkse4w","slide":11,"title":"参加促進は不安を増やすこともある","textShapes":24}
+{"kind":"textbox","id":"sh/8jqh0fep","slide":11,"text":"参加促進は不安を増やすこともある","textPreview":"参加促進は不安を増やすこともある","textChars":16,"textLines":1,"bbox":[42,38,980,72]}
+{"kind":"textbox","id":"sh/fyxobm58","slide":11,"text":"Cooper et al. (2018) / Active learning and student anxiety","textPreview":"Cooper et al. (2018) / Active learning and student anxiety","textChars":58,"textLines":1,"bbox":[44,108,950,35]}
+{"kind":"shape","id":"sh/qd4vmtwr","slide":11,"bbox":[42,150,1196,1]}
+{"kind":"shape","id":"sh/xczed8v6","slide":11,"bbox":[1000,48,190,30]}
+{"kind":"textbox","id":"sh/8v6psfil","slide":11,"text":"心理的安全性","textPreview":"心理的安全性","textChars":6,"textLines":1,"bbox":[1010,53,170,20]}
+{"kind":"shape","id":"sh/fa9w3m94","slide":11,"bbox":[42,194,354,392]}
+{"kind":"textbox","id":"sh/qpg3ex0n","slide":11,"text":"研究の焦点","textPreview":"研究の焦点","textChars":5,"textLines":1,"bbox":[70,220,280,32]}
+{"kind":"textbox","id":"sh/1gvy90je","slide":11,"text":"大規模な大学理科授業において、アクティブラーニング実践が学生の不安をどう増減させるか。","textPreview":"大規模な大学理科授業において、アクティブラーニング実践が学生の不安をどう増減させるか。","textChars":43,"textLines":1,"bbox":[70,270,284,112]}
+{"kind":"textbox","id":"sh/8z25kb6x","slide":11,"text":"方法・対象","textPreview":"方法・対象","textChars":5,"textLines":1,"bbox":[70,405,280,32]}
+{"kind":"textbox","id":"sh/a9w3m94f","slide":11,"text":"大人数理科授業の学生インタビューを分析し、クリック問題・グループワーク・コールドコール等の影響を整理。","textPreview":"大人数理科授業の学生インタビューを分析し、クリック問題・グループワーク・コールドコール等の影響を整理。","textChars":51,"textLines":1,"bbox":[70,455,284,96]}
+{"kind":"textbox","id":"sh/zupwb2hw","slide":11,"text":"主要知見","textPreview":"主要知見","textChars":4,"textLines":1,"bbox":[448,194,340,34]}
+{"kind":"textbox","id":"sh/sfil0rqd","slide":11,"text":"・","textPreview":"・","textChars":1,"textLines":1,"bbox":[448,249,28,26]}
+{"kind":"textbox","id":"sh/h0fepkzu","slide":11,"text":"クリック問題やグループワークは不安を下げる場合も上げる場合もある","textPreview":"クリック問題やグループワークは不安を下げる場合も上げる場合もある","textChars":32,"textLines":1,"bbox":[476,248,312,42]}
+{"kind":"textbox","id":"sh/al87ed8b","slide":11,"text":"・","textPreview":"・","textChars":1,"textLines":1,"bbox":[448,291,28,26]}
+{"kind":"textbox","id":"sh/z61032ls","slide":11,"text":"コールドコールやランダム指名は不安を高めやすい","textPreview":"コールドコールやランダム指名は不安を高めやすい","textChars":23,"textLines":1,"bbox":[476,290,312,42]}
+{"kind":"textbox","id":"sh/orytsvu9","slide":11,"text":"・","textPreview":"・","textChars":1,"textLines":1,"bbox":[448,333,28,26]}
+{"kind":"textbox","id":"sh/hcrmhk3q","slide":11,"text":"中心要因は、他者から否定的に評価されることへの恐れ","textPreview":"中心要因は、他者から否定的に評価されることへの恐れ","textChars":25,"textLines":1,"bbox":[476,332,312,42]}
+{"kind":"shape","id":"sh/6xkf6dcb","slide":11,"bbox":[842,194,354,392]}
+{"kind":"textbox","id":"sh/zed8v6ps","slide":11,"text":"授業サポートボタンへの示唆","textPreview":"授業サポートボタンへの示唆","textChars":13,"textLines":1,"bbox":[872,220,280,62]}
+{"kind":"textbox","id":"sh/nih4byhg","slide":11,"text":"・","textPreview":"・","textChars":1,"textLines":1,"bbox":[872,307,28,26]}
+{"kind":"textbox","id":"sh/yxobm58z","slide":11,"text":"参加を強制するUIにしない","textPreview":"参加を強制するUIにしない","textChars":13,"textLines":1,"bbox":[900,306,258,42]}
+{"kind":"textbox","id":"sh/5o7qpg3e","slide":11,"text":"・","textPreview":"・","textChars":1,"textLines":1,"bbox":[872,349,28,26]}
+{"kind":"textbox","id":"sh/g3ex0nux","slide":11,"text":"回答の正誤を公開しすぎない","textPreview":"回答の正誤を公開しすぎない","textChars":13,"textLines":1,"bbox":[900,348,258,42]}
+{"kind":"textbox","id":"sh/r65wjudg","slide":11,"text":"・","textPreview":"・","textChars":1,"textLines":1,"bbox":[872,391,28,26]}
+{"kind":"textbox","id":"sh/ylc7u54z","slide":11,"text":"「助けを求める」行為が恥にならない設計にする","textPreview":"「助けを求める」行為が恥にならない設計にする","textChars":22,"textLines":1,"bbox":[900,390,258,42]}
+{"kind":"textbox","id":"sh/9cvixcze","slide":11,"text":"Source: Cooper et al. (2018). International Journal of STEM Education. doi:10.1186/s40594-018-0123-6","textPreview":"Source: Cooper et al. (2018). International Journal of STEM Education. doi:10.1186/s40594-018-0123-6","textChars":100,"textLines":1,"bbox":[44,620,1100,24]}
+{"kind":"textbox","id":"sh/gr2p8nqx","slide":11,"text":"主要論文","textPreview":"主要論文","textChars":4,"textLines":1,"bbox":[42,662,300,24]}
+{"kind":"textbox","id":"sh/rytsvu9k","slide":11,"text":"11","textPreview":"11","textChars":2,"textLines":1,"bbox":[1196,657,42,28]}
+{"kind":"notes","id":"nt/rkse4w","slide":11,"text":""}
+{"kind":"slide","id":"sl/yhrhgw","slide":12,"title":"ゲーミフィケーションは慎重に扱う","textShapes":24}
+{"kind":"textbox","id":"sh/5o7qpg3e","slide":12,"text":"ゲーミフィケーションは慎重に扱う","textPreview":"ゲーミフィケーションは慎重に扱う","textChars":16,"textLines":1,"bbox":[42,38,980,72]}
+{"kind":"textbox","id":"sh/yxobm58z","slide":12,"text":"Almeida et al. (2023) / Negative effects of gamification in education software","textPreview":"Almeida et al. (2023) / Negative effects of gamification in education software","textChars":78,"textLines":1,"bbox":[44,108,950,35]}
+{"kind":"shape","id":"sh/nih4byhg","slide":12,"bbox":[42,150,1196,1]}
+{"kind":"shape","id":"sh/gr2p8nqx","slide":12,"bbox":[1000,48,190,30]}
+{"kind":"textbox","id":"sh/9cvixcze","slide":12,"text":"注意点","textPreview":"注意点","textChars":3,"textLines":1,"bbox":[1010,53,170,20]}
+{"kind":"shape","id":"sh/ylc7u54z","slide":12,"bbox":[42,194,354,392]}
+{"kind":"textbox","id":"sh/r65wjudg","slide":12,"text":"研究の焦点","textPreview":"研究の焦点","textChars":5,"textLines":1,"bbox":[70,220,280,32]}
+{"kind":"textbox","id":"sh/gfmlkjm1","slide":12,"text":"教育ソフトにおけるゲームデザイン要素が、どのような悪影響と関連して報告されているか。","textPreview":"教育ソフトにおけるゲームデザイン要素が、どのような悪影響と関連して報告されているか。","textChars":42,"textLines":1,"bbox":[70,270,284,112]}
+{"kind":"textbox","id":"sh/90je9cvi","slide":12,"text":"方法・対象","textPreview":"方法・対象","textChars":5,"textLines":1,"bbox":[70,405,280,32]}
+{"kind":"textbox","id":"sh/lc7u54zi","slide":12,"text":"2020年末までの研究を対象に、87本の論文をシステマティック・マッピング。開発者フォーカスグループも実施。","textPreview":"2020年末までの研究を対象に、87本の論文をシステマティック・マッピング。開発者フォーカスグループも実施。","textChars":54,"textLines":1,"bbox":[70,455,284,96]}
+{"kind":"textbox","id":"sh/wra5gbq1","slide":12,"text":"主要知見","textPreview":"主要知見","textChars":4,"textLines":1,"bbox":[448,194,340,34]}
+{"kind":"textbox","id":"sh/36hcrmhk","slide":12,"text":"・","textPreview":"・","textChars":1,"textLines":1,"bbox":[448,249,28,26]}
+{"kind":"textbox","id":"sh/eloj2t83","slide":12,"text":"バッジ、リーダーボード、競争、ポイントが悪影響と関連しやすい","textPreview":"バッジ、リーダーボード、競争、ポイントが悪影響と関連しやすい","textChars":30,"textLines":1,"bbox":[476,248,312,42]}
+{"kind":"textbox","id":"sh/l0rqd4vm","slide":12,"text":"・","textPreview":"・","textChars":1,"textLines":1,"bbox":[448,291,28,26]}
+{"kind":"textbox","id":"sh/wfyxobm5","slide":12,"text":"効果なし、成績悪化、動機づけ問題、理解不足、無関連感が多い","textPreview":"効果なし、成績悪化、動機づけ問題、理解不足、無関連感が多い","textChars":29,"textLines":1,"bbox":[476,290,312,42]}
+{"kind":"textbox","id":"sh/7u54zido","slide":12,"text":"・","textPreview":"・","textChars":1,"textLines":1,"bbox":[448,333,28,26]}
+{"kind":"textbox","id":"sh/ed8bat47","slide":12,"text":"システム攻略・チートなどの倫理的問題も報告","textPreview":"システム攻略・チートなどの倫理的問題も報告","textChars":21,"textLines":1,"bbox":[476,332,312,42]}
+{"kind":"shape","id":"sh/psfil0rq","slide":12,"bbox":[842,194,354,392]}
+{"kind":"textbox","id":"sh/w7mp0bi9","slide":12,"text":"授業サポートボタンへの示唆","textPreview":"授業サポートボタンへの示唆","textChars":13,"textLines":1,"bbox":[872,220,280,62]}
+{"kind":"textbox","id":"sh/wb2hwfyx","slide":12,"text":"・","textPreview":"・","textChars":1,"textLines":1,"bbox":[872,307,28,26]}
+{"kind":"textbox","id":"sh/lwval87e","slide":12,"text":"質問数ランキングやポイント競争は避ける","textPreview":"質問数ランキングやポイント競争は避ける","textChars":19,"textLines":1,"bbox":[900,306,258,42]}
+{"kind":"textbox","id":"sh/e9cvixcz","slide":12,"text":"・","textPreview":"・","textChars":1,"textLines":1,"bbox":[872,349,28,26]}
+{"kind":"textbox","id":"sh/3q5o7qpg","slide":12,"text":"参加を可視化するなら個人内・支援目的に限定する","textPreview":"参加を可視化するなら個人内・支援目的に限定する","textChars":23,"textLines":1,"bbox":[900,348,258,42]}
+{"kind":"textbox","id":"sh/w3m94fu1","slide":12,"text":"・","textPreview":"・","textChars":1,"textLines":1,"bbox":[872,391,28,26]}
+{"kind":"textbox","id":"sh/loj2t83i","slide":12,"text":"ゲーム化より形成的フィードバックを優先する","textPreview":"ゲーム化より形成的フィードバックを優先する","textChars":21,"textLines":1,"bbox":[900,390,258,42]}
+{"kind":"textbox","id":"sh/ex0nuxc3","slide":12,"text":"Source: Almeida et al. (2023). Information and Software Technology. doi:10.1016/j.infsof.2022.107142","textPreview":"Source: Almeida et al. (2023). Information and Software Technology. doi:10.1016/j.infsof.2022.107142","textChars":100,"textLines":1,"bbox":[44,620,1100,24]}
+{"kind":"textbox","id":"sh/3itgfmlk","slide":12,"text":"主要論文","textPreview":"主要論文","textChars":4,"textLines":1,"bbox":[42,662,300,24]}
+{"kind":"textbox","id":"sh/szqtcj6t","slide":12,"text":"12","textPreview":"12","textChars":2,"textLines":1,"bbox":[1196,657,42,28]}
+{"kind":"notes","id":"nt/yhrhgw","slide":12,"text":""}
+{"kind":"slide","id":"sl/vsgj44","slide":13,"title":"文献から抽出した設計原則","textShapes":21}
+{"kind":"textbox","id":"sh/wra5gbq1","slide":13,"text":"文献から抽出した設計原則","textPreview":"文献から抽出した設計原則","textChars":12,"textLines":1,"bbox":[42,38,980,72]}
+{"kind":"shape","id":"sh/36hcrmhk","slide":13,"bbox":[42,150,1196,1]}
+{"kind":"shape","id":"sh/eloj2t83","slide":13,"bbox":[62,190,1120,48]}
+{"kind":"textbox","id":"sh/l0rqd4vm","slide":13,"text":"原則","textPreview":"原則","textChars":2,"textLines":1,"bbox":[80,202,220,24]}
+{"kind":"textbox","id":"sh/wfyxobm5","slide":13,"text":"意味","textPreview":"意味","textChars":2,"textLines":1,"bbox":[352,202,520,24]}
+{"kind":"textbox","id":"sh/7u54zido","slide":13,"text":"根拠","textPreview":"根拠","textChars":2,"textLines":1,"bbox":[942,202,180,24]}
+{"kind":"shape","id":"sh/ed8bat47","slide":13,"bbox":[62,238,1120,70]}
+{"kind":"textbox","id":"sh/psfil0rq","slide":13,"text":"1. 匿名性","textPreview":"1. 匿名性","textChars":6,"textLines":1,"bbox":[80,256,220,28]}
+{"kind":"textbox","id":"sh/w7mp0bi9","slide":13,"text":"評価不安を下げ、発言が苦手な学生にも参加入口を作る","textPreview":"評価不安を下げ、発言が苦手な学生にも参加入口を作る","textChars":25,"textLines":1,"bbox":[352,255,520,32]}
+{"kind":"textbox","id":"sh/eloj2t83","slide":13,"text":"Freeman; Latham & Hill","textPreview":"Freeman; Latham & Hill","textChars":22,"textLines":1,"bbox":[942,255,210,32]}
+{"kind":"shape","id":"sh/36hcrmhk","slide":13,"bbox":[62,308,1120,70]}
+{"kind":"textbox","id":"sh/wra5gbq1","slide":13,"text":"2. 低負荷","textPreview":"2. 低負荷","textChars":6,"textLines":1,"bbox":[80,326,220,28]}
+{"kind":"textbox","id":"sh/lc7u54zi","slide":13,"text":"授業中に迷わず押せる。入力負担を下げる","textPreview":"授業中に迷わず押せる。入力負担を下げる","textChars":19,"textLines":1,"bbox":[352,325,520,32]}
+{"kind":"textbox","id":"sh/ed8bat47","slide":13,"text":"SRS / Clickers","textPreview":"SRS / Clickers","textChars":14,"textLines":1,"bbox":[942,325,210,32]}
+{"kind":"shape","id":"sh/7u54zido","slide":13,"bbox":[62,378,1120,70]}
+{"kind":"textbox","id":"sh/wfyxobm5","slide":13,"text":"3. リアルタイム性","textPreview":"3. リアルタイム性","textChars":10,"textLines":1,"bbox":[80,396,220,28]}
+{"kind":"textbox","id":"sh/l0rqd4vm","slide":13,"text":"教員が授業中に理解度・困りごとを読める","textPreview":"教員が授業中に理解度・困りごとを読める","textChars":19,"textLines":1,"bbox":[352,395,520,32]}
+{"kind":"textbox","id":"sh/e1w7mp0b","slide":13,"text":"Heaslip; Montgomery","textPreview":"Heaslip; Montgomery","textChars":19,"textLines":1,"bbox":[942,395,210,32]}
+{"kind":"shape","id":"sh/7mp0bi9s","slide":13,"bbox":[62,448,1120,70]}
+{"kind":"textbox","id":"sh/zed8v6ps","slide":13,"text":"4. 文脈付き質問","textPreview":"4. 文脈付き質問","textChars":9,"textLines":1,"bbox":[80,466,220,28]}
+{"kind":"textbox","id":"sh/6xkf6dcb","slide":13,"text":"質問を講義箇所・カテゴリと結び、教員が答えやすくする","textPreview":"質問を講義箇所・カテゴリと結び、教員が答えやすくする","textChars":26,"textLines":1,"bbox":[352,465,520,32]}
+{"kind":"textbox","id":"sh/hk3q5o7q","slide":13,"text":"Montgomery; Tan","textPreview":"Montgomery; Tan","textChars":15,"textLines":1,"bbox":[942,465,210,32]}
+{"kind":"shape","id":"sh/oza1gvy9","slide":13,"bbox":[62,518,1120,70]}
+{"kind":"textbox","id":"sh/zqtcj6to","slide":13,"text":"5. 支援中心","textPreview":"5. 支援中心","textChars":7,"textLines":1,"bbox":[80,536,220,28]}
+{"kind":"textbox","id":"sh/65wjudg7","slide":13,"text":"競争や比較ではなく、理解支援・形成的フィードバックへ使う","textPreview":"競争や比較ではなく、理解支援・形成的フィードバックへ使う","textChars":28,"textLines":1,"bbox":[352,535,520,32]}
+{"kind":"textbox","id":"sh/hwfyxobm","slide":13,"text":"Almeida; Cooper","textPreview":"Almeida; Cooper","textChars":15,"textLines":1,"bbox":[942,535,210,32]}
+{"kind":"textbox","id":"sh/obm58z25","slide":13,"text":"設計原則","textPreview":"設計原則","textChars":4,"textLines":1,"bbox":[42,662,300,24]}
+{"kind":"textbox","id":"sh/zupwb2hw","slide":13,"text":"13","textPreview":"13","textChars":2,"textLines":1,"bbox":[1196,657,42,28]}
+{"kind":"notes","id":"nt/vsgj44","slide":13,"text":""}
+{"kind":"slide","id":"sl/fiw4ff","slide":14,"title":"授業サポートボタンの機能案","textShapes":14}
+{"kind":"textbox","id":"sh/oza1gvy9","slide":14,"text":"授業サポートボタンの機能案","textPreview":"授業サポートボタンの機能案","textChars":13,"textLines":1,"bbox":[42,38,980,72]}
+{"kind":"shape","id":"sh/zed8v6ps","slide":14,"bbox":[42,150,1196,1]}
+{"kind":"textbox","id":"sh/6xkf6dcb","slide":14,"text":"学生画面: いまの状態を1タップで送る","textPreview":"学生画面: いまの状態を1タップで送る","textChars":19,"textLines":1,"bbox":[72,192,500,34]}
+{"kind":"shape","id":"sh/hwfyxobm","slide":14,"bbox":[74,260,180,54]}
+{"kind":"textbox","id":"sh/obm58z25","slide":14,"text":"分からない","textPreview":"分からない","textChars":5,"textLines":1,"bbox":[88,274,150,24]}
+{"kind":"shape","id":"sh/zqtcj6to","slide":14,"bbox":[284,260,180,54]}
+{"kind":"textbox","id":"sh/65wjudg7","slide":14,"text":"もう一度","textPreview":"もう一度","textChars":4,"textLines":1,"bbox":[298,274,150,24]}
+{"kind":"shape","id":"sh/h0fepkzu","slide":14,"bbox":[74,342,180,54]}
+{"kind":"textbox","id":"sh/sfil0rqd","slide":14,"text":"速い","textPreview":"速い","textChars":2,"textLines":1,"bbox":[88,356,150,24]}
+{"kind":"shape","id":"sh/qtcj6tov","slide":14,"bbox":[284,342,180,54]}
+{"kind":"textbox","id":"sh/je9cvixc","slide":14,"text":"演習で詰まった","textPreview":"演習で詰まった","textChars":7,"textLines":1,"bbox":[298,356,150,24]}
+{"kind":"shape","id":"sh/8z25kb6x","slide":14,"bbox":[74,424,180,54]}
+{"kind":"textbox","id":"sh/1gvy90je","slide":14,"text":"質問したい","textPreview":"質問したい","textChars":5,"textLines":1,"bbox":[88,438,150,24]}
+{"kind":"shape","id":"sh/q1orytsv","slide":14,"bbox":[284,424,180,54]}
+{"kind":"textbox","id":"sh/fmlkjm1c","slide":14,"text":"自分も知りたい","textPreview":"自分も知りたい","textChars":7,"textLines":1,"bbox":[298,438,150,24]}
+{"kind":"textbox","id":"sh/87ed8bat","slide":14,"text":"教員画面: 授業中に読む","textPreview":"教員画面: 授業中に読む","textChars":12,"textLines":1,"bbox":[700,192,420,34]}
+{"kind":"shape","id":"sh/xs72x4na","slide":14,"bbox":[700,258,420,235]}
+{"kind":"textbox","id":"sh/qd4vmtwr","slide":14,"text":"リアルタイム集計","textPreview":"リアルタイム集計","textChars":8,"textLines":1,"bbox":[730,286,260,28]}
+{"kind":"textbox","id":"sh/7y1kre1w","slide":14,"text":"質問キュー / 多い困りごと / 回答済み管理","textPreview":"質問キュー / 多い困りごと / 回答済み管理","textChars":23,"textLines":1,"bbox":[730,470,330,24]}
+{"kind":"textbox","id":"sh/ed8v6psf","slide":14,"text":"設計の中心は「盛り上げる」ではなく、学生の困りごとを授業へ戻すこと。","textPreview":"設計の中心は「盛り上げる」ではなく、学生の困りごとを授業へ戻すこと。","textChars":34,"textLines":1,"bbox":[78,580,1030,32]}
+{"kind":"textbox","id":"sh/p4r65wju","slide":14,"text":"提案","textPreview":"提案","textChars":2,"textLines":1,"bbox":[42,662,300,24]}
+{"kind":"textbox","id":"sh/wjudg7ad","slide":14,"text":"14","textPreview":"14","textChars":2,"textLines":1,"bbox":[1196,657,42,28]}
+{"kind":"chart","id":"ch/7u54zido","slide":14,"name":"","chartType":"bar","bbox":[730,335,330,125]}
+{"kind":"notes","id":"nt/fiw4ff","slide":14,"text":""}
+{"kind":"slide","id":"sl/fy1ng7","slide":15,"title":"避けるべき設計と理由","textShapes":19}
+{"kind":"textbox","id":"sh/61032lsz","slide":15,"text":"避けるべき設計と理由","textPreview":"避けるべき設計と理由","textChars":10,"textLines":1,"bbox":[42,38,980,72]}
+{"kind":"shape","id":"sh/dsji5sne","slide":15,"bbox":[42,150,1196,1]}
+{"kind":"textbox","id":"sh/o7qpg3ex","slide":15,"text":"×","textPreview":"×","textChars":1,"textLines":1,"bbox":[76,198,34,34]}
+{"kind":"textbox","id":"sh/vy90je9c","slide":15,"text":"質問数ランキング","textPreview":"質問数ランキング","textChars":8,"textLines":1,"bbox":[128,190,260,34]}
+{"kind":"textbox","id":"sh/6dcbulwv","slide":15,"text":"比較・競争が前面化し、質問しづらい学生をさらに遠ざける","textPreview":"比較・競争が前面化し、質問しづらい学生をさらに遠ざける","textChars":27,"textLines":1,"bbox":[410,192,680,34]}
+{"kind":"shape","id":"sh/d4vmtwra","slide":15,"bbox":[74,246,1040,1]}
+{"kind":"textbox","id":"sh/oj2t83it","slide":15,"text":"×","textPreview":"×","textChars":1,"textLines":1,"bbox":[76,274,34,34]}
+{"kind":"textbox","id":"sh/z25kb6xk","slide":15,"text":"ポイント/バッジ中心","textPreview":"ポイント/バッジ中心","textChars":10,"textLines":1,"bbox":[128,266,260,34]}
+{"kind":"textbox","id":"sh/6hcrmhk3","slide":15,"text":"参加の目的が学習支援から報酬獲得へずれる可能性","textPreview":"参加の目的が学習支援から報酬獲得へずれる可能性","textChars":23,"textLines":1,"bbox":[410,268,680,34]}
+{"kind":"shape","id":"sh/gr2p8nqx","slide":15,"bbox":[74,322,1040,1]}
+{"kind":"textbox","id":"sh/9cvixcze","slide":15,"text":"×","textPreview":"×","textChars":1,"textLines":1,"bbox":[76,350,34,34]}
+{"kind":"textbox","id":"sh/ylc7u54z","slide":15,"text":"押した人の公開","textPreview":"押した人の公開","textChars":7,"textLines":1,"bbox":[128,342,260,34]}
+{"kind":"textbox","id":"sh/r65wjudg","slide":15,"text":"評価不安を高め、匿名参加の利点を失う","textPreview":"評価不安を高め、匿名参加の利点を失う","textChars":18,"textLines":1,"bbox":[410,344,680,34]}
+{"kind":"shape","id":"sh/g3ex0nux","slide":15,"bbox":[74,398,1040,1]}
+{"kind":"textbox","id":"sh/5o7qpg3e","slide":15,"text":"×","textPreview":"×","textChars":1,"textLines":1,"bbox":[76,426,34,34]}
+{"kind":"textbox","id":"sh/yxobm58z","slide":15,"text":"成績評価への直結","textPreview":"成績評価への直結","textChars":8,"textLines":1,"bbox":[128,418,260,34]}
+{"kind":"textbox","id":"sh/nih4byhg","slide":15,"text":"支援要請が監視や強制参加として受け止められる","textPreview":"支援要請が監視や強制参加として受け止められる","textChars":22,"textLines":1,"bbox":[410,420,680,34]}
+{"kind":"shape","id":"sh/g7adsji5","slide":15,"bbox":[74,474,1040,1]}
+{"kind":"textbox","id":"sh/9s36hcrm","slide":15,"text":"×","textPreview":"×","textChars":1,"textLines":1,"bbox":[76,502,34,34]}
+{"kind":"textbox","id":"sh/twra5gbq","slide":15,"text":"通知過多","textPreview":"通知過多","textChars":4,"textLines":1,"bbox":[128,494,260,34]}
+{"kind":"textbox","id":"sh/4byhgn29","slide":15,"text":"教員が授業中に処理できず、結局使われなくなる","textPreview":"教員が授業中に処理できず、結局使われなくなる","textChars":22,"textLines":1,"bbox":[410,496,680,34]}
+{"kind":"shape","id":"sh/bq1oryts","slide":15,"bbox":[74,550,1040,1]}
+{"kind":"textbox","id":"sh/m58z25kb","slide":15,"text":"Almeida et al. の注意点と Cooper et al. の評価不安の議論を合わせると、「競争化」「可視化しすぎ」「強制化」はリスクが高い。","textPreview":"Almeida et al. の注意点と Cooper et al. の評価不安の議論を合わせると、「競争化」「可視化しすぎ」「強制化」はリスクが高い。","textChars":76,"textLines":1,"bbox":[92,600,1040,42]}
+{"kind":"textbox","id":"sh/t83itgfm","slide":15,"text":"設計上のリスク","textPreview":"設計上のリスク","textChars":7,"textLines":1,"bbox":[42,662,300,24]}
+{"kind":"textbox","id":"sh/4nap4r65","slide":15,"text":"15","textPreview":"15","textChars":2,"textLines":1,"bbox":[1196,657,42,28]}
+{"kind":"notes","id":"nt/fy1ng7","slide":15,"text":""}
+{"kind":"slide","id":"sl/c2wi95","slide":16,"title":"実装後に検証したいこと","textShapes":16}
+{"kind":"textbox","id":"sh/neloj2t8","slide":16,"text":"実装後に検証したいこと","textPreview":"実装後に検証したいこと","textChars":11,"textLines":1,"bbox":[42,38,980,72]}
+{"kind":"shape","id":"sh/czed8v6p","slide":16,"bbox":[42,150,1196,1]}
+{"kind":"textbox","id":"sh/5kb6xkf6","slide":16,"text":"01","textPreview":"01","textChars":2,"textLines":1,"bbox":[72,214,70,44]}
+{"kind":"shape","id":"sh/u54zidon","slide":16,"bbox":[72,276,238,210]}
+{"kind":"textbox","id":"sh/nqxs72x4","slide":16,"text":"導入前","textPreview":"導入前","textChars":3,"textLines":1,"bbox":[92,304,190,30]}
+{"kind":"textbox","id":"sh/cbulwval","slide":16,"text":"学生の発言不安・質問頻度・授業理解度の自己評価を把握","textPreview":"学生の発言不安・質問頻度・授業理解度の自己評価を把握","textChars":26,"textLines":1,"bbox":[92,356,190,88]}
+{"kind":"textbox","id":"sh/5sneloj2","slide":16,"text":"02","textPreview":"02","textChars":2,"textLines":1,"bbox":[364,214,70,44]}
+{"kind":"shape","id":"sh/y90je9cv","slide":16,"bbox":[364,276,238,210]}
+{"kind":"textbox","id":"sh/nuxc3ylc","slide":16,"text":"授業中","textPreview":"授業中","textChars":3,"textLines":1,"bbox":[384,304,190,30]}
+{"kind":"textbox","id":"sh/36hcrmhk","slide":16,"text":"ボタン押下数、カテゴリ別反応、質問キュー、教員の対応タイミングを記録","textPreview":"ボタン押下数、カテゴリ別反応、質問キュー、教員の対応タイミングを記録","textChars":34,"textLines":1,"bbox":[384,356,190,88]}
+{"kind":"textbox","id":"sh/eloj2t83","slide":16,"text":"03","textPreview":"03","textChars":2,"textLines":1,"bbox":[656,214,70,44]}
+{"kind":"shape","id":"sh/lc7u54zi","slide":16,"bbox":[656,276,238,210]}
+{"kind":"textbox","id":"sh/wra5gbq1","slide":16,"text":"導入後","textPreview":"導入後","textChars":3,"textLines":1,"bbox":[676,304,190,30]}
+{"kind":"textbox","id":"sh/7u54zido","slide":16,"text":"参加しやすさ、匿名性への安心感、理解支援感、教員負担を調査","textPreview":"参加しやすさ、匿名性への安心感、理解支援感、教員負担を調査","textChars":29,"textLines":1,"bbox":[676,356,190,88]}
+{"kind":"textbox","id":"sh/ed8bat47","slide":16,"text":"04","textPreview":"04","textChars":2,"textLines":1,"bbox":[948,214,70,44]}
+{"kind":"shape","id":"sh/l0rqd4vm","slide":16,"bbox":[948,276,238,210]}
+{"kind":"textbox","id":"sh/wfyxobm5","slide":16,"text":"比較","textPreview":"比較","textChars":2,"textLines":1,"bbox":[968,304,190,30]}
+{"kind":"textbox","id":"sh/7mp0bi9s","slide":16,"text":"ボタンあり/なし、匿名/記名、投票あり/なしなどを比較","textPreview":"ボタンあり/なし、匿名/記名、投票あり/なしなどを比較","textChars":27,"textLines":1,"bbox":[968,356,190,88]}
+{"kind":"textbox","id":"sh/e1w7mp0b","slide":16,"text":"評価指標例: 押下率、質問数、質問の深さ、授業中の再説明回数、学生の安心感、教員の使いやすさ。","textPreview":"評価指標例: 押下率、質問数、質問の深さ、授業中の再説明回数、学生の安心感、教員の使いやすさ。","textChars":47,"textLines":1,"bbox":[80,570,1040,40]}
+{"kind":"textbox","id":"sh/qxs72x4n","slide":16,"text":"評価計画","textPreview":"評価計画","textChars":4,"textLines":1,"bbox":[42,662,300,24]}
+{"kind":"textbox","id":"sh/fil0rqd4","slide":16,"text":"16","textPreview":"16","textChars":2,"textLines":1,"bbox":[1196,657,42,28]}
+{"kind":"notes","id":"nt/c2wi95","slide":16,"text":""}
+{"kind":"slide","id":"sl/lb4lnm","slide":17,"title":"参考文献","textShapes":19}
+{"kind":"textbox","id":"sh/n29gr2p8","slide":17,"text":"参考文献","textPreview":"参考文献","textChars":4,"textLines":1,"bbox":[42,38,980,72]}
+{"kind":"shape","id":"sh/gn29gr2p","slide":17,"bbox":[42,150,1196,1]}
+{"kind":"textbox","id":"sh/58z25kb6","slide":17,"text":"1.","textPreview":"1.","textChars":2,"textLines":1,"bbox":[64,178,34,24]}
+{"kind":"textbox","id":"sh/y90je9cv","slide":17,"text":"Almeida, C. et al. (2023). Negative effects of gamification in education software. Information and Software Technology, 156, 107142.","textPreview":"Almeida, C. et al. (2023). Negative effects of gamification in education software. Information and Software Technology, 156, 107142.","textChars":132,"textLines":1,"bbox":[108,174,1040,44]}
+{"kind":"textbox","id":"sh/nuxc3ylc","slide":17,"text":"2.","textPreview":"2.","textChars":2,"textLines":1,"bbox":[64,232,34,24]}
+{"kind":"textbox","id":"sh/gbq1oryt","slide":17,"text":"Cooper, K. M. et al. (2018). The influence of active learning practices on student anxiety. International Journal of STEM Education, 5, 23.","textPreview":"Cooper, K. M. et al. (2018). The influence of active learning practices on student anxiety. International Journal of STEM Education, 5, 23.","textChars":139,"textLines":1,"bbox":[108,228,1040,44]}
+{"kind":"textbox","id":"sh/5wjudg7a","slide":17,"text":"3.","textPreview":"3.","textChars":2,"textLines":1,"bbox":[64,286,34,24]}
+{"kind":"textbox","id":"sh/u54zidon","slide":17,"text":"Freeman, M., Blayney, P., & Ginns, P. (2006). Anonymity and in class learning. Australasian Journal of Educational Technology, 22(4).","textPreview":"Freeman, M., Blayney, P., & Ginns, P. (2006). Anonymity and in class learning. Australasian Journal of Educational Technology, 22(4).","textChars":133,"textLines":1,"bbox":[108,282,1040,44]}
+{"kind":"textbox","id":"sh/nqxs72x4","slide":17,"text":"4.","textPreview":"4.","textChars":2,"textLines":1,"bbox":[64,340,34,24]}
+{"kind":"textbox","id":"sh/z25kb6xk","slide":17,"text":"Freeman, S. et al. (2014). Active learning increases student performance in STEM. PNAS, 111(23), 8410-8415.","textPreview":"Freeman, S. et al. (2014). Active learning increases student performance in STEM. PNAS, 111(23), 8410-8415.","textChars":107,"textLines":1,"bbox":[108,336,1040,44]}
+{"kind":"textbox","id":"sh/6hcrmhk3","slide":17,"text":"5.","textPreview":"5.","textChars":2,"textLines":1,"bbox":[64,394,34,24]}
+{"kind":"textbox","id":"sh/d8v6psfi","slide":17,"text":"Heaslip, G., Donovan, P., & Cullen, J. G. (2014). Student response systems and learner engagement in large classes. Active Learning in Higher Education, 15(1), 11-24.","textPreview":"Heaslip, G., Donovan, P., & Cullen, J. G. (2014). Student response systems and learner engagement in large classes. Active Learning in Hi...","textChars":166,"textLines":1,"bbox":[108,390,1040,44]}
+{"kind":"textbox","id":"sh/onyd0z61","slide":17,"text":"6.","textPreview":"6.","textChars":2,"textLines":1,"bbox":[64,448,34,24]}
+{"kind":"textbox","id":"sh/vahoza1g","slide":17,"text":"Latham, A., & Hill, N. S. (2014). Preference for anonymous classroom participation. Journal of Management Education, 38(2), 192-215.","textPreview":"Latham, A., & Hill, N. S. (2014). Preference for anonymous classroom participation. Journal of Management Education, 38(2), 192-215.","textChars":132,"textLines":1,"bbox":[108,444,1040,44]}
+{"kind":"textbox","id":"sh/6tovahoz","slide":17,"text":"7.","textPreview":"7.","textChars":2,"textLines":1,"bbox":[64,502,34,24]}
+{"kind":"textbox","id":"sh/dg7adsji","slide":17,"text":"Montgomery, L. et al. (2019). Towards a Live Anonymous Question Queue To Address Student Apprehension. arXiv:1901.01061.","textPreview":"Montgomery, L. et al. (2019). Towards a Live Anonymous Question Queue To Address Student Apprehension. arXiv:1901.01061.","textChars":120,"textLines":1,"bbox":[108,498,1040,44]}
+{"kind":"textbox","id":"sh/ovahoza1","slide":17,"text":"8.","textPreview":"8.","textChars":2,"textLines":1,"bbox":[64,556,34,24]}
+{"kind":"textbox","id":"sh/vmtwra5g","slide":17,"text":"Tan, E., Small, A., & Lewis, P. (2020). Have a question? Just ask it. Research in Learning Technology, 28.","textPreview":"Tan, E., Small, A., & Lewis, P. (2020). Have a question? Just ask it. Research in Learning Technology, 28.","textChars":106,"textLines":1,"bbox":[108,552,1040,44]}
+{"kind":"textbox","id":"sh/61032lsz","slide":17,"text":"References","textPreview":"References","textChars":10,"textLines":1,"bbox":[42,662,300,24]}
+{"kind":"textbox","id":"sh/e9cvixcz","slide":17,"text":"17","textPreview":"17","textChars":2,"textLines":1,"bbox":[1196,657,42,28]}
+{"kind":"notes","id":"nt/lb4lnm","slide":17,"text":""}

@@ -61,6 +61,30 @@
             }
           }
         },
+        "comments": {
+          ".read": "auth != null",
+          "$commentId": {
+            ".write": "auth != null && !data.exists() && newData.hasChildren(['text', 'authorUid', 'createdAt']) && newData.child('authorUid').val() === auth.uid && newData.child('text').isString() && newData.child('text').val().length > 0 && newData.child('text').val().length <= 120 && newData.child('createdAt').isNumber()",
+            "text": {
+              ".validate": "newData.isString() && newData.val().length > 0 && newData.val().length <= 120"
+            },
+            "authorUid": {
+              ".validate": "newData.isString() && newData.val() === auth.uid"
+            },
+            "createdAt": {
+              ".validate": "newData.isNumber()"
+            },
+            "likes": {
+              "$uid": {
+                ".write": "auth != null && $uid === auth.uid && newData.val() === true",
+                ".validate": "newData.val() === true"
+              }
+            },
+            "$other": {
+              ".validate": false
+            }
+          }
+        },
         "resetVersion": {
           ".read": "auth != null",
           ".write": "auth != null && data.parent().child('teacherUid').val() === auth.uid && newData.isNumber() && newData.val() === data.val() + 1",

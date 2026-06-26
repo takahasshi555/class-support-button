@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { createRoot } from "react-dom/client";
-import { BarChart3, CheckCircle2, Copy, Frown, Lightbulb, QrCode, RefreshCcw, Smartphone } from "lucide-react";
+import { BarChart3, CheckCircle2, Copy, Frown, Lightbulb, MessageCircle, QrCode, RefreshCcw, Send, Smartphone, ThumbsUp } from "lucide-react";
 import QRCode from "qrcode";
 import { initializeApp } from "firebase/app";
 import { getAuth, signInAnonymously } from "firebase/auth";
@@ -115,6 +115,7 @@ function useTeacherRoom(roomId) {
             setState({
               roomId,
               counts,
+              comments: data.comments || {},
               note: data.note || "",
               history: data.history || {},
               reactions: data.reactions || { wow: 0 },
@@ -149,6 +150,7 @@ function useStudentRoom(roomId) {
   const [error, setError] = useState("");
   const [selected, setSelected] = useState("");
   const [clientId, setClientId] = useState("");
+  const [comments, setComments] = useState({});
 
   useEffect(() => {
     if (!roomId) {
@@ -157,6 +159,7 @@ function useStudentRoom(roomId) {
 
     let responseUnsubscribe = null;
     let resetUnsubscribe = null;
+    let commentsUnsubscribe = null;
     let cancelled = false;
 
     ensureAuth()
@@ -193,6 +196,16 @@ function useStudentRoom(roomId) {
             setError("授業ルームが見つかりません: " + err.message);
           }
         );
+
+        commentsUnsubscribe = onValue(
+          ref(db, `rooms/${roomId}/comments`),
+          (snapshot) => {
+            setComments(snapshot.val() || {});
+          },
+          (err) => {
+            setError("コメントを取得できません: " + err.message);
+          }
+        );
       })
       .catch((err) => {
         setError("匿名認証に失敗しました: " + err.message);
@@ -206,10 +219,13 @@ function useStudentRoom(roomId) {
       if (resetUnsubscribe) {
         resetUnsubscribe();
       }
+      if (commentsUnsubscribe) {
+        commentsUnsubscribe();
+      }
     };
   }, [roomId]);
 
-  return { error, selected, clientId };
+  return { error, selected, clientId, comments };
 }
 
 function Home() {
@@ -434,6 +450,7 @@ function Teacher({ roomId }) {
         </section>
 
         <Timeline history={state?.history || {}} />
+        <CommentsPanel comments={state?.comments || {}} roomId={roomId} title="授業コメント" />
       </section>
 
       <aside className="join-panel">
@@ -506,6 +523,114 @@ function Timeline({ history }) {
   );
 }
 
+function CommentsPanel({ comments, roomId, clientId, title = "コメント" }) {
+  const [draft, setDraft] = useState("");
+  const [status, setStatus] = useState("");
+  const items = Object.entries(comments || {})
+    .map(([id, item]) => ({ id, ...item }))
+    .sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0))
+    .slice(0, 50);
+
+  async function postComment() {
+    const text = draft.trim().slice(0, 120);
+    if (!clientId || !text) {
+      return;
+    }
+
+    const commentId = `${Date.now()}-${generateId().slice(0, 8)}`;
+    setStatus("送信中...");
+    try {
+      await set(ref(db, `rooms/${roomId}/comments/${commentId}`), {
+        text,
+        authorUid: clientId,
+        createdAt: Date.now()
+      });
+      await set(ref(db, `rooms/${roomId}/participants/${clientId}`), true);
+      setDraft("");
+      setStatus("送信しました");
+      window.setTimeout(() => setStatus(""), 1400);
+    } catch (err) {
+      setStatus("送信できませんでした");
+      console.error(err);
+    }
+  }
+
+  async function likeComment(commentId) {
+    if (!clientId) {
+      return;
+    }
+
+    try {
+      await set(ref(db, `rooms/${roomId}/comments/${commentId}/likes/${clientId}`), true);
+      await set(ref(db, `rooms/${roomId}/participants/${clientId}`), true);
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  return (
+    <section className="comments-panel" aria-label={title}>
+      <div className="comments-heading">
+        <div>
+          <span>{title}</span>
+          <strong>{items.length}件</strong>
+        </div>
+        <MessageCircle aria-hidden="true" />
+      </div>
+
+      {clientId ? (
+        <div className="comment-form">
+          <textarea
+            maxLength={120}
+            value={draft}
+            onChange={(event) => setDraft(event.target.value)}
+            placeholder="質問や気づきを匿名で投稿"
+          />
+          <div className="comment-form-footer">
+            <span>{draft.length}/120</span>
+            <span>{status}</span>
+            <button type="button" onClick={postComment} disabled={!draft.trim()}>
+              <Send aria-hidden="true" />
+              送信
+            </button>
+          </div>
+        </div>
+      ) : null}
+
+      <div className="comment-list">
+        {items.length === 0 ? (
+          <p className="comment-empty">まだコメントはありません</p>
+        ) : (
+          items.map((item) => {
+            const likes = item.likes || {};
+            const likeCount = Object.keys(likes).length;
+            const liked = clientId && likes[clientId];
+
+            return (
+              <article className="comment-item" key={item.id}>
+                <div className="comment-item-header">
+                  <span>匿名コメント</span>
+                  <time>{formatTime(item.createdAt)}</time>
+                </div>
+                <p>{item.text}</p>
+                <button
+                  className={`comment-like ${liked ? "liked" : ""}`}
+                  type="button"
+                  onClick={() => likeComment(item.id)}
+                  disabled={!clientId || liked}
+                >
+                  <ThumbsUp aria-hidden="true" />
+                  {likeCount}
+                </button>
+              </article>
+            );
+          })
+        )}
+      </div>
+    </section>
+  );
+}
+
 function formatTime(value) {
   if (!value) {
     return "";
@@ -518,7 +643,7 @@ function formatTime(value) {
 }
 
 function Student({ roomId }) {
-  const { error, selected, clientId } = useStudentRoom(roomId);
+  const { error, selected, clientId, comments } = useStudentRoom(roomId);
 
   function submit(value) {
     if (!clientId) {
@@ -581,6 +706,8 @@ function Student({ roomId }) {
       <p className="student-status">
         {selected ? `送信しました: ${labels[selected]}` : "まだ回答していません"}
       </p>
+
+      <CommentsPanel comments={comments} roomId={roomId} clientId={clientId} title="みんなのコメント" />
     </main>
   );
 }
