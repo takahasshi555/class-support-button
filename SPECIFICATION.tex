@@ -1,0 +1,196 @@
+\documentclass[11pt,a4paper]{jsarticle}
+\usepackage[dvipdfmx]{graphicx}
+\usepackage[dvipdfmx]{hyperref}
+\usepackage{url}
+\usepackage{enumitem}
+\usepackage{listings}
+\usepackage{xcolor}
+
+% コードブロックのスタイル設定
+\lstset{
+  basicstyle=\ttfamily\small,
+  backgroundcolor=\color{gray!10},
+  frame=single,
+  breaklines=true
+}
+
+\title{システム詳細仕様書：授業サポートボタン \\ (Class Support Button)}
+\author{}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\tableofcontents
+\newpage
+
+\section{システム概要と開発背景}
+
+\subsection{開発の背景と課題}
+近年の大学講義やハイブリッド型授業において、受講者数が数十人から数百人規模に及ぶ場合、学生が教員に対して「今の説明がわからない」「もう少し詳しく説明してほしい」と挙手・発言することには極めて高い心理的ハードルが存在する。結果として、教員は学生の理解度を正確に把握できないまま授業を進行してしまい、学習効果が低下する「一方通行の授業」に陥りやすいという課題がある。
+
+\subsection{目的}
+本システムは上記の課題を解決するため、以下の2つを強力にサポートすることを目的とする。
+
+\begin{enumerate}
+    \item \textbf{学生の授業参加（エンゲージメント）の最大化} \\
+    アカウント登録不要かつ\textbf{完全匿名}で「わかった」「わからない」の意思表示や、「へぇー（感心・驚き）」といった感情の共有、さらには「匿名コメント（Q\&A）」を可能にする。心理的ハードルを極限まで下げることで、普段は発言しない学生にも「自分の意見が授業に反映されている」という当事者意識を持たせ、能動的な授業参加を促す。
+    
+    \item \textbf{教員によるリアルタイムな授業改善とデータ蓄積} \\
+    教員はリアルタイムにクラス全体の理解度を視覚的なグラフで把握でき、「今、ペースを落として解説し直すべきか」など、その場での\textbf{即座のペース調整}が可能になる。さらに、「タイムライン記録機能」によりスライドごと・トピックごとの理解度や質問をスナップショットとして保存できる。これにより、授業後に「どのトピックでつまずきが多かったか」を定量データとして振り返り、次回の講義資料やシラバスの継続的改善に直結させることができる。
+\end{enumerate}
+
+\section{システムアーキテクチャ}
+
+数百人の学生が同時にアクセスし、高頻度でボタンを連打する状況に耐えうるスケーラビリティと、1秒未満の低遅延な同期を実現するため、サーバーレスアーキテクチャを採用している。
+
+\begin{itemize}
+    \item \textbf{フロントエンド (UI/UX)}:
+    \begin{itemize}
+        \item \textbf{React (v19)}: 宣言的UIによる複雑な状態管理（集計グラフの更新、アニメーション等）。
+        \item \textbf{Vite}: 高速なビルドツールとモジュールバンドラ。
+        \item \textbf{Vanilla CSS}: CSS Variablesを活用し、軽量かつモダンなデザインを実現。
+        \item \textbf{Lucide React}: 軽量で視認性の高いベクターアイコン。
+    \end{itemize}
+    \item \textbf{バックエンド (BaaS)}:
+    \begin{itemize}
+        \item \textbf{Firebase Realtime Database}: WebSocketを利用した超低遅延のデータ同期。FirestoreではなくRealtime Databaseを採用した理由は、本システムのような高頻度のカウンタ更新（へぇーボタンの連打等）や、シンプルなKey-Value構造において、コスト効率と応答速度の面で優れているためである。
+        \item \textbf{Firebase Authentication (匿名認証)}: ユーザーにログイン作業を強いることなく、バックグラウンドで一意のUIDを付与し、セキュアなアクセス制御を実現。
+    \end{itemize}
+    \item \textbf{インフラストラクチャ}:
+    \begin{itemize}
+        \item \textbf{Vercel}: グローバルなCDN・エッジネットワークによる高速なフロントエンド配信。
+    \end{itemize}
+\end{itemize}
+
+\section{機能要件定義}
+
+\subsection{教員（管理者）向け機能}
+教員画面は、教室のプロジェクター等に投影することを前提としたUI設計となっている。
+
+\begin{enumerate}
+    \item \textbf{授業ルームの生成と管理}:
+    \begin{itemize}
+        \item 重複のない6桁の英数字（例: \texttt{APA72P}）からなるルームIDを自動生成。
+        \item 生成者のFirebase UIDをルームの管理者（\texttt{teacherUid}）として登録。
+    \end{itemize}
+    
+    \item \textbf{リアルタイム・ダッシュボード}:
+    \begin{itemize}
+        \item \textbf{参加用QRコードの表示}: 学生がスマホのカメラで読み取るだけで即座に参加可能。
+        \item \textbf{理解度プログレスバー}: 「わかった」「わからない」の割合（％）と人数を視覚的にリアルタイム描画。
+        \item \textbf{統計パネル}: 累計参加人数、総回答数、リセット回数、「へぇー」の総回数を表示。
+    \end{itemize}
+
+    \item \textbf{タイムライン記録（履歴保存）機能}:
+    \begin{itemize}
+        \item トピックの区切り（「スライド1終了時」等）に、任意のタグ名を設定して「記録して次へ」ボタンを押下。
+        \item 現在の集計データ（理解度割合、参加者数、へぇー回数等）と「教員メモ」をセットにしてスナップショットとして保存。保存後は学生側の回答画面が自動的にリセットされ、次のトピックの集計に移行する。
+        \item 過去の記録は画面下部の「授業タイムライン」パネルに時系列で表示される。
+    \end{itemize}
+    
+    \item \textbf{教員メモ機能}:
+    \begin{itemize}
+        \item 授業中の気づきや補足事項を最大140文字で保存可能。
+    \end{itemize}
+    
+    \item \textbf{匿名Q\&A（コメント）のリアルタイム閲覧}:
+    \begin{itemize}
+        \item 学生から投稿された匿名コメントや質問をダッシュボード上で一覧表示。
+    \end{itemize}
+\end{enumerate}
+
+\subsection{学生（参加者）向け機能}
+学生画面は、個人のスマートフォンでの操作を前提としたモバイルファーストなUI設計となっている。
+
+\begin{enumerate}
+    \item \textbf{匿名ログインと状態復元}:
+    \begin{itemize}
+        \item QRコードからアクセスした瞬間にバックグラウンドで匿名認証を実行。ブラウザを誤って閉じた場合やリロードした場合でも、Firebaseから現在の自身の回答状態を自動復元する。
+    \end{itemize}
+    
+    \item \textbf{意思表示（理解度チェック）}:
+    \begin{itemize}
+        \item 「わかった」「わからない」のボタンをタップし、ステータスを送信。匿名性が担保されているため、周囲を気にせず正直なフィードバックが可能。
+    \end{itemize}
+    
+    \item \textbf{リアクション送信（遊び心とエンゲージメント）}:
+    \begin{itemize}
+        \item 授業中に「なるほど！」と思った瞬間に何度でも連打可能な「へぇー」ボタン。遊び心を持たせることで、講義に対する集中力の維持と能動的な参加を促す。
+    \end{itemize}
+    
+    \item \textbf{匿名Q\&A・コメント投稿機能}:
+    \begin{itemize}
+        \item 最大120文字で、授業中に疑問に思ったことや気づきを自由にテキストで投稿可能。
+    \end{itemize}
+    
+    \item \textbf{共感（いいね）機能}:
+    \begin{itemize}
+        \item 他の学生が投稿した質問に対し、「私も知りたい（いいね）」ボタンを押下可能。これにより、クラス全体で共通して抱えている疑問を教員に強くアピールできる。
+    \end{itemize}
+\end{enumerate}
+
+\section{データ構造とパフォーマンス最適化}
+
+\subsection{データモデル設計 (Firebase Realtime Database)}
+本システムはNoSQLデータベースを利用し、以下のようなJSONツリー構造でデータを管理する。
+
+\begin{lstlisting}
+/rooms
+  /{roomId}
+    ├── createdAt: 1717550000000          // ルーム作成日時(Unix Epoch)
+    ├── teacherUid: "user-uid-xxxx"       // ルーム管理者のUID
+    ├── note: "微分の連鎖律について"      // 教員の一時メモ
+    ├── resetVersion: 2                   // 記録・リセット実行回数
+    ├── reactions
+    │    └── wow: 128                     // 「へぇー」の累計回数
+    ├── participants                      // 参加した学生のUID一覧（累計）
+    │    ├── {uid_A}: true                
+    │    └── {uid_B}: true
+    ├── responses                         // 現在集計中の理解度ステータス
+    │    ├── {uid_A}: "understood"        
+    │    └── {uid_B}: "lost"
+    ├── comments                          // 匿名コメント一覧
+    │    └── {commentId}
+    │         ├── text: "ここの計算が..."
+    │         ├── authorUid: "uid_A"
+    │         ├── createdAt: 1717551000
+    │         └── likes                   // いいねを押したユーザー一覧
+    │              └── {uid_B}: true      
+    └── history                           // タイムライン記録（スナップショット）
+         └── {historyId}
+              ├── label: "スライド1"
+              ├── note: "解説後に質問多"
+              ├── createdAt: 1717552000
+              ├── counts: { understood: 45, lost: 12 }
+              ├── wow: 128
+              ├── totalResponses: 57
+              ├── participants: 60
+              └── resetVersion: 1
+\end{lstlisting}
+
+\subsection{パフォーマンス最適化（通信量の極小化とO($N^2$)問題の回避）}
+大規模講義での利用を想定し、トラフィックと端末の負荷を最小化するルーティング・データ購読設計を採用している。
+
+\begin{itemize}
+    \item \textbf{教員側の購読}: クラス全体の統計を描画するため、\texttt{/rooms/\{roomId\}} 直下を包括的に購読（Subscribe）し、全ての変更を検知する。
+    \item \textbf{学生側の購読}: 他の学生の回答データ等を受信する必要がないため、\texttt{/rooms/\{roomId\}/responses/\{自分のUID\}} や \texttt{/rooms/\{roomId\}/comments} など、画面描画に必要な最低限のパスのみをピンポイントで購読する。
+\end{itemize}
+これにより、例えば100人の学生が同時にボタンを連打した場合でも、学生同士のデバイス間での不要なデータのブロードキャストが発生せず、スマートフォンの通信量とバッテリー消費を大幅に削減している。
+
+\section{セキュリティ・プライバシー要件}
+
+\subsection{認証ベースのアクセス制御}
+\begin{itemize}
+    \item Firebase Anonymous Authenticationにより、各デバイスに暗号学的に安全な一意のUIDが付与される。
+    \item 教員画面（ダッシュボード）へのアクセス時は、現在アクセスしているユーザーのUIDと、データベース上の \texttt{teacherUid} が一致するかを検証する。一致しない場合（学生がURLを推測して直接アクセスした場合等）は、「先生権限がありません」というエラー画面へリダイレクトし、情報漏洩や不正なリセット操作を完全にブロックする。
+\end{itemize}
+
+\subsection{学生のプライバシー保護}
+\begin{itemize}
+    \item 学生のデバイスには、自身のIDと全体に公開される匿名コメント以外の情報（他の学生の個別IDや回答ステータス）は一切ダウンロードされない。
+    \item 万が一、学生がブラウザの開発者ツールや通信パケットを解析した場合であっても、誰が「わからない」を押したかを特定することはシステム構造上不可能であり、完全な匿名性とプライバシーが担保されている。
+\end{itemize}
+
+\end{document}

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { createRoot } from "react-dom/client";
-import { BarChart3, CheckCircle2, Copy, Frown, Lightbulb, MessageCircle, QrCode, RefreshCcw, Send, Smartphone, ThumbsUp } from "lucide-react";
+import { BarChart3, CheckCircle2, Copy, Frown, Lightbulb, MessageCircle, QrCode, RefreshCcw, Send, Smartphone, ThumbsUp, HelpCircle } from "lucide-react";
 import QRCode from "qrcode";
 import { initializeApp } from "firebase/app";
 import { getAuth, signInAnonymously } from "firebase/auth";
@@ -23,17 +23,34 @@ const db = getDatabase(app);
 
 const labels = {
   understood: "わかった",
-  lost: "わからない"
+  lost: "わからない",
+  explain: "もう一回説明してほしい"
 };
 
 const descriptions = {
   understood: "このまま進めて大丈夫",
-  lost: "一度止まってほしい"
+  lost: "一度止まってほしい",
+  explain: "もう一度説明を聞きたい"
 };
 
 const buttonIcons = {
   understood: CheckCircle2,
-  lost: Frown
+  lost: Frown,
+  explain: HelpCircle
+};
+
+const confidences = {
+  high: "しっかり分かった",
+  medium: "だいたい分かった",
+  low: "少し不安"
+};
+
+const reasons = {
+  explanation: "説明が分からない",
+  term: "用語が分からない",
+  solution: "解き方が分からない",
+  step: "途中までは分かる",
+  other: "その他"
 };
 
 let authPromise = null;
@@ -104,23 +121,46 @@ function useTeacherRoom(roomId) {
             }
 
             const responses = data.responses || {};
-            const counts = { understood: 0, lost: 0 };
+            const counts = { understood: 0, lost: 0, explain: 0 };
+            const details = { understood: {}, lost: {}, explain: {} };
+            let answered = 0;
 
             for (const value of Object.values(responses)) {
-              if (counts[value] !== undefined) {
-                counts[value] += 1;
+              let action = null;
+              let detail = null;
+              
+              if (typeof value === "string") {
+                action = value;
+              } else if (value && typeof value === "object") {
+                action = value.action;
+                detail = value.detail;
+              }
+
+              if (action && counts[action] !== undefined) {
+                counts[action] += 1;
+                answered += 1;
+                if (detail) {
+                  details[action][detail] = (details[action][detail] || 0) + 1;
+                }
               }
             }
+            
+            const participantsCount = data.participants ? Object.keys(data.participants).length : 0;
+            const unanswered = Math.max(0, participantsCount - answered);
+            const responseRate = participantsCount > 0 ? Math.round((answered / participantsCount) * 100) : 0;
 
             setState({
               roomId,
               counts,
+              details,
               comments: data.comments || {},
               note: data.note || "",
               history: data.history || {},
               reactions: data.reactions || { wow: 0 },
-              totalResponses: Object.values(counts).reduce((sum, count) => sum + count, 0),
-              participants: data.participants ? Object.keys(data.participants).length : 0,
+              totalResponses: answered,
+              participants: participantsCount,
+              unanswered,
+              responseRate,
               resetVersion: data.resetVersion || 0
             });
             setError("");
@@ -148,7 +188,7 @@ function useTeacherRoom(roomId) {
 
 function useStudentRoom(roomId) {
   const [error, setError] = useState("");
-  const [selected, setSelected] = useState("");
+  const [selected, setSelected] = useState(null);
   const [clientId, setClientId] = useState("");
   const [comments, setComments] = useState({});
 
@@ -176,7 +216,7 @@ function useStudentRoom(roomId) {
         responseUnsubscribe = onValue(
           ref(db, `rooms/${roomId}/responses/${user.uid}`),
           (snapshot) => {
-            setSelected(snapshot.val() || "");
+            setSelected(snapshot.val() || null);
           },
           (err) => {
             setError("回答状態を取得できません: " + err.message);
@@ -321,10 +361,13 @@ function Teacher({ roomId }) {
           label,
           note,
           createdAt: Date.now(),
-          counts: state.counts || { understood: 0, lost: 0 },
+          counts: state.counts || { understood: 0, lost: 0, explain: 0 },
+          details: state.details || { understood: {}, lost: {}, explain: {} },
           wow: state.reactions?.wow || 0,
           totalResponses: state.totalResponses || 0,
           participants: state.participants || 0,
+          unanswered: state.unanswered || 0,
+          responseRate: state.responseRate || 0,
           resetVersion: state.resetVersion || 0
         },
         note,
@@ -363,8 +406,12 @@ function Teacher({ roomId }) {
     return <ErrorScreen message={error} isTeacherError={true} />;
   }
 
-  const counts = state?.counts || { understood: 0, lost: 0 };
+  const counts = state?.counts || { understood: 0, lost: 0, explain: 0 };
+  const details = state?.details || { understood: {}, lost: {}, explain: {} };
   const total = state?.totalResponses || 0;
+  const participants = state?.participants || 0;
+  const unanswered = state?.unanswered || 0;
+  const responseRate = state?.responseRate || 0;
   const wowCount = state?.reactions?.wow || 0;
 
   return (
@@ -382,9 +429,10 @@ function Teacher({ roomId }) {
         </div>
 
         <div className="stats-strip">
-          <Metric label="参加中" value={`${state?.participants || 0}人`} />
-          <Metric label="回答数" value={`${total}件`} />
-          <Metric label="リセット" value={`${state?.resetVersion || 0}回`} />
+          <Metric label="参加者" value={`${participants}人`} />
+          <Metric label="回答者" value={`${total}人`} />
+          <Metric label="未回答" value={`${unanswered}人`} />
+          <Metric label="回答率" value={`${responseRate}%`} />
         </div>
 
         <section className="note-panel" aria-label="先生メモ">
@@ -436,9 +484,30 @@ function Teacher({ roomId }) {
         </section>
 
         <section className="results-panel" aria-label="理解度の集計">
-          {Object.entries(labels).map(([key, label]) => (
-            <ResultBar key={key} label={label} value={counts[key]} total={total} tone={key} />
-          ))}
+          {Object.entries(labels).map(([key, label]) => {
+            const hasDetails = (key === "understood" || key === "lost") && Object.keys(details[key] || {}).length > 0;
+            const dictionary = key === "understood" ? confidences : reasons;
+
+            return (
+              <div key={key}>
+                <ResultBar label={label} value={counts[key] || 0} total={total} tone={key} />
+                {hasDetails && (
+                  <div className="result-details">
+                    {Object.entries(dictionary).map(([dKey, dLabel]) => {
+                      const count = (details[key] && details[key][dKey]) || 0;
+                      if (count === 0) return null;
+                      return (
+                        <div key={dKey} className="result-details-item">
+                          <span>{dLabel}</span>
+                          <strong>{count}人</strong>
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
+              </div>
+            );
+          })}
         </section>
 
         <section className="reaction-panel" aria-label="リアクションの集計">
@@ -496,7 +565,8 @@ function Timeline({ history }) {
         {items.map((item) => {
           const understood = item.counts?.understood || 0;
           const lost = item.counts?.lost || 0;
-          const total = item.totalResponses || understood + lost;
+          const explain = item.counts?.explain || 0;
+          const total = item.totalResponses || understood + lost + explain;
           const lostRate = total > 0 ? Math.round((lost / total) * 100) : 0;
 
           return (
@@ -509,11 +579,12 @@ function Timeline({ history }) {
                 <span>メモ</span>
                 <p>{item.note || "メモなし"}</p>
               </div>
-              <div className="timeline-metrics">
-                <span>わかった {understood}人</span>
-                <span>わからない {lost}人</span>
-                <span>つまずき {lostRate}%</span>
-                <span>へぇー {item.wow || 0}回</span>
+              <div className="timeline-metrics" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(60px, 1fr))", gap: "6px" }}>
+                <span>わかった<br/>{understood}</span>
+                <span>わからない<br/>{lost}</span>
+                <span>もう一回<br/>{explain}</span>
+                <span>つまずき<br/>{lostRate}%</span>
+                <span>へぇー<br/>{item.wow || 0}</span>
               </div>
             </article>
           );
@@ -645,12 +716,12 @@ function formatTime(value) {
 function Student({ roomId }) {
   const { error, selected, clientId, comments } = useStudentRoom(roomId);
 
-  function submit(value) {
+  function submit(action, detail = null) {
     if (!clientId) {
       return;
     }
 
-    set(ref(db, `rooms/${roomId}/responses/${clientId}`), value);
+    set(ref(db, `rooms/${roomId}/responses/${clientId}`), { action, detail });
     set(ref(db, `rooms/${roomId}/participants/${clientId}`), true);
   }
 
@@ -666,6 +737,9 @@ function Student({ roomId }) {
   if (error) {
     return <ErrorScreen message={error} />;
   }
+  
+  const currentAction = selected ? (typeof selected === "string" ? selected : selected.action) : null;
+  const currentDetail = selected && typeof selected === "object" ? selected.detail : null;
 
   return (
     <main className="student-shell">
@@ -678,19 +752,50 @@ function Student({ roomId }) {
       <section className="choice-stack" aria-label="理解度ボタン">
         {Object.entries(labels).map(([key, label]) => {
           const Icon = buttonIcons[key];
+          const isSelectedAction = currentAction === key;
+
           return (
-            <button
-              className={`choice-button ${key} ${selected === key ? "selected" : ""}`}
-              key={key}
-              type="button"
-              onClick={() => submit(key)}
-            >
-              <Icon aria-hidden="true" />
-              <span>
-                <strong>{label}</strong>
-                <small>{descriptions[key]}</small>
-              </span>
-            </button>
+            <React.Fragment key={key}>
+              <button
+                className={`choice-button ${key} ${isSelectedAction ? "selected" : ""}`}
+                type="button"
+                onClick={() => submit(key)}
+              >
+                <Icon aria-hidden="true" />
+                <span>
+                  <strong>{label}</strong>
+                  <small>{descriptions[key]}</small>
+                </span>
+              </button>
+
+              {isSelectedAction && key === "understood" && (
+                <div className="sub-options">
+                  {Object.entries(confidences).map(([dKey, dLabel]) => (
+                    <button
+                      key={dKey}
+                      className={`sub-option-button ${currentDetail === dKey ? "selected" : ""}`}
+                      onClick={() => submit(key, dKey)}
+                    >
+                      {dLabel}
+                    </button>
+                  ))}
+                </div>
+              )}
+
+              {isSelectedAction && key === "lost" && (
+                <div className="sub-options">
+                  {Object.entries(reasons).map(([dKey, dLabel]) => (
+                    <button
+                      key={dKey}
+                      className={`sub-option-button ${currentDetail === dKey ? "selected" : ""}`}
+                      onClick={() => submit(key, dKey)}
+                    >
+                      {dLabel}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </React.Fragment>
           );
         })}
       </section>
@@ -704,7 +809,7 @@ function Student({ roomId }) {
       </button>
 
       <p className="student-status">
-        {selected ? `送信しました: ${labels[selected]}` : "まだ回答していません"}
+        {currentAction ? `送信しました: ${labels[currentAction]}` : "まだ回答していません"}
       </p>
 
       <CommentsPanel comments={comments} roomId={roomId} clientId={clientId} title="みんなのコメント" />

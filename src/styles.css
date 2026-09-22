@@ -162,7 +162,7 @@ h1 {
 .stats-strip {
   display: grid;
   gap: 12px;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   margin-bottom: 28px;
 }
 
@@ -627,6 +627,32 @@ h1 {
   background: #c8523f;
 }
 
+.bar-fill.explain,
+.choice-button.explain {
+  background: #3a7ca5;
+}
+
+.result-details {
+  background: #fffdf8;
+  border-radius: 8px;
+  margin-top: 8px;
+  padding: 12px;
+  display: grid;
+  gap: 6px;
+  border: 1px solid #ebe5d7;
+}
+
+.result-details-item {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9rem;
+  color: #526357;
+}
+
+.result-details-item strong {
+  color: #17211b;
+}
+
 .join-panel {
   align-self: start;
   display: grid;
@@ -746,6 +772,32 @@ h1 {
   outline-offset: 3px;
 }
 
+.sub-options {
+  display: grid;
+  gap: 8px;
+  margin-top: 4px;
+  margin-bottom: 16px;
+  padding-left: 20px;
+  border-left: 3px solid #ded7c8;
+}
+
+.sub-option-button {
+  background: #fffdf8;
+  border: 1px solid #ded7c8;
+  border-radius: 6px;
+  color: #526357;
+  font-weight: 700;
+  padding: 14px;
+  text-align: left;
+  transition: all 150ms ease;
+}
+
+.sub-option-button.selected {
+  background: #17211b;
+  color: #ffffff;
+  border-color: #17211b;
+}
+
 .wow-button {
   align-items: center;
   background: #d69c2f;
@@ -829,6 +881,10 @@ h1 {
   }
 
   .timeline-metrics {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .stats-strip {
     grid-template-columns: 1fr 1fr;
   }
 
