@@ -130,7 +130,9 @@ function useTeacherRoom(roomId) {
               let detail = null;
               
               if (typeof value === "string") {
-                action = value;
+                const parts = value.split(":");
+                action = parts[0];
+                detail = parts[1] || null;
               } else if (value && typeof value === "object") {
                 action = value.action;
                 detail = value.detail;
@@ -721,8 +723,9 @@ function Student({ roomId }) {
       return;
     }
 
-    set(ref(db, `rooms/${roomId}/responses/${clientId}`), { action, detail });
-    set(ref(db, `rooms/${roomId}/participants/${clientId}`), true);
+    const value = detail ? `${action}:${detail}` : action;
+    set(ref(db, `rooms/${roomId}/responses/${clientId}`), value).catch(console.error);
+    set(ref(db, `rooms/${roomId}/participants/${clientId}`), true).catch(console.error);
   }
 
   async function sendWow() {
@@ -738,8 +741,8 @@ function Student({ roomId }) {
     return <ErrorScreen message={error} />;
   }
   
-  const currentAction = selected ? (typeof selected === "string" ? selected : selected.action) : null;
-  const currentDetail = selected && typeof selected === "object" ? selected.detail : null;
+  const currentAction = selected ? (typeof selected === "string" ? selected.split(":")[0] : selected.action) : null;
+  const currentDetail = selected ? (typeof selected === "string" ? selected.split(":")[1] || null : selected.detail) : null;
 
   return (
     <main className="student-shell">
