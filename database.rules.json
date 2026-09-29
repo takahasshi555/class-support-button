@@ -40,9 +40,23 @@
               "lost": {
                 ".validate": "newData.isNumber() && newData.val() >= 0"
               },
+              "explain": {
+                ".validate": "newData.isNumber() && newData.val() >= 0"
+              },
               "$other": {
                 ".validate": false
               }
+            },
+            "details": {
+              "understood": { ".validate": true },
+              "lost": { ".validate": true },
+              "explain": { ".validate": true }
+            },
+            "unanswered": {
+              ".validate": "newData.isNumber() && newData.val() >= 0"
+            },
+            "responseRate": {
+              ".validate": "newData.isNumber() && newData.val() >= 0"
             },
             "wow": {
               ".validate": "newData.isNumber() && newData.val() >= 0"
@@ -95,8 +109,8 @@
           ".write": "auth != null && data.parent().child('teacherUid').val() === auth.uid && !newData.exists()",
           "$uid": {
             ".read": "auth != null && ($uid === auth.uid || data.parent().parent().child('teacherUid').val() === auth.uid)",
-            ".write": "auth != null && $uid === auth.uid && newData.isString() && (newData.val() === 'understood' || newData.val() === 'lost')",
-            ".validate": "newData.isString() && (newData.val() === 'understood' || newData.val() === 'lost')"
+            ".write": "auth != null && $uid === auth.uid && newData.isString() && (newData.val().matches(/^understood(:.*)?$/) || newData.val().matches(/^lost(:.*)?$/) || newData.val() === 'explain')",
+            ".validate": "newData.isString() && (newData.val().matches(/^understood(:.*)?$/) || newData.val().matches(/^lost(:.*)?$/) || newData.val() === 'explain')"
           }
         },
         "participants": {
