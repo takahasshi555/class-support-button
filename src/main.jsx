@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { createRoot } from "react-dom/client";
-import { BarChart3, CheckCircle2, Copy, Frown, Lightbulb, MessageCircle, QrCode, RefreshCcw, Send, Smartphone, ThumbsUp, HelpCircle } from "lucide-react";
+import { BarChart3, CheckCircle2, Copy, Frown, Lightbulb, MessageCircle, QrCode, RefreshCcw, Send, Smartphone, ThumbsUp, HelpCircle, FileText, Link as LinkIcon, UploadCloud, Trash2, ExternalLink } from "lucide-react";
 import QRCode from "qrcode";
 import { initializeApp } from "firebase/app";
 import { getAuth, signInAnonymously } from "firebase/auth";
-import { getDatabase, ref, onValue, set, update, runTransaction } from "firebase/database";
+import { getDatabase, ref, onValue, set, update, runTransaction, remove } from "firebase/database";
+import { getStorage, ref as storageRef, uploadBytes, getDownloadURL } from "firebase/storage";
 import "./styles.css";
 
 const firebaseConfig = {
@@ -20,6 +21,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getDatabase(app);
+const storage = getStorage(app);
 
 const labels = {
   understood: "わかった",
@@ -155,6 +157,7 @@ function useTeacherRoom(roomId) {
               roomId,
               counts,
               details,
+              material: data.material || null,
               comments: data.comments || {},
               note: data.note || "",
               history: data.history || {},
@@ -193,6 +196,7 @@ function useStudentRoom(roomId) {
   const [selected, setSelected] = useState(null);
   const [clientId, setClientId] = useState("");
   const [comments, setComments] = useState({});
+  const [material, setMaterial] = useState(null);
 
   useEffect(() => {
     if (!roomId) {
@@ -202,6 +206,7 @@ function useStudentRoom(roomId) {
     let responseUnsubscribe = null;
     let resetUnsubscribe = null;
     let commentsUnsubscribe = null;
+    let materialUnsubscribe = null;
     let cancelled = false;
 
     ensureAuth()
@@ -248,6 +253,16 @@ function useStudentRoom(roomId) {
             setError("コメントを取得できません: " + err.message);
           }
         );
+
+        materialUnsubscribe = onValue(
+          ref(db, `rooms/${roomId}/material`),
+          (snapshot) => {
+            setMaterial(snapshot.val() || null);
+          },
+          (err) => {
+            console.error("資料情報を取得できません: " + err.message);
+          }
+        );
       })
       .catch((err) => {
         setError("匿名認証に失敗しました: " + err.message);
@@ -264,10 +279,13 @@ function useStudentRoom(roomId) {
       if (commentsUnsubscribe) {
         commentsUnsubscribe();
       }
+      if (materialUnsubscribe) {
+        materialUnsubscribe();
+      }
     };
   }, [roomId]);
 
-  return { error, selected, clientId, comments };
+  return { error, selected, clientId, comments, material };
 }
 
 function Home() {
@@ -437,6 +455,8 @@ function Teacher({ roomId }) {
           <Metric label="回答率" value={`${responseRate}%`} />
         </div>
 
+        <MaterialManager roomId={roomId} material={state?.material} />
+
         <section className="note-panel" aria-label="先生メモ">
           <div className="note-heading">
             <div>
@@ -538,6 +558,122 @@ function Teacher({ roomId }) {
         </div>
       </aside>
     </main>
+  );
+}
+
+function MaterialManager({ roomId, material }) {
+  const [urlDraft, setUrlDraft] = useState("");
+  const [status, setStatus] = useState("");
+  const [isUploading, setIsUploading] = useState(false);
+  const fileInputRef = useRef(null);
+
+  async function handleUrlSave() {
+    const url = urlDraft.trim();
+    if (!url) return;
+    setStatus("保存中...");
+    try {
+      await set(ref(db, `rooms/${roomId}/material`), {
+        url,
+        type: "link",
+        name: "参考リンク"
+      });
+      setStatus("保存しました");
+      setUrlDraft("");
+      setTimeout(() => setStatus(""), 2000);
+    } catch (err) {
+      console.error(err);
+      setStatus("エラーが発生しました");
+    }
+  }
+
+  async function handleFileUpload(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+    setIsUploading(true);
+    setStatus("アップロード中...");
+    try {
+      const fileRef = storageRef(storage, `materials/${roomId}/${Date.now()}_${file.name}`);
+      await uploadBytes(fileRef, file);
+      const url = await getDownloadURL(fileRef);
+      await set(ref(db, `rooms/${roomId}/material`), {
+        url,
+        type: "file",
+        name: file.name
+      });
+      setStatus("アップロード完了");
+      setTimeout(() => setStatus(""), 2000);
+    } catch (err) {
+      console.error(err);
+      setStatus("エラーが発生しました");
+    } finally {
+      setIsUploading(false);
+      if (fileInputRef.current) fileInputRef.current.value = "";
+    }
+  }
+
+  async function handleDelete() {
+    try {
+      await remove(ref(db, `rooms/${roomId}/material`));
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  return (
+    <section className="material-panel" aria-label="授業資料">
+      <div className="material-heading">
+        <div>
+          <span>授業資料</span>
+          <strong>資料の共有</strong>
+        </div>
+        <FileText aria-hidden="true" />
+      </div>
+      
+      {material ? (
+        <div className="material-current">
+          <p>現在の資料: <strong>{material.name}</strong></p>
+          <div className="material-actions">
+            <a href={material.url} target="_blank" rel="noopener noreferrer" className="material-btn-secondary">
+              <ExternalLink size={16} /> 確認する
+            </a>
+            <button onClick={handleDelete} className="material-btn-danger">
+              <Trash2 size={16} /> 削除
+            </button>
+          </div>
+        </div>
+      ) : (
+        <div className="material-upload-forms">
+          <div className="material-upload-box">
+            <input 
+              type="file" 
+              ref={fileInputRef} 
+              onChange={handleFileUpload} 
+              disabled={isUploading}
+              accept=".pdf,image/*" 
+              className="material-file-input" 
+            />
+            <button className="material-btn-primary" onClick={() => fileInputRef.current?.click()} disabled={isUploading}>
+              <UploadCloud size={16} /> 
+              {isUploading ? "処理中..." : "ファイルを選択 (PDF/画像)"}
+            </button>
+          </div>
+          <div className="material-divider">または</div>
+          <div className="material-url-box">
+            <input 
+              type="url" 
+              placeholder="https://..." 
+              value={urlDraft} 
+              onChange={e => setUrlDraft(e.target.value)} 
+              className="material-url-input"
+            />
+            <button onClick={handleUrlSave} className="material-btn-primary" disabled={!urlDraft.trim()}>
+              <LinkIcon size={16} /> リンクを設定
+            </button>
+          </div>
+        </div>
+      )}
+      {status && <p className="material-status">{status}</p>}
+    </section>
   );
 }
 
@@ -716,7 +852,7 @@ function formatTime(value) {
 }
 
 function Student({ roomId }) {
-  const { error, selected, clientId, comments } = useStudentRoom(roomId);
+  const { error, selected, clientId, comments, material } = useStudentRoom(roomId);
 
   function submit(action, detail = null) {
     if (!clientId) {
@@ -751,6 +887,23 @@ function Student({ roomId }) {
         <h1>今の理解度は？</h1>
         <p>先生には全体の人数だけが届きます。</p>
       </section>
+
+      {material && (
+        <section className="student-material-panel">
+          <div className="student-material-heading">
+            <FileText size={18} />
+            <span>本日の授業資料</span>
+          </div>
+          {material.name && material.name.match(/\.(jpeg|jpg|gif|png|webp)$/i) ? (
+            <img src={material.url} alt={material.name} className="student-material-img" />
+          ) : (
+            <a href={material.url} target="_blank" rel="noopener noreferrer" className="student-material-btn">
+              <ExternalLink size={18} />
+              {material.name} を開く
+            </a>
+          )}
+        </section>
+      )}
 
       <section className="choice-stack" aria-label="理解度ボタン">
         {Object.entries(labels).map(([key, label]) => {

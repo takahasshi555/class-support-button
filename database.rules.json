@@ -120,6 +120,13 @@
             ".validate": "newData.val() === true"
           }
         },
+        "material": {
+          ".read": "auth != null",
+          ".write": "auth != null && data.parent().child('teacherUid').val() === auth.uid",
+          "url": { ".validate": "newData.isString()" },
+          "type": { ".validate": "newData.isString()" },
+          "name": { ".validate": "newData.isString()" }
+        },
         "reactions": {
           "wow": {
             ".read": "auth != null",
