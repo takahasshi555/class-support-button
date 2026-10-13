@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import { createRoot } from "react-dom/client";
-import { BarChart3, CheckCircle2, Copy, Frown, Lightbulb, MessageCircle, QrCode, RefreshCcw, Send, Smartphone, ThumbsUp, HelpCircle, FileText, Link as LinkIcon, UploadCloud, Trash2, ExternalLink } from "lucide-react";
+import { BarChart3, CheckCircle2, Copy, Frown, Lightbulb, MessageCircle, QrCode, RefreshCcw, Send, Smartphone, ThumbsUp, HelpCircle, FileText, Link as LinkIcon, UploadCloud, Trash2, ExternalLink, Coffee } from "lucide-react";
 import QRCode from "qrcode";
 import { initializeApp } from "firebase/app";
 import { getAuth, signInAnonymously } from "firebase/auth";
@@ -158,6 +158,7 @@ function useTeacherRoom(roomId) {
               counts,
               details,
               material: data.material || null,
+              breakRequests: data.break_requests || {},
               comments: data.comments || {},
               note: data.note || "",
               history: data.history || {},
@@ -197,6 +198,7 @@ function useStudentRoom(roomId) {
   const [clientId, setClientId] = useState("");
   const [comments, setComments] = useState({});
   const [material, setMaterial] = useState(null);
+  const [breakRequested, setBreakRequested] = useState(false);
 
   useEffect(() => {
     if (!roomId) {
@@ -207,6 +209,7 @@ function useStudentRoom(roomId) {
     let resetUnsubscribe = null;
     let commentsUnsubscribe = null;
     let materialUnsubscribe = null;
+    let breakUnsubscribe = null;
     let cancelled = false;
 
     ensureAuth()
@@ -263,6 +266,16 @@ function useStudentRoom(roomId) {
             console.error("資料情報を取得できません: " + err.message);
           }
         );
+
+        breakUnsubscribe = onValue(
+          ref(db, `rooms/${roomId}/break_requests/${user.uid}`),
+          (snapshot) => {
+            setBreakRequested(snapshot.val() === true);
+          },
+          (err) => {
+            console.error("休憩状態を取得できません: " + err.message);
+          }
+        );
       })
       .catch((err) => {
         setError("匿名認証に失敗しました: " + err.message);
@@ -282,10 +295,13 @@ function useStudentRoom(roomId) {
       if (materialUnsubscribe) {
         materialUnsubscribe();
       }
+      if (breakUnsubscribe) {
+        breakUnsubscribe();
+      }
     };
   }, [roomId]);
 
-  return { error, selected, clientId, comments, material };
+  return { error, selected, clientId, comments, material, breakRequested };
 }
 
 function Home() {
@@ -344,6 +360,8 @@ function Teacher({ roomId }) {
   const [noteStatus, setNoteStatus] = useState("");
   const [timelineLabel, setTimelineLabel] = useState("");
   const [timelineStatus, setTimelineStatus] = useState("");
+  const [breakAlertShown, setBreakAlertShown] = useState(false);
+  const [breakAlert, setBreakAlert] = useState(false);
   const joinUrl = `${window.location.origin}/room/${roomId}`;
 
   useEffect(() => {
@@ -434,6 +452,24 @@ function Teacher({ roomId }) {
   const responseRate = state?.responseRate || 0;
   const wowCount = state?.reactions?.wow || 0;
 
+  // 休憩要求の集計
+  const breakRequests = state?.breakRequests || {};
+  const breakCount = Object.keys(breakRequests).length;
+  const breakRate = participants > 0 ? Math.round((breakCount / participants) * 100) : null;
+  const breakThreshold = breakRate !== null && breakRate >= 75;
+
+  // 75%到達通知の管理
+  React.useEffect(() => {
+    if (breakThreshold && !breakAlertShown) {
+      setBreakAlert(true);
+      setBreakAlertShown(true);
+    }
+    if (!breakThreshold) {
+      setBreakAlertShown(false);
+      setBreakAlert(false);
+    }
+  }, [breakThreshold, breakAlertShown]);
+
   return (
     <main className="teacher-layout">
       <section className="teacher-main">
@@ -454,6 +490,44 @@ function Teacher({ roomId }) {
           <Metric label="未回答" value={`${unanswered}人`} />
           <Metric label="回答率" value={`${responseRate}%`} />
         </div>
+
+        {/* 休憩要求パネル */}
+        <section className={`break-panel ${breakThreshold ? "break-panel--alert" : ""}`} aria-label="休憩要求">
+          <div className="break-panel-heading">
+            <div>
+              <span>休憩要求</span>
+              <strong>休憩したい学生の状況</strong>
+            </div>
+            <Coffee aria-hidden="true" />
+          </div>
+          <div className="break-stats">
+            <div className="break-stat">
+              <span>要求人数</span>
+              <strong>{breakCount}人</strong>
+            </div>
+            <div className="break-stat">
+              <span>集計対象</span>
+              <strong>{participants}人</strong>
+            </div>
+            <div className="break-stat">
+              <span>要求率</span>
+              <strong>{breakRate !== null ? `${breakRate}%` : "—"}</strong>
+            </div>
+          </div>
+          {breakAlert && (
+            <div className="break-alert" role="alert">
+              ☕ 休憩希望が75%に達しました。休憩を検討してください。
+              <button
+                className="break-alert-close"
+                type="button"
+                onClick={() => setBreakAlert(false)}
+                aria-label="通知を閉じる"
+              >
+                ✕
+              </button>
+            </div>
+          )}
+        </section>
 
         <MaterialManager roomId={roomId} material={state?.material} />
 
@@ -852,7 +926,24 @@ function formatTime(value) {
 }
 
 function Student({ roomId }) {
-  const { error, selected, clientId, comments, material } = useStudentRoom(roomId);
+  const { error, selected, clientId, comments, material, breakRequested } = useStudentRoom(roomId);
+  const [breakStatus, setBreakStatus] = useState("");
+
+  async function toggleBreak() {
+    if (!clientId) return;
+    setBreakStatus("送信中...");
+    try {
+      if (breakRequested) {
+        await remove(ref(db, `rooms/${roomId}/break_requests/${clientId}`));
+      } else {
+        await set(ref(db, `rooms/${roomId}/break_requests/${clientId}`), true);
+      }
+      setBreakStatus("");
+    } catch (err) {
+      console.error(err);
+      setBreakStatus("送信に失敗しました。再度お試しください。");
+    }
+  }
 
   function submit(action, detail = null) {
     if (!clientId) {
@@ -967,6 +1058,24 @@ function Student({ roomId }) {
       <p className="student-status">
         {currentAction ? `送信しました: ${labels[currentAction]}` : "まだ回答していません"}
       </p>
+
+      {/* 休憩要求ボタン */}
+      <div className="break-request-section">
+        <button
+          id="break-request-btn"
+          className={`break-request-button ${breakRequested ? "break-request-button--active" : ""}`}
+          type="button"
+          onClick={toggleBreak}
+          disabled={breakStatus === "送信中..."}
+        >
+          <Coffee aria-hidden="true" />
+          <span>
+            <strong>{breakRequested ? "休憩したい（取り消しはここ）" : "休憩したい"}</strong>
+            <small>{breakRequested ? "要求済み — 花マルで取り消せます" : "先生に休憩をお願いする"}</small>
+          </span>
+        </button>
+        {breakStatus && <p className="break-request-status">{breakStatus}</p>}
+      </div>
 
       <CommentsPanel comments={comments} roomId={roomId} clientId={clientId} title="みんなのコメント" />
     </main>

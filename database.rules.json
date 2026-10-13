@@ -127,6 +127,14 @@
           "type": { ".validate": "newData.isString()" },
           "name": { ".validate": "newData.isString()" }
         },
+        "break_requests": {
+          ".read": "auth != null && data.parent().child('teacherUid').val() === auth.uid",
+          "$uid": {
+            ".read": "auth != null && ($uid === auth.uid || data.parent().parent().child('teacherUid').val() === auth.uid)",
+            ".write": "auth != null && $uid === auth.uid && (newData.val() === true || !newData.exists())",
+            ".validate": "newData.val() === true"
+          }
+        },
         "reactions": {
           "wow": {
             ".read": "auth != null",

@@ -1017,6 +1017,187 @@ h1 {
   text-align: center;
 }
 
+/* ========== 休憩要求（学生画面） ========== */
+.break-request-section {
+  margin-top: 18px;
+}
+
+.break-request-button {
+  align-items: center;
+  background: #fff8e8;
+  border: 2px solid #d97706;
+  border-radius: 12px;
+  color: #92400e;
+  cursor: pointer;
+  display: flex;
+  font: inherit;
+  gap: 16px;
+  min-height: 72px;
+  padding: 16px 20px;
+  text-align: left;
+  transition: background 0.15s, border-color 0.15s, transform 0.1s;
+  width: 100%;
+}
+
+.break-request-button:hover {
+  background: #fef3c7;
+  border-color: #b45309;
+}
+
+.break-request-button:active {
+  transform: scale(0.98);
+}
+
+.break-request-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.break-request-button--active {
+  background: #d97706;
+  border-color: #b45309;
+  color: #fff;
+}
+
+.break-request-button--active:hover {
+  background: #b45309;
+  border-color: #92400e;
+}
+
+.break-request-button svg {
+  flex-shrink: 0;
+  height: 28px;
+  width: 28px;
+}
+
+.break-request-button strong,
+.break-request-button small {
+  display: block;
+}
+
+.break-request-button strong {
+  font-size: 1.1rem;
+}
+
+.break-request-button small {
+  font-size: 0.88rem;
+  opacity: 0.85;
+}
+
+.break-request-status {
+  color: #b45309;
+  font-size: 0.88rem;
+  font-weight: 800;
+  margin: 8px 0 0;
+  text-align: center;
+}
+
+/* ========== 休憩要求（先生画面） ========== */
+.break-panel {
+  background: #fff8e8;
+  border: 1.5px solid #fcd34d;
+  border-radius: 8px;
+  display: grid;
+  gap: 14px;
+  margin-bottom: 28px;
+  padding: 18px;
+  transition: background 0.3s, border-color 0.3s;
+}
+
+.break-panel--alert {
+  background: #fef3c7;
+  border-color: #d97706;
+}
+
+.break-panel-heading {
+  align-items: center;
+  color: #92400e;
+  display: flex;
+  gap: 12px;
+  justify-content: space-between;
+}
+
+.break-panel-heading span {
+  display: block;
+  font-size: 0.88rem;
+  font-weight: 800;
+}
+
+.break-panel-heading strong {
+  display: block;
+  font-size: 1.15rem;
+}
+
+.break-stats {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.break-stat {
+  background: #fffdf8;
+  border: 1px solid #fcd34d;
+  border-radius: 8px;
+  padding: 10px 12px;
+  text-align: center;
+}
+
+.break-stat span {
+  display: block;
+  font-size: 0.78rem;
+  color: #92400e;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.break-stat strong {
+  display: block;
+  font-size: 1.4rem;
+  color: #78350f;
+}
+
+.break-panel--alert .break-stat strong {
+  color: #b45309;
+}
+
+.break-alert {
+  align-items: center;
+  animation: break-slide-in 0.25s ease;
+  background: #d97706;
+  border-radius: 8px;
+  color: #fff;
+  display: flex;
+  font-weight: 800;
+  gap: 12px;
+  justify-content: space-between;
+  padding: 14px 16px;
+}
+
+@keyframes break-slide-in {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.break-alert-close {
+  background: rgba(255,255,255,0.2);
+  border: 0;
+  border-radius: 6px;
+  color: #fff;
+  cursor: pointer;
+  flex-shrink: 0;
+  font-size: 1rem;
+  font-weight: 800;
+  height: 32px;
+  line-height: 1;
+  width: 32px;
+}
+
+.break-alert-close:hover {
+  background: rgba(255,255,255,0.35);
+}
+
+
+
 .text-link {
   color: #12613d;
   font-weight: 800;
