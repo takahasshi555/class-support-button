@@ -340,7 +340,6 @@ function useStudentRoom(roomId) {
 
 function Home() {
   const [isCreating, setIsCreating] = useState(false);
-  const [joinCode, setJoinCode] = useState("");
   const [error, setError] = useState("");
 
   async function createRoom() {
@@ -367,21 +366,20 @@ function Home() {
     }
   }
 
-  return (
-    <div className="welcome-app">
-      <header className="app-topbar"><Brand /><a className="text-link" href="#teacher-start">先生はこちら</a></header>
-      <main className="welcome-layout">
-        <section className="welcome-story"><span className="section-kicker">YOUR VOICE, YOUR CLASS.</span><h1>小さな「わかった」を、<br /><em>授業の力に。</em></h1><p>わかったことも、つまずいたことも。<br />ひと声を届けて、もっと参加しやすい授業へ。</p><div className="welcome-illustration" aria-hidden="true"><div className="illustration-orbit" /><span className="illustration-star">✦</span><div className="illustration-book"><FileText size={82} strokeWidth={1.2} /><span>今日の学び</span></div><div className="illustration-answer"><CheckCircle2 />わかった！</div><div className="illustration-question"><Lightbulb />なるほど。</div></div><div className="welcome-benefits"><span><CheckCircle2 size={16} />名前を表示せず回答</span><span><QrCode size={16} />QRですぐ参加</span></div></section>
-        <section className="welcome-actions"><div className="join-class-card"><span className="section-kicker">学生の方</span><h2>授業に参加する</h2><p>先生から案内された6桁のコードを入力してください。</p><form onSubmit={(event) => { event.preventDefault(); if (/^[A-Z0-9]{6}$/.test(joinCode)) window.location.href = '/room/' + joinCode; }}><label htmlFor="room-code">参加コード</label><input id="room-code" value={joinCode} onChange={(e) => setJoinCode(e.target.value.toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 6))} placeholder="例：ABC123" autoCapitalize="characters" autoComplete="off" spellCheck={false} minLength={6} maxLength={6} required /><button className="primary-action" type="submit" disabled={joinCode.length !== 6}>授業に参加する <Send size={17} /></button></form><p className="entry-hint"><QrCode size={17} />QRコードを読み取っても参加できます</p></div><div id="teacher-start" className="teacher-start-card"><div><span className="section-kicker">先生の方</span><h2>授業をはじめる</h2><p>ルームを作って、学生にQRを共有しましょう。</p></div><button className="secondary-action" type="button" onClick={createRoom} disabled={isCreating}><BarChart3 size={18} />{isCreating ? 'ルームを作成中…' : '授業ルームを作成'}</button>{error && <p role="alert" className="error-text">{error}</p>}</div></section>
-      </main><footer className="welcome-footer">授業サポート — 一人ひとりの理解を、授業につなぐ。</footer>
-    </div>
-  );
+  return <div className="teacher-entry">
+    <header className="app-topbar"><Brand /><span className="entry-teacher-label">教員向け</span></header>
+    <main className="teacher-entry-main">
+      <section className="entry-intro"><span className="section-kicker">授業の進行を、もっとスムーズに。</span><h1>学生の「今」が、<br />見える授業へ。</h1><p>理解度や休憩の希望を、その場で確認。<br />学生の反応を見ながら、説明のペースを調整できます。</p><div className="entry-feature-list"><span><BarChart3 size={20}/>理解度をリアルタイムに集計</span><span><Coffee size={20}/>休憩の希望を通知</span><span><CheckCircle2 size={20}/>スライド中もミニ表示で確認</span></div></section>
+      <section className="entry-start" aria-labelledby="entry-start-title"><span className="entry-start-icon"><BookOpen size={30}/></span><h2 id="entry-start-title">授業をはじめる</h2><p>授業ルームを作成して、学生にQRコードを提示しましょう。</p><button className="primary-action" type="button" onClick={createRoom} disabled={isCreating}><BarChart3 size={19}/>{isCreating ? '授業ルームを作成中…' : '授業ルームを作成'}</button>{error && <p role="alert" className="error-text">{error}</p>}<div className="entry-browser-note">作成したブラウザーが教員用になります。<br />ミニ表示には通常のChromeをご利用ください。</div></section>
+      <section className="entry-steps" aria-label="授業開始までの流れ"><article><span>01</span><h2>ルームを作成</h2><p>上のボタンで教員画面を開きます。</p></article><article><span>02</span><h2>QRを学生に提示</h2><p>教員画面の「QR・参加案内」を開き、学生に読み取ってもらいます。</p></article><article><span>03</span><h2>反応を見ながら授業</h2><p>理解度の集計やミニ表示で、説明のタイミングをつかみます。</p></article></section>
+      <aside className="entry-student-note"><QrCode size={23}/><div><strong>学生の皆さんへ</strong><p>先生が授業中に表示するQRコードを、スマートフォンのカメラで読み取って参加してください。</p></div></aside>
+    </main><footer className="welcome-footer">授業サポートボタン — 教員向けスタートページ</footer>
+  </div>;
 }
 
 function Teacher({ roomId }) {
   const { state, error } = useTeacherRoom(roomId);
   const [qrDataUrl, setQrDataUrl] = useState("");
-  const [copyStatus, setCopyStatus] = useState("");
   const [noteDraft, setNoteDraft] = useState("");
   const [timelineLabel, setTimelineLabel] = useState("");
   const [timelineStatus, setTimelineStatus] = useState("");
@@ -446,16 +444,6 @@ function Teacher({ roomId }) {
     }
   }
 
-  async function copyUrl() {
-    try {
-      await navigator.clipboard.writeText(joinUrl);
-      setCopyStatus("参加URLをコピーしました");
-      window.setTimeout(() => setCopyStatus(""), 2000);
-    } catch {
-      setCopyStatus("コピーできません。URLを選択してコピーしてください。");
-    }
-  }
-
   const counts = state?.counts || { understood: 0, lost: 0, explain: 0 };
   const details = state?.details || { understood: {}, lost: {}, explain: {} };
   const total = state?.totalResponses || 0;
@@ -473,7 +461,7 @@ function Teacher({ roomId }) {
   if (error) return <ErrorScreen message={error} isTeacherError={true} />;
 
   return <TeacherWorkspace roomId={roomId} state={state} labels={labels} topicLabel={timelineLabel} panels={{
-    invite: (<section className="classroom-invite" aria-label="学生の参加案内"><div className="invite-code"><BookOpen size={26} /><span>ルームコード</span><strong>{roomId}</strong></div><div className="invite-qr">{qrDataUrl ? <img src={qrDataUrl} alt="学生参加用QRコード" /> : <span>QR準備中…</span>}<div><strong>学生の参加用QR</strong><p>スマホで読み取って<br />参加できます。</p></div></div><button type="button" className="join-copy-button" onClick={copyUrl} aria-live="polite"><Copy size={18} />{copyStatus || '参加URLをコピー'}</button></section>),
+    invite: (<section className="classroom-invite qr-only" aria-label="学生の参加案内"><h3>このQRコードから授業に参加</h3>{qrDataUrl ? <img className="student-join-qr" src={qrDataUrl} alt="学生参加用QRコード" /> : <p role="status">QRコードを準備しています…</p>}<p>スマートフォンのカメラで読み取り、<br />表示されたリンクを開いてください。</p><small>授業ルーム：{roomId}</small></section>),
     activity: (<TeacherActivity activity={state?.activity ? { ...state.activity, results: state.pollHistory?.[state.activity.id]?.results } : null} answers={state?.pollAnswers?.[state?.activity?.id] || {}} participants={participants}
           onStart={activity => set(ref(db, `rooms/${roomId}/activity`), activity)}
           onClose={() => closeActivity(db, roomId, state.activity)}
