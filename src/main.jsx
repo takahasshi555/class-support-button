@@ -5,8 +5,8 @@ import QRCode from "qrcode";
 import { initializeApp } from "firebase/app";
 import { initializeAppCheck, ReCaptchaEnterpriseProvider } from "firebase/app-check";
 import { getAI, getGenerativeModel, GoogleAIBackend } from "firebase/ai";
-import { getAuth, signInAnonymously } from "firebase/auth";
-import { getDatabase, ref, onValue, set, update, runTransaction, remove } from "firebase/database";
+import { getAuth, signInAnonymously, connectAuthEmulator } from "firebase/auth";
+import { getDatabase, ref, onValue, set, update, increment, remove, connectDatabaseEmulator } from "firebase/database";
 import { getStorage, ref as storageRef, uploadBytes, getDownloadURL, deleteObject } from "firebase/storage";
 import "./styles.css";
 import "./classroom.css";
@@ -19,7 +19,18 @@ import TeacherWorkspace from "./TeacherWorkspace";
 import "./teacher-console.css";
 import { TeacherActivity, StudentActivity, useStudentActivity, closeActivity, ActivityResults } from "./Activities";
 
-const firebaseConfig = {
+const useEmulators = import.meta.env.DEV && import.meta.env.MODE === 'loadtest';
+if (useEmulators && !['localhost', '127.0.0.1'].includes(window.location.hostname)) {
+  throw new Error('Load testing is restricted to localhost.');
+}
+const firebaseConfig = useEmulators ? {
+  apiKey: 'demo-class-support',
+  authDomain: 'demo-class-support.firebaseapp.com',
+  databaseURL: 'https://demo-class-support-default-rtdb.firebaseio.com',
+  projectId: 'demo-class-support',
+  storageBucket: 'demo-class-support.appspot.com',
+  appId: 'demo-class-support'
+} : {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
   authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
   databaseURL: import.meta.env.VITE_FIREBASE_DATABASE_URL,
@@ -31,7 +42,7 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const appCheckSiteKey = import.meta.env.VITE_FIREBASE_APP_CHECK_SITE_KEY;
-if (appCheckSiteKey) {
+if (appCheckSiteKey && !useEmulators) {
   if (import.meta.env.DEV && ["localhost", "127.0.0.1"].includes(window.location.hostname)) {
     self.FIREBASE_APPCHECK_DEBUG_TOKEN = true;
   }
@@ -43,6 +54,10 @@ if (appCheckSiteKey) {
 const auth = getAuth(app);
 const db = getDatabase(app);
 const storage = getStorage(app);
+if (useEmulators) {
+  connectAuthEmulator(auth, 'http://127.0.0.1:9099', { disableWarnings: true });
+  connectDatabaseEmulator(db, '127.0.0.1', 9000);
+}
 
 const labels = {
   understood: "わかった",
@@ -956,7 +971,7 @@ function Student({ roomId }) {
       breakRequested ? "休憩のお願いを取り消しました。" : "休憩のお願いを送りました。");
   }
   function sendWow() {
-    return perform(() => runTransaction(ref(db, "rooms/" + roomId + "/reactions/wow"), (current) => (current || 0) + 1), "「へぇー！」を送りました。");
+    return perform(() => set(ref(db, "rooms/" + roomId + "/reactions/wow"), increment(1)), "「へぇー！」を送りました。");
   }
   useEffect(() => { if (!selected) setStatus(""); }, [selected]);
   if (error) return <ErrorScreen message={error} />;
