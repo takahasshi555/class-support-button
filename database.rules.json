@@ -48,9 +48,15 @@
               }
             },
             "details": {
-              "understood": { ".validate": true },
-              "lost": { ".validate": true },
-              "explain": { ".validate": true }
+              "understood": {
+                ".validate": true
+              },
+              "lost": {
+                ".validate": true
+              },
+              "explain": {
+                ".validate": true
+              }
             },
             "unanswered": {
               ".validate": "newData.isNumber() && newData.val() >= 0"
@@ -123,9 +129,15 @@
         "material": {
           ".read": "auth != null",
           ".write": "auth != null && data.parent().child('teacherUid').val() === auth.uid",
-          "url": { ".validate": "newData.isString()" },
-          "type": { ".validate": "newData.isString()" },
-          "name": { ".validate": "newData.isString()" }
+          "url": {
+            ".validate": "newData.isString()"
+          },
+          "type": {
+            ".validate": "newData.isString()"
+          },
+          "name": {
+            ".validate": "newData.isString()"
+          }
         },
         "break_requests": {
           ".read": "auth != null && data.parent().child('teacherUid').val() === auth.uid",
@@ -147,6 +159,50 @@
         },
         "$other": {
           ".validate": false
+        },
+        "activity": {
+          ".read": "auth != null",
+          ".write": "auth != null && root.child('rooms').child($roomId).child('teacherUid').val() === auth.uid",
+          ".validate": "newData.hasChildren(['id', 'kind', 'phase', 'question'])",
+          "id": {
+            ".validate": "newData.isString() && newData.val().length <= 80"
+          },
+          "kind": {
+            ".validate": "newData.val() === 'understanding' || newData.val() === 'choice' || newData.val() === 'text'"
+          },
+          "phase": {
+            ".validate": "newData.val() === 'active' || newData.val() === 'closed' || newData.val() === 'results'"
+          },
+          "question": {
+            ".validate": "newData.isString() && newData.val().length > 0 && newData.val().length <= 120"
+          },
+          "options": {
+            "$index": {
+              ".validate": "$index.matches(/^[0-5]$/) && newData.isString() && newData.val().length > 0 && newData.val().length <= 80"
+            }
+          },
+          "$other": {
+            ".validate": false
+          },
+          "sharedResults": {
+            ".validate": "newData.hasChild('total')"
+          }
+        },
+        "pollHistory": {
+          ".read": "auth != null && root.child('rooms').child($roomId).child('teacherUid').val() === auth.uid",
+          "$pollId": {
+            ".write": "auth != null && root.child('rooms').child($roomId).child('teacherUid').val() === auth.uid"
+          }
+        },
+        "pollAnswers": {
+          ".read": "auth != null && root.child('rooms').child($roomId).child('teacherUid').val() === auth.uid",
+          "$pollId": {
+            "$uid": {
+              ".read": "auth != null && ($uid === auth.uid || root.child('rooms').child($roomId).child('teacherUid').val() === auth.uid)",
+              ".write": "auth != null && $uid === auth.uid && root.child('rooms').child($roomId).child('activity/id').val() === $pollId && root.child('rooms').child($roomId).child('activity/phase').val() === 'active'",
+              ".validate": "newData.isString() && ((root.child('rooms').child($roomId).child('activity/kind').val() === 'text' && newData.val().length > 0 && newData.val().length <= 120) || (root.child('rooms').child($roomId).child('activity/kind').val() !== 'text' && newData.val().matches(/^[0-5]$/) && root.child('rooms').child($roomId).child('activity/options').child(newData.val()).exists()))"
+            }
+          }
         }
       }
     }

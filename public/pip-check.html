@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>ミニ表示の動作確認</title><style>
+body{font-family:Meiryo,sans-serif;color:#19344e;background:#f3f6fa;margin:0;padding:24px}main{max-width:720px;margin:auto}section{background:white;border:1px solid #d5e0eb;border-radius:14px;padding:22px;margin:18px 0}h1{font-size:25px}h2{font-size:18px}p,li{font-size:14px;line-height:1.8}button{padding:13px 18px;border:1px solid #19344e;border-radius:9px;background:#19344e;color:white;font:inherit;cursor:pointer;margin:5px 8px 5px 0}button:disabled{opacity:.5}pre{white-space:pre-wrap;overflow-wrap:anywhere;font-size:12px;background:#edf2f7;padding:14px;border-radius:8px}#status{font-weight:bold}small{line-height:1.7}a{color:#19344e}</style></head>
+<body><main><h1>ミニ表示の動作確認</h1><p>授業データは使いません。ログインや通知の許可も不要です。同じページをアプリ内と通常のChromeで開いて比較してください。</p><section><h2>① 小窓を開く</h2><button id="open">確認用の小窓を開く</button><button id="close">小窓を閉じる</button><p id="status" role="status">確認を開始してください。</p><p>小窓が見えたら、その中の「見えました」を押してください。その後、スライドへ切り替え、前面に残るか確認します。</p></section><section><h2>② 結果を比べる</h2><ul><li>Chromeで見える／アプリ内で見えない → アプリ内ブラウザー側の制約が疑われます。</li><li>両方で見える／教員画面だけ見えない → 授業アプリ側を調べる必要があります。</li><li>両方で見えない → エラー内容やブラウザー・端末の条件を確認します。</li></ul><button id="copy">確認結果をコピー</button><span id="copy-status" role="status"></span><pre id="report"></pre></section><p>ブラウザーが「開いた」と返しても、実際に小窓が見えるとは限りません。「見えました」を押した結果も記録します。</p></main>
+<script>
+const entries=[];let floating=null;let attempt=0;let timer;const status=document.querySelector('#status');const openButton=document.querySelector('#open');
+const environment={api:!!window.documentPictureInPicture?.requestWindow,secureContext:window.isSecureContext,topLevel:window===window.top,browser:navigator.userAgent};
+function log(message){entries.push(new Date().toLocaleTimeString('ja-JP')+' '+message);document.querySelector('#report').textContent=JSON.stringify(environment,null,2)+'\n\n'+entries.join('\n');}
+log('確認ページを表示');
+openButton.onclick=async()=>{
+  if(floating&&!floating.closed){floating.focus();return;}
+  if(!environment.api){status.textContent='この環境には最前面の小窓を開くAPIがありません。';log('API非対応');return;}
+  const id=++attempt;openButton.disabled=true;status.textContent='小窓を開いています…';log('クリックからrequestWindowを実行');
+  try{
+    const request=documentPictureInPicture.requestWindow({width:300,height:220});
+    request.then(w=>{if(id!==attempt)w.close();},()=>{});
+    const w=await Promise.race([request,new Promise((_,reject)=>{timer=setTimeout(()=>reject(new Error('5秒以内にブラウザーから応答がありませんでした')),5000);})]);
+    if(id!==attempt){w.close();return;}floating=w;log('APIは成功を返しました。closed='+w.closed);status.textContent='小窓が見えるか確認してください。見えたら小窓内のボタンを押します。';
+    w.document.title='授業ミニ表示テスト';w.document.body.style.cssText='margin:0;padding:18px;font-family:Meiryo,sans-serif;background:#edf8f0;color:#19344e';
+    const heading=w.document.createElement('h2');heading.textContent='小窓の表示テスト';w.document.body.append(heading);
+    const text=w.document.createElement('p');text.textContent='わかった 24人 ／ わからない 6人（サンプル）';w.document.body.append(text);
+    const button=w.document.createElement('button');button.textContent='見えました';button.style.cssText='padding:12px;border:0;border-radius:8px;background:#19344e;color:white;font-size:16px';button.onclick=()=>{status.textContent='小窓が見えたことを確認しました。スライドに切り替えて前面に残るか確認してください。';log('利用者が「見えました」をクリック');button.textContent='確認済み';};w.document.body.append(button);
+    w.addEventListener('pagehide',()=>{log('小窓が閉じられました');if(floating===w)floating=null;},{once:true});
+  }catch(e){attempt++;status.textContent='小窓を開けませんでした。下の確認結果を送ってください。';log((e.name||'Error')+': '+e.message);}
+  finally{clearTimeout(timer);openButton.disabled=false;}
+};
+document.querySelector('#close').onclick=()=>{attempt++;clearTimeout(timer);floating?.close();floating=null;openButton.disabled=false;status.textContent='小窓を閉じました。';};
+document.querySelector('#copy').onclick=async()=>{try{await navigator.clipboard.writeText(document.querySelector('#report').textContent);document.querySelector('#copy-status').textContent='コピーしました';}catch{document.querySelector('#copy-status').textContent='下の結果を選択してコピーしてください';}};
+window.addEventListener('pagehide',()=>floating?.close());
+</script></body></html>
